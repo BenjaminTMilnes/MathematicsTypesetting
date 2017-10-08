@@ -22,5 +22,7 @@ namespace MathematicsTypesetting
         public Colour BackgroundColour { get; set; }
 
         public FontStyle FontStyle { get; set; }
+
+        public bool DrawConstructionLines { get; set; }
     }
 }
