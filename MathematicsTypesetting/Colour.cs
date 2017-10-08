@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace MathematicsTypesetting
 {
-    public class FontStyle
+    public class Colour
     {
-        public string FontName { get; set; }
-        public Length FontHeight { get; set; }
-        public Colour FontColour { get; set; }
     }
 }

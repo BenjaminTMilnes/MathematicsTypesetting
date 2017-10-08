@@ -10,6 +10,7 @@ namespace MathematicsTypesetting
     {
         public string Content { get; set; }
 
+        public Colour BackgroundColour { get; set; }
         public FontStyle FontStyle { get; set; }
     }
 }
