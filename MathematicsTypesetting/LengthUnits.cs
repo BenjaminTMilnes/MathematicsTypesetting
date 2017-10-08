@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MathematicsTypesetting
 {
-    public class FontStyle
+    public enum LengthUnits
     {
-        public string FontName { get; set; }
-        public Length FontHeight { get; set; }
+        Millimetres = 1,
+        Centimetres = 2
     }
 }

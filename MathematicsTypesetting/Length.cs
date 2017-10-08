@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MathematicsTypesetting
 {
-    public class FontStyle
+    public class Length
     {
-        public string FontName { get; set; }
-        public Length FontHeight { get; set; }
+        public double Quantity { get; set; }
+        public LengthUnits Units { get; set; }
     }
 }
