@@ -10,5 +10,11 @@ namespace MathematicsTypesetting
     {
         public double Quantity { get; set; }
         public LengthUnits Units { get; set; }
+
+        public Length(double quantity, LengthUnits units)
+        {
+            Quantity = quantity;
+            Units = units;
+        }
     }
 }

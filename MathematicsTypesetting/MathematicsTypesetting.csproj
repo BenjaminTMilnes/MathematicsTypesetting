@@ -42,11 +42,13 @@
   <ItemGroup>
     <Compile Include="Colour.cs" />
     <Compile Include="FontStyle.cs" />
+    <Compile Include="ITextMeasurer.cs" />
     <Compile Include="Length.cs" />
     <Compile Include="LengthUnits.cs" />
     <Compile Include="Margin.cs" />
     <Compile Include="Number.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Size.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
