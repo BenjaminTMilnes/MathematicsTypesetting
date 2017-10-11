@@ -52,6 +52,26 @@ namespace MathematicsTypesetting
             return new Length(length1.Quantity - length2.ConvertToUnits(length1.Units).Quantity, length1.Units);
         }
 
+        public static bool operator >(Length length1, Length length2)
+        {
+            return length1.Quantity > length2.ConvertToUnits(length1.Units).Quantity;
+        }
+
+        public static bool operator <(Length length1, Length length2)
+        {
+            return length1.Quantity < length2.ConvertToUnits(length1.Units).Quantity;
+        }
+
+        public static bool operator >=(Length length1, Length length2)
+        {
+            return length1.Quantity >= length2.ConvertToUnits(length1.Units).Quantity;
+        }
+
+        public static bool operator <=(Length length1, Length length2)
+        {
+            return length1.Quantity <= length2.ConvertToUnits(length1.Units).Quantity;
+        }
+
         /// <summary>
         /// Converts this length into a new length with the given units.
         /// </summary>
