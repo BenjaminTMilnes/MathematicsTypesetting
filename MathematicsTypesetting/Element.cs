@@ -8,6 +8,31 @@ namespace MathematicsTypesetting
 {
     public class Element
     {
+        public Position Position { get; set; }
 
+        public Size SizeOfContent { get; set; }
+        public Size SizeIncludingInnerMargin { get; set; }
+        public Size SizeIncludingBorder { get; set; }
+        public Size SizeIncludingOuterMargin { get; set; }
+
+        public Margin OuterMargin { get; set; }
+        public Margin InnerMargin { get; set; }
+
+        public bool DrawConstructionLines { get; set; }
+
+        public Element()
+        {
+            Position = new Position();
+
+            SizeOfContent = new Size();
+            SizeIncludingInnerMargin = new Size();
+            SizeIncludingBorder = new Size();
+            SizeIncludingOuterMargin = new Size();
+
+            OuterMargin = new Margin();
+            InnerMargin = new Margin();
+
+            DrawConstructionLines = false;
+        }
     }
 }
