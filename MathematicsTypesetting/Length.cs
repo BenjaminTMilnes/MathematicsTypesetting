@@ -41,5 +41,31 @@ namespace MathematicsTypesetting
 
             throw new UnableToConvertToLengthException(i);
         }
+
+        public Length ConvertToUnits(LengthUnits units)
+        {
+            var lengthInMillimetres = 0.0;
+            var lengthInNewUnits = 0.0;
+
+            if (Units == LengthUnits.Millimetres)
+            {
+                lengthInMillimetres = Quantity;
+            }
+            else if (Units == LengthUnits.Centimetres)
+            {
+                lengthInMillimetres = Quantity * 10;
+            }
+
+            if (units == LengthUnits.Millimetres)
+            {
+                lengthInNewUnits = lengthInMillimetres;
+            }
+            else if (units == LengthUnits.Centimetres)
+            {
+                lengthInNewUnits = lengthInMillimetres / 10;
+            }
+
+            return new Length(lengthInNewUnits, units);
+        }
     }
 }
