@@ -6,6 +6,21 @@ using System.Threading.Tasks;
 
 namespace MathematicsTypesetting
 {
+    public class UnableToConvertToLengthException : Exception
+    {
+        public object Object { get; private set; }
+
+        public UnableToConvertToLengthException(object object1)
+        {
+            Object = object1;
+        }
+
+        public override string ToString()
+        {
+            return $"Cannot implicitly convert {Object.ToString()} to a length.";
+        }
+    }
+
     public class Length
     {
         public double Quantity { get; set; }
@@ -15,6 +30,16 @@ namespace MathematicsTypesetting
         {
             Quantity = quantity;
             Units = units;
+        }
+
+        public static implicit operator Length(int i)
+        {
+            if (i == 0)
+            {
+                return new Length(0, LengthUnits.Millimetres);
+            }
+
+            throw new UnableToConvertToLengthException(i);
         }
     }
 }
