@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace MathematicsTypesetting
 {
-    public class Number
+    public class Number : Element
     {
         public string Content { get; set; }
 
-        public Length X { get; set; }
-        public Length Y { get; set; }
+        public Position Position { get; set; }
 
-        public Length Width { get; set; }
-        public Length Height { get; set; }
+        public Size SizeOfContent { get; set; }
+        public Size SizeIncludingInnerMargin { get; set; }
+        public Size SizeIncludingBorder { get; set; }
+        public Size SizeIncludingOuterMargin { get; set; }
 
         public Margin OuterMargin { get; set; }
         public Margin InnerMargin { get; set; }
@@ -24,5 +25,24 @@ namespace MathematicsTypesetting
         public FontStyle FontStyle { get; set; }
 
         public bool DrawConstructionLines { get; set; }
+
+        public Number()
+        {
+            Position = new Position();
+
+            SizeOfContent = new Size();
+            SizeIncludingInnerMargin = new Size();
+            SizeIncludingBorder = new Size();
+            SizeIncludingOuterMargin = new Size();
+
+            OuterMargin = new Margin();
+            InnerMargin = new Margin();
+
+            BackgroundColour = new Colour();
+
+            FontStyle = new FontStyle();
+
+            DrawConstructionLines = false;
+        }
     }
 }
