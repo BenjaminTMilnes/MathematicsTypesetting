@@ -42,6 +42,21 @@ namespace MathematicsTypesetting
             throw new UnableToConvertToLengthException(i);
         }
 
+        public static Length operator +(Length length1, Length length2)
+        {
+            return new Length(length1.Quantity + length2.ConvertToUnits(length1.Units).Quantity, length1.Units);
+        }
+
+        public static Length operator -(Length length1, Length length2)
+        {
+            return new Length(length1.Quantity - length2.ConvertToUnits(length1.Units).Quantity, length1.Units);
+        }
+
+        /// <summary>
+        /// Converts this length into a new length with the given units.
+        /// </summary>
+        /// <param name="units"></param>
+        /// <returns></returns>
         public Length ConvertToUnits(LengthUnits units)
         {
             var lengthInMillimetres = 0.0;
