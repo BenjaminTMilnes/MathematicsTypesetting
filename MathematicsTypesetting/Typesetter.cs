@@ -15,6 +15,10 @@ namespace MathematicsTypesetting
             _textMeasurer = textMeasurer;
         }
 
+        /// <summary>
+        /// Sets the size properties of a MathematicsLine element.
+        /// </summary>
+        /// <param name="mathematicsLine"></param>
         public void SetMathematicsLineSize(MathematicsLine mathematicsLine)
         {
             if (mathematicsLine.Elements.Any())
@@ -55,6 +59,12 @@ namespace MathematicsTypesetting
             }
         }
 
+        /// <summary>
+        /// Returns the greater of two lengths; useful for calculating outer margin spacing.
+        /// </summary>
+        /// <param name="length1"></param>
+        /// <param name="length2"></param>
+        /// <returns></returns>
         protected Length ChooseGreaterLength(Length length1, Length length2)
         {
             if (length1 > length2)
@@ -65,12 +75,16 @@ namespace MathematicsTypesetting
             return length2;
         }
 
+        /// <summary>
+        /// Sets the size properties of a Number element.
+        /// </summary>
+        /// <param name="number"></param>
         public void SetNumberSize(Number number)
         {
             number.SizeOfContent = _textMeasurer.MeasureTextSize(number.Content, number.FontStyle);
             number.SizeIncludingInnerMargin = AddMarginToSize(number.SizeOfContent, number.InnerMargin);
-
-            number.SizeIncludingOuterMargin = AddMarginToSize(number.SizeIncludingInnerMargin, number.OuterMargin);
+            number.SizeIncludingBorder = AddBorderToSize(number.SizeIncludingInnerMargin, number.Border);
+            number.SizeIncludingOuterMargin = AddMarginToSize(number.SizeIncludingBorder, number.OuterMargin);
         }
 
         protected Size AddMarginToSize(Size size, Margin margin)
@@ -83,9 +97,12 @@ namespace MathematicsTypesetting
             return newSize;
         }
 
-        protected Size AddBorderToSize(Size size)
+        protected Size AddBorderToSize(Size size, Border border)
         {
             var newSize = new Size();
+
+            newSize.Width = size.Width + border.Width + border.Width;
+            newSize.Height = size.Height + border.Width + border.Width;
 
             return newSize;
         }

@@ -16,6 +16,7 @@ namespace MathematicsTypesetting
         public Size SizeIncludingOuterMargin { get; set; }
 
         public Margin OuterMargin { get; set; }
+        public Border Border { get; set; }
         public Margin InnerMargin { get; set; }
 
         public bool DrawConstructionLines { get; set; }
@@ -30,6 +31,7 @@ namespace MathematicsTypesetting
             SizeIncludingOuterMargin = new Size();
 
             OuterMargin = new Margin();
+            Border = new Border();
             InnerMargin = new Margin();
 
             DrawConstructionLines = false;
