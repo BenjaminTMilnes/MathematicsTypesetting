@@ -12,5 +12,13 @@ namespace MathematicsTypesetting
         public Length Right { get; set; }
         public Length Bottom { get; set; }
         public Length Left { get; set; }
+
+        public Margin()
+        {
+            Top = 0;
+            Right = 0;
+            Bottom = 0;
+            Left = 0;
+        }
     }
 }

@@ -16,8 +16,8 @@ namespace MathematicsTypesetting
 
         public Position()
         {
-            X = new Length(0, LengthUnits.Millimetres);
-            Y = new Length(0, LengthUnits.Millimetres);
+            X = 0;
+            Y = 0;
         }
     }
 }

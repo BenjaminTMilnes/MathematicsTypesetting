@@ -11,5 +11,11 @@ namespace MathematicsTypesetting
         public string FontName { get; set; }
         public Length FontHeight { get; set; }
         public Colour FontColour { get; set; }
+
+        public FontStyle()
+        {
+            FontHeight = new Length(10, LengthUnits.Millimetres);
+            FontColour = new Colour();
+        }
     }
 }
