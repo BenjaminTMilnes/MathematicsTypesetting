@@ -72,6 +72,29 @@ namespace MathematicsTypesetting
             return length1.Quantity <= length2.ConvertToUnits(length1.Units).Quantity;
         }
 
+        public static bool operator ==(Length length1, Length length2)
+        {
+            return length1.Quantity <= length2.ConvertToUnits(length1.Units).Quantity;
+        }
+
+        public static bool operator !=(Length length1, Length length2)
+        {
+            return length1.Quantity != length2.ConvertToUnits(length1.Units).Quantity;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Length)
+            {
+                if ((obj as Length).Quantity == Quantity && (obj as Length).Units == Units)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Converts this length into a new length with the given units.
         /// </summary>

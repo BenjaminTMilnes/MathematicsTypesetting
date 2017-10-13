@@ -10,6 +10,8 @@ namespace MathematicsTypesetting.Tests
     [TestClass]
     public class TypesetterTests
     {
+        public TestContext TestContext { get; set; }
+
         private ITextMeasurer _textMeasurer;
         private Typesetter _typesetter;
 
@@ -27,6 +29,8 @@ namespace MathematicsTypesetting.Tests
             number1.Content = "1";
 
             _typesetter.SetNumberSize(number1);
+
+            TestContext.WriteLine(number1.SizeOfContent.Width.Quantity.ToString());
 
             Assert.AreEqual(new Length(1, LengthUnits.Millimetres), number1.SizeOfContent.Width);
         }
