@@ -13,8 +13,8 @@ namespace MathematicsTypesetting.Tests
         {
             var size = new Size();
 
-            size.Width = new Length(text.Length, LengthUnits.Millimetres);
-            size.Height = new Length(1, LengthUnits.Millimetres);
+            size.Width = new Length(text.Length);
+            size.Height = new Length(1);
 
             return size;
         }

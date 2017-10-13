@@ -25,10 +25,10 @@ namespace MathematicsTypesetting
         {
             Position = new Position();
 
-            SizeOfContent = new Size();
-            SizeIncludingInnerMargin = new Size();
-            SizeIncludingBorder = new Size();
-            SizeIncludingOuterMargin = new Size();
+            SizeOfContent = 0;
+            SizeIncludingInnerMargin = 0;
+            SizeIncludingBorder = 0;
+            SizeIncludingOuterMargin = 0;
 
             OuterMargin = new Margin();
             Border = new Border();

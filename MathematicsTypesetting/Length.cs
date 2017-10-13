@@ -21,6 +21,14 @@ namespace MathematicsTypesetting
         }
     }
 
+    public class UnableToConvertArbitraryLengthUnitsException : Exception
+    {
+        public override string ToString()
+        {
+            return "Cannot convert between arbitrary and non-arbitrary length units.";
+        }
+    }
+
     public class Length
     {
         public double Quantity { get; set; }
@@ -32,14 +40,11 @@ namespace MathematicsTypesetting
             Units = units;
         }
 
-        public static implicit operator Length(int i)
-        {
-            if (i == 0)
-            {
-                return new Length(0, LengthUnits.Millimetres);
-            }
+        public Length(double quantity) : this(quantity, LengthUnits.Arbitrary) { }
 
-            throw new UnableToConvertToLengthException(i);
+        public static implicit operator Length(double i)
+        {
+            return new Length(i);
         }
 
         public static Length operator +(Length length1, Length length2)
@@ -91,6 +96,10 @@ namespace MathematicsTypesetting
                     return true;
                 }
             }
+            else if (obj is double)
+            {
+                return Equals(new Length((double)obj));
+            }
 
             return false;
         }
@@ -102,6 +111,16 @@ namespace MathematicsTypesetting
         /// <returns></returns>
         public Length ConvertToUnits(LengthUnits units)
         {
+            if ((Units == LengthUnits.Arbitrary && units != LengthUnits.Arbitrary) || (Units != LengthUnits.Arbitrary && units == LengthUnits.Arbitrary))
+            {
+                throw new UnableToConvertArbitraryLengthUnitsException();
+            }
+
+            if (Units == LengthUnits.Arbitrary && units == LengthUnits.Arbitrary)
+            {
+                return this;
+            }
+
             var lengthInMillimetres = 0.0;
             var lengthInNewUnits = 0.0;
 

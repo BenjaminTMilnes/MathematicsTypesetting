@@ -14,7 +14,7 @@ namespace MathematicsTypesetting
 
         public FontStyle()
         {
-            FontHeight = new Length(10, LengthUnits.Millimetres);
+            FontHeight = new Length(10, LengthUnits.Points);
             FontColour = new Colour();
         }
     }
