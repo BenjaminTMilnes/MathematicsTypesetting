@@ -51,7 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="TestTextMeasurer.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="TypesetterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

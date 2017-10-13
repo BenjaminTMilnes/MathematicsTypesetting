@@ -15,6 +15,14 @@ namespace MathematicsTypesetting
             _textMeasurer = textMeasurer;
         }
 
+        public void SetElementSize(Element element)
+        {
+            if (element is Number)
+            {
+                SetNumberSize(element as Number);
+            }
+        }
+
         /// <summary>
         /// Sets the size properties of a MathematicsLine element.
         /// </summary>
@@ -32,6 +40,8 @@ namespace MathematicsTypesetting
                 for (var n = 0; n < elements.Length; n++)
                 {
                     elementN = elements[n];
+
+                    SetElementSize(elementN);
 
                     // Add the width of the current element.
                     mathematicsLine.SizeOfContent.Width += elementN.SizeIncludingBorder.Width;
