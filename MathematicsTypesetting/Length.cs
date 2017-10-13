@@ -113,6 +113,22 @@ namespace MathematicsTypesetting
             {
                 lengthInMillimetres = Quantity * 10;
             }
+            else if (Units == LengthUnits.Decimetres)
+            {
+                lengthInMillimetres = Quantity * 100;
+            }
+            else if (Units == LengthUnits.Metres)
+            {
+                lengthInMillimetres = Quantity * 1000;
+            }
+            else if (Units == LengthUnits.Points)
+            {
+                lengthInMillimetres = Quantity * 0.3528;
+            }
+            else if (Units == LengthUnits.Inches)
+            {
+                lengthInMillimetres = Quantity * 25.4;
+            }
 
             if (units == LengthUnits.Millimetres)
             {
@@ -121,6 +137,22 @@ namespace MathematicsTypesetting
             else if (units == LengthUnits.Centimetres)
             {
                 lengthInNewUnits = lengthInMillimetres / 10;
+            }
+            else if (units == LengthUnits.Decimetres)
+            {
+                lengthInNewUnits = lengthInMillimetres / 100;
+            }
+            else if (units == LengthUnits.Metres)
+            {
+                lengthInNewUnits = lengthInMillimetres / 1000;
+            }
+            else if (units == LengthUnits.Points)
+            {
+                lengthInNewUnits = lengthInMillimetres / 0.3528;
+            }
+            else if (units == LengthUnits.Inches)
+            {
+                lengthInNewUnits = lengthInMillimetres / 25.4;
             }
 
             return new Length(lengthInNewUnits, units);

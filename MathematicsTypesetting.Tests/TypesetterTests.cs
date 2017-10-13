@@ -33,6 +33,13 @@ namespace MathematicsTypesetting.Tests
             TestContext.WriteLine(number1.SizeOfContent.Width.Quantity.ToString());
 
             Assert.AreEqual(new Length(1, LengthUnits.Millimetres), number1.SizeOfContent.Width);
+            Assert.AreEqual(new Length(1, LengthUnits.Millimetres), number1.SizeOfContent.Height);
+            Assert.AreEqual(new Length(1, LengthUnits.Millimetres), number1.SizeIncludingInnerMargin.Width);
+            Assert.AreEqual(new Length(1, LengthUnits.Millimetres), number1.SizeIncludingInnerMargin.Height);
+            Assert.AreEqual(new Length(1, LengthUnits.Millimetres), number1.SizeIncludingBorder.Width);
+            Assert.AreEqual(new Length(1, LengthUnits.Millimetres), number1.SizeIncludingBorder.Height);
+            Assert.AreEqual(new Length(1, LengthUnits.Millimetres), number1.SizeIncludingOuterMargin.Width);
+            Assert.AreEqual(new Length(1, LengthUnits.Millimetres), number1.SizeIncludingOuterMargin.Height);
         }
     }
 }
