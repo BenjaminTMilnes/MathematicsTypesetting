@@ -15,6 +15,21 @@ namespace MathematicsTypesetting
             _textMeasurer = textMeasurer;
         }
 
+        public void SetMathematicsLinePosition(Position containerOrigin, MathematicsLine mathematicsLine)
+        {
+            mathematicsLine.Position = containerOrigin;
+
+            foreach (var element in mathematicsLine.Elements)
+            {
+
+            }
+        }
+
+        public void SetNumberPosition(Position containerOrigin, Number number)
+        {
+            number.Position = containerOrigin;
+        }
+
         public void SetElementSize(Element element)
         {
             if (element is Number)
