@@ -67,6 +67,10 @@ namespace MathematicsTypesetting
             {
                 mathematicsLine.SizeOfContent = 0;
             }
+
+            mathematicsLine.SizeIncludingInnerMargin = AddMarginToSize(mathematicsLine.SizeOfContent, mathematicsLine.InnerMargin);
+            mathematicsLine.SizeIncludingBorder = AddBorderToSize(mathematicsLine.SizeIncludingInnerMargin, mathematicsLine.Border);
+            mathematicsLine.SizeIncludingOuterMargin = AddMarginToSize(mathematicsLine.SizeIncludingBorder, mathematicsLine.OuterMargin);
         }
 
         /// <summary>

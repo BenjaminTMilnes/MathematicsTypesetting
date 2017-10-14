@@ -137,5 +137,69 @@ namespace MathematicsTypesetting.Tests
             Assert.AreEqual(19, number1.SizeIncludingOuterMargin.Width);
             Assert.AreEqual(15, number1.SizeIncludingOuterMargin.Height);
         }
+
+        [TestMethod]
+        public void SetMathematicsLineSize1()
+        {
+            var mathematicsLine1 = new MathematicsLine();
+
+            _typesetter.SetMathematicsLineSize(mathematicsLine1);
+
+            Assert.AreEqual(0, mathematicsLine1.SizeOfContent.Width);
+            Assert.AreEqual(0, mathematicsLine1.SizeOfContent.Height);
+            Assert.AreEqual(0, mathematicsLine1.SizeIncludingInnerMargin.Width);
+            Assert.AreEqual(0, mathematicsLine1.SizeIncludingInnerMargin.Height);
+            Assert.AreEqual(0, mathematicsLine1.SizeIncludingBorder.Width);
+            Assert.AreEqual(0, mathematicsLine1.SizeIncludingBorder.Height);
+            Assert.AreEqual(0, mathematicsLine1.SizeIncludingOuterMargin.Width);
+            Assert.AreEqual(0, mathematicsLine1.SizeIncludingOuterMargin.Height);
+        }
+
+        [TestMethod]
+        public void SetMathematicsLineSize2()
+        {
+            var mathematicsLine1 = new MathematicsLine();
+            var number1 = new Number();
+
+            number1.Content = "123";
+
+            mathematicsLine1.Elements.Add(number1);
+
+            _typesetter.SetMathematicsLineSize(mathematicsLine1);
+
+            Assert.AreEqual(3, mathematicsLine1.SizeOfContent.Width);
+            Assert.AreEqual(1, mathematicsLine1.SizeOfContent.Height);
+            Assert.AreEqual(3, mathematicsLine1.SizeIncludingInnerMargin.Width);
+            Assert.AreEqual(1, mathematicsLine1.SizeIncludingInnerMargin.Height);
+            Assert.AreEqual(3, mathematicsLine1.SizeIncludingBorder.Width);
+            Assert.AreEqual(1, mathematicsLine1.SizeIncludingBorder.Height);
+            Assert.AreEqual(3, mathematicsLine1.SizeIncludingOuterMargin.Width);
+            Assert.AreEqual(1, mathematicsLine1.SizeIncludingOuterMargin.Height);
+        }
+
+        [TestMethod]
+        public void SetMathematicsLineSize3()
+        {
+            var mathematicsLine1 = new MathematicsLine();
+            var number1 = new Number();
+            var number2 = new Number();
+
+            number1.Content = "123";
+            number2.Content = "45";
+
+            mathematicsLine1.Elements.Add(number1);
+            mathematicsLine1.Elements.Add(number2);
+
+            _typesetter.SetMathematicsLineSize(mathematicsLine1);
+
+            Assert.AreEqual(5, mathematicsLine1.SizeOfContent.Width);
+            Assert.AreEqual(1, mathematicsLine1.SizeOfContent.Height);
+            Assert.AreEqual(5, mathematicsLine1.SizeIncludingInnerMargin.Width);
+            Assert.AreEqual(1, mathematicsLine1.SizeIncludingInnerMargin.Height);
+            Assert.AreEqual(5, mathematicsLine1.SizeIncludingBorder.Width);
+            Assert.AreEqual(1, mathematicsLine1.SizeIncludingBorder.Height);
+            Assert.AreEqual(5, mathematicsLine1.SizeIncludingOuterMargin.Width);
+            Assert.AreEqual(1, mathematicsLine1.SizeIncludingOuterMargin.Height);
+        }
     }
 }
