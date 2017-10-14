@@ -21,6 +21,9 @@ namespace MathematicsTypesetting.Tests
             _typesetter = new Typesetter(_textMeasurer);
         }
 
+        /// <summary>
+        /// Tests that the size of the text in a number element is taken into account in calculating the total size of the element.
+        /// </summary>
         [TestMethod]
         public void SetNumberSizeTest1()
         {
@@ -40,6 +43,9 @@ namespace MathematicsTypesetting.Tests
             Assert.AreEqual(1, number1.SizeIncludingOuterMargin.Height);
         }
 
+        /// <summary>
+        /// Tests that the size of the text in a number element is taken into account in calculating the total size of the element.
+        /// </summary>
         [TestMethod]
         public void SetNumberSizeTest2()
         {
@@ -59,6 +65,9 @@ namespace MathematicsTypesetting.Tests
             Assert.AreEqual(1, number1.SizeIncludingOuterMargin.Height);
         }
 
+        /// <summary>
+        /// Tests that the size of the inner margin is taken into account in calculating the total size of a Number element.
+        /// </summary>
         [TestMethod]
         public void SetNumberSizeTest3()
         {
@@ -82,6 +91,9 @@ namespace MathematicsTypesetting.Tests
             Assert.AreEqual(5, number1.SizeIncludingOuterMargin.Height);
         }
 
+        /// <summary>
+        /// Tests that the size of the border is taken into account in calculating the total size of a Number element.
+        /// </summary>
         [TestMethod]
         public void SetNumberSizeTest4()
         {
@@ -110,6 +122,9 @@ namespace MathematicsTypesetting.Tests
             Assert.AreEqual(13, number1.SizeIncludingOuterMargin.Height);
         }
 
+        /// <summary>
+        /// Tests that the size of the outer margin is taken into account when calculating the total size of a Number element.
+        /// </summary>
         [TestMethod]
         public void SetNumberSizeTest5()
         {
@@ -138,6 +153,9 @@ namespace MathematicsTypesetting.Tests
             Assert.AreEqual(15, number1.SizeIncludingOuterMargin.Height);
         }
 
+        /// <summary>
+        /// Tests that if a mathematics line has no sub-elements, it has no size.
+        /// </summary>
         [TestMethod]
         public void SetMathematicsLineSize1()
         {
@@ -155,6 +173,9 @@ namespace MathematicsTypesetting.Tests
             Assert.AreEqual(0, mathematicsLine1.SizeIncludingOuterMargin.Height);
         }
 
+        /// <summary>
+        /// Tests that the size of subelements in a mathematics line contribute to the size of the mathematics line element.
+        /// </summary>
         [TestMethod]
         public void SetMathematicsLineSize2()
         {
@@ -177,6 +198,9 @@ namespace MathematicsTypesetting.Tests
             Assert.AreEqual(1, mathematicsLine1.SizeIncludingOuterMargin.Height);
         }
 
+        /// <summary>
+        /// Tests that subelements of a mathematics line element stack horizontally.
+        /// </summary>
         [TestMethod]
         public void SetMathematicsLineSize3()
         {
