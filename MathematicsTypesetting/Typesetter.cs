@@ -37,6 +37,9 @@ namespace MathematicsTypesetting
                 Element elementN = null;
                 Length maximumContentHeight = 0;
 
+                // Add the width of the first element's left margin.
+                mathematicsLine.SizeOfContent.Width += elements.First().OuterMargin.Left;
+
                 for (var n = 0; n < elements.Length; n++)
                 {
                     elementN = elements[n];
@@ -55,11 +58,14 @@ namespace MathematicsTypesetting
                     }
 
                     // If this element is taller, update the maximum content height.
-                    if (elementN.SizeIncludingBorder.Height > maximumContentHeight)
+                    if (elementN.SizeIncludingOuterMargin.Height > maximumContentHeight)
                     {
-                        maximumContentHeight = elementN.SizeIncludingBorder.Height;
+                        maximumContentHeight = elementN.SizeIncludingOuterMargin.Height;
                     }
                 }
+
+                // Add the width of the last element's right margin.
+                mathematicsLine.SizeOfContent.Width += elements.Last().OuterMargin.Right;
 
                 mathematicsLine.SizeOfContent.Height = maximumContentHeight;
             }

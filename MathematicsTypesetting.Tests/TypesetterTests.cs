@@ -225,5 +225,69 @@ namespace MathematicsTypesetting.Tests
             Assert.AreEqual(5, mathematicsLine1.SizeIncludingOuterMargin.Width);
             Assert.AreEqual(1, mathematicsLine1.SizeIncludingOuterMargin.Height);
         }
+
+        /// <summary>
+        /// Tests that the outer margins of sub-elements in a mathematics line element overlap.
+        /// </summary>
+        [TestMethod]
+        public void SetMathematicsLineSize4()
+        {
+            var mathematicsLine1 = new MathematicsLine();
+            var number1 = new Number();
+            var number2 = new Number();
+
+            number1.Content = "123";
+            number1.OuterMargin.Right = 5;
+
+            number2.Content = "45";
+            number2.OuterMargin.Left = 2;
+
+            mathematicsLine1.Elements.Add(number1);
+            mathematicsLine1.Elements.Add(number2);
+
+            _typesetter.SetMathematicsLineSize(mathematicsLine1);
+
+            Assert.AreEqual(10, mathematicsLine1.SizeOfContent.Width);
+            Assert.AreEqual(1, mathematicsLine1.SizeOfContent.Height);
+            Assert.AreEqual(10, mathematicsLine1.SizeIncludingInnerMargin.Width);
+            Assert.AreEqual(1, mathematicsLine1.SizeIncludingInnerMargin.Height);
+            Assert.AreEqual(10, mathematicsLine1.SizeIncludingBorder.Width);
+            Assert.AreEqual(1, mathematicsLine1.SizeIncludingBorder.Height);
+            Assert.AreEqual(10, mathematicsLine1.SizeIncludingOuterMargin.Width);
+            Assert.AreEqual(1, mathematicsLine1.SizeIncludingOuterMargin.Height);
+        }
+
+        /// <summary>
+        /// Tests that the outer margins of the first and last elements in a mathematics line are added to the size of the content.
+        /// </summary>
+        [TestMethod]
+        public void SetMathematicsLineSize5()
+        {
+            var mathematicsLine1 = new MathematicsLine();
+            var number1 = new Number();
+            var number2 = new Number();
+
+            number1.Content = "123";
+            number1.OuterMargin.Left = 3;
+            number1.OuterMargin.Right = 5;
+
+            number2.Content = "45";
+            number2.OuterMargin.Left = 2;
+            number2.OuterMargin.Right = 3;
+
+            mathematicsLine1.Elements.Add(number1);
+            mathematicsLine1.Elements.Add(number2);
+
+            _typesetter.SetMathematicsLineSize(mathematicsLine1);
+
+            Assert.AreEqual(16, mathematicsLine1.SizeOfContent.Width);
+            Assert.AreEqual(1, mathematicsLine1.SizeOfContent.Height);
+            Assert.AreEqual(16, mathematicsLine1.SizeIncludingInnerMargin.Width);
+            Assert.AreEqual(1, mathematicsLine1.SizeIncludingInnerMargin.Height);
+            Assert.AreEqual(16, mathematicsLine1.SizeIncludingBorder.Width);
+            Assert.AreEqual(1, mathematicsLine1.SizeIncludingBorder.Height);
+            Assert.AreEqual(16, mathematicsLine1.SizeIncludingOuterMargin.Width);
+            Assert.AreEqual(1, mathematicsLine1.SizeIncludingOuterMargin.Height);
+        }
     }
 }
