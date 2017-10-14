@@ -176,5 +176,10 @@ namespace MathematicsTypesetting
 
             return new Length(lengthInNewUnits, units);
         }
+
+        public override string ToString()
+        {
+            return $"{Quantity} {Units}";
+        }
     }
 }
