@@ -39,7 +39,7 @@ namespace MathematicsTypesetting
 
         protected void ExportNumber(Graphics graphics, Number number)
         {
-            graphics.DrawString(number.Content, new Font("Book Antiqua", 10), Brushes.Black, new PointF((float)number.Position.X.Quantity, (float)number.Position.Y.Quantity));
+            graphics.DrawString(number.Content, new Font("Book Antiqua", 20), Brushes.Black, new PointF((float)number.Position.X.Quantity, (float)number.Position.Y.Quantity));
         }
     }
 }
