@@ -34,7 +34,7 @@ namespace MathematicsTypesetting
             Border = new Border();
             InnerMargin = new Margin();
 
-            DrawConstructionLines = false;
+            DrawConstructionLines = true;
         }
     }
 }

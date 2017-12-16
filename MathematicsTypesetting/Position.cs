@@ -9,15 +9,9 @@ namespace MathematicsTypesetting
     /// <summary>
     /// Represents the position of an element relative to the origin; a very simplified form of vector.
     /// </summary>
-    public class Position
+    public struct Position
     {
         public Length X { get; set; }
         public Length Y { get; set; }
-
-        public Position()
-        {
-            X = 0;
-            Y = 0;
-        }
     }
 }

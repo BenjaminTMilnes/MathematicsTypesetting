@@ -29,7 +29,7 @@ namespace MathematicsTypesetting
         }
     }
 
-    public class Length
+    public struct Length
     {
         public double Quantity { get; set; }
         public LengthUnits Units { get; set; }
@@ -79,7 +79,7 @@ namespace MathematicsTypesetting
 
         public static bool operator ==(Length length1, Length length2)
         {
-            return length1.Quantity <= length2.ConvertToUnits(length1.Units).Quantity;
+            return length1.Quantity == length2.ConvertToUnits(length1.Units).Quantity;
         }
 
         public static bool operator !=(Length length1, Length length2)
@@ -91,7 +91,9 @@ namespace MathematicsTypesetting
         {
             if (obj is Length)
             {
-                if ((obj as Length).Quantity == Quantity && (obj as Length).Units == Units)
+                var length = (Length)obj;
+
+                if (length.Quantity == Quantity && length.Units == Units)
                 {
                     return true;
                 }
