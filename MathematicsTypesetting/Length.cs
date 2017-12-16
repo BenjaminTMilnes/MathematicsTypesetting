@@ -57,6 +57,21 @@ namespace MathematicsTypesetting
             return new Length(length1.Quantity - length2.ConvertToUnits(length1.Units).Quantity, length1.Units);
         }
 
+        public static Length operator -(Length length)
+        {
+            return new Length(-length.Quantity, length.Units);
+        }
+
+        public static Length operator *(Length length, int scalar)
+        {
+            return new Length(length.Quantity * scalar, length.Units);
+        }
+
+        public static Length operator /(Length length, int scalar)
+        {
+            return new Length(length.Quantity / scalar, length.Units);
+        }
+
         public static bool operator >(Length length1, Length length2)
         {
             return length1.Quantity > length2.ConvertToUnits(length1.Units).Quantity;

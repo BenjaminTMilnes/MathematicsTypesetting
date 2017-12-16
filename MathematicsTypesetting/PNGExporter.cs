@@ -12,7 +12,7 @@ namespace MathematicsTypesetting
     {
         public void ExportMathematics(Document document, string fileLocation)
         {
-            var w = (int) document.Size.Width.Quantity + 1;
+            var w = (int)document.Size.Width.Quantity + 1;
             var h = (int)document.Size.Height.Quantity + 1;
 
             using (var bitmap = new Bitmap(w, h))
@@ -35,6 +35,7 @@ namespace MathematicsTypesetting
         {
             if (element is Number) { ExportNumber(graphics, element as Number); }
             if (element is MathematicsLine) { ExportMathematicsLine(graphics, element as MathematicsLine); }
+            if (element is Fraction) { ExportFraction(graphics, element as Fraction); }
         }
 
         protected void ExportMathematicsLine(Graphics graphics, MathematicsLine mathematicsLine)
@@ -47,6 +48,25 @@ namespace MathematicsTypesetting
             if (mathematicsLine.DrawConstructionLines == true)
             {
                 DrawConstructionLines(graphics, mathematicsLine.Position, mathematicsLine.SizeIncludingOuterMargin);
+            }
+        }
+
+        protected void ExportFraction(Graphics graphics, Fraction fraction)
+        {
+            ExportElement(graphics, fraction.Numerator);
+            ExportElement(graphics, fraction.Denominator);
+
+            var pen = new Pen(Color.Black, 1);
+            var x1 = fraction.Position.X.Quantity;
+            var y1 = fraction.Position.Y.Quantity + fraction.Numerator.SizeIncludingOuterMargin.Height.Quantity;
+            var x2 = x1 + fraction.SizeIncludingOuterMargin.Width.Quantity;
+            var y2 = y1;
+
+            graphics.DrawLine(pen, new PointF((float)x1, (float)y1), new PointF((float)x2, (float)y2));
+
+            if (fraction.DrawConstructionLines == true)
+            {
+                DrawConstructionLines(graphics, fraction.Position, fraction.SizeIncludingOuterMargin);
             }
         }
 

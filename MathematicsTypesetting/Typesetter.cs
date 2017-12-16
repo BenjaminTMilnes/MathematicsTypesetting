@@ -28,6 +28,7 @@ namespace MathematicsTypesetting
         {
             if (element is Number) { SetNumberPosition(containerOrigin, element as Number); }
             if (element is MathematicsLine) { SetMathematicsLinePosition(containerOrigin, element as MathematicsLine); }
+            if (element is Fraction) { SetFractionPosition(containerOrigin, element as Fraction); }
         }
 
         public void SetMathematicsLinePosition(Position containerOrigin, MathematicsLine mathematicsLine)
@@ -60,6 +61,24 @@ namespace MathematicsTypesetting
             }
         }
 
+        public void SetFractionPosition(Position containerOrigin, Fraction fraction)
+        {
+            fraction.Position = containerOrigin;
+
+            var numeratorOffset = (fraction.SizeOfContent.Width - fraction.Numerator.SizeIncludingOuterMargin.Width) / 2;
+            var denominatorOffset = (fraction.SizeOfContent.Width - fraction.Denominator.SizeIncludingOuterMargin.Width) / 2;
+
+            containerOrigin.X += fraction.OuterMargin.Left + fraction.Border.Width + fraction.InnerMargin.Left + numeratorOffset;
+            containerOrigin.Y += fraction.OuterMargin.Top + fraction.Border.Width + fraction.InnerMargin.Top;
+
+            SetElementPosition(containerOrigin, fraction.Numerator);
+
+            containerOrigin.X += -numeratorOffset + denominatorOffset;
+            containerOrigin.Y += fraction.Numerator.SizeIncludingOuterMargin.Height;
+
+            SetElementPosition(containerOrigin, fraction.Denominator);
+        }
+
         public void SetNumberPosition(Position containerOrigin, Number number)
         {
             number.Position = containerOrigin;
@@ -69,6 +88,7 @@ namespace MathematicsTypesetting
         {
             if (element is Number) { SetNumberSize(element as Number); }
             if (element is MathematicsLine) { SetMathematicsLineSize(element as MathematicsLine); }
+            if (element is Fraction) { SetFractionSize(element as Fraction); }
         }
 
         /// <summary>
@@ -141,6 +161,27 @@ namespace MathematicsTypesetting
             }
 
             return length2;
+        }
+
+        public void SetFractionSize(Fraction fraction)
+        {
+            SetElementSize(fraction.Numerator);
+            SetElementSize(fraction.Denominator);
+
+            if (fraction.Numerator.SizeIncludingOuterMargin.Width > fraction.Denominator.SizeIncludingOuterMargin.Width)
+            {
+                fraction.SizeOfContent.Width = fraction.Numerator.SizeIncludingOuterMargin.Width;
+            }
+            else
+            {
+                fraction.SizeOfContent.Width = fraction.Denominator.SizeIncludingOuterMargin.Width;
+            }
+
+            fraction.SizeOfContent.Height = fraction.Numerator.SizeIncludingOuterMargin.Height + fraction.Denominator.SizeIncludingOuterMargin.Height;
+
+            fraction.SizeIncludingInnerMargin = AddMarginToSize(fraction.SizeOfContent, fraction.InnerMargin);
+            fraction.SizeIncludingBorder = AddBorderToSize(fraction.SizeIncludingInnerMargin, fraction.Border);
+            fraction.SizeIncludingOuterMargin = AddMarginToSize(fraction.SizeIncludingBorder, fraction.OuterMargin);
         }
 
         /// <summary>

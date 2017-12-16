@@ -12,6 +12,33 @@ namespace MathematicsTypesetting.Examples
     {
         static void Main(string[] args)
         {
+            var exampleMaker = new ExampleMaker();
+
+            exampleMaker.MakeExamples();
+        }
+    }
+
+    public class ExampleMaker
+    {
+        private TextMeasurer _textMeasurer;
+        private Typesetter _typesetter;
+        private PNGExporter _exporter;
+
+        public ExampleMaker()
+        {
+            _textMeasurer = new TextMeasurer();
+            _typesetter = new Typesetter(_textMeasurer);
+            _exporter = new PNGExporter();
+        }
+
+        public void MakeExamples()
+        {
+            MakeExample1();
+            MakeExample2();
+        }
+
+        private void MakeExample1()
+        {
             var document = new Document();
             var mathematicsLine = new MathematicsLine();
             var number1 = new Number();
@@ -32,16 +59,43 @@ namespace MathematicsTypesetting.Examples
 
             document.MainElement = mathematicsLine;
 
-            var textMeasurer = new TextMeasurer();
-            var typesetter = new Typesetter(textMeasurer);
-
-            typesetter.TypesetDocument(document);
-
-            var exporter = new PNGExporter();
+            _typesetter.TypesetDocument(document);
 
             var fileLocation = Path.Combine(Directory.GetCurrentDirectory(), "example1.png");
 
-            exporter.ExportMathematics(document, fileLocation);
+            _exporter.ExportMathematics(document, fileLocation);
+        }
+
+        private void MakeExample2()
+        {
+            var document = new Document();
+            var mathematicsLine = new MathematicsLine();
+            var number1 = new Number();
+            var number2 = new Number();
+            var number3 = new Number();
+            var number4 = new Number();
+            var fraction = new Fraction();
+
+            number1.Content = "1";
+            number2.Content = "23";
+            number3.Content = "456";
+            number4.Content = "7890";
+
+            fraction.Numerator = number2;
+            fraction.Denominator = number3;
+
+            mathematicsLine.InnerMargin = 5;
+            mathematicsLine.Elements.Add(number1);
+            mathematicsLine.Elements.Add(fraction);
+            mathematicsLine.Elements.Add(number4);
+
+            document.MainElement = mathematicsLine;
+
+            _typesetter.TypesetDocument(document);
+
+            var fileLocation = Path.Combine(Directory.GetCurrentDirectory(), "example2.png");
+
+            _exporter.ExportMathematics(document, fileLocation);
         }
     }
 }
