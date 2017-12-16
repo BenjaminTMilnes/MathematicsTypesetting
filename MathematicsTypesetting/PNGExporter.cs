@@ -12,7 +12,10 @@ namespace MathematicsTypesetting
     {
         public void ExportMathematics(Document document, string fileLocation)
         {
-            using (var bitmap = new Bitmap(200, 100))
+            var w = (int) document.Size.Width.Quantity + 1;
+            var h = (int)document.Size.Height.Quantity + 1;
+
+            using (var bitmap = new Bitmap(w, h))
             {
                 using (var graphics = Graphics.FromImage(bitmap))
                 {

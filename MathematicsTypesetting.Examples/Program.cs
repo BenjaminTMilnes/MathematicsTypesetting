@@ -17,15 +17,18 @@ namespace MathematicsTypesetting.Examples
             var number1 = new Number();
             var number2 = new Number();
             var number3 = new Number();
+            var number4 = new Number();
 
             number1.Content = "1";
             number2.Content = "23";
             number3.Content = "456";
+            number4.Content = "7890";
 
             mathematicsLine.InnerMargin = 5;
             mathematicsLine.Elements.Add(number1);
             mathematicsLine.Elements.Add(number2);
             mathematicsLine.Elements.Add(number3);
+            mathematicsLine.Elements.Add(number4);
 
             document.MainElement = mathematicsLine;
 

@@ -19,6 +19,9 @@ namespace MathematicsTypesetting
         {
             SetElementSize(document.MainElement);
             SetElementPosition(new Position(), document.MainElement);
+
+            document.Size.Width = document.MainElement.SizeIncludingOuterMargin.Width;
+            document.Size.Height = document.MainElement.SizeIncludingOuterMargin.Height;
         }
 
         public void SetElementPosition(Position containerOrigin, Element element)
