@@ -47,6 +47,7 @@
     <Compile Include="Element.cs" />
     <Compile Include="Exporter.cs" />
     <Compile Include="FontStyle.cs" />
+    <Compile Include="Fraction.cs" />
     <Compile Include="ITextMeasurer.cs" />
     <Compile Include="Length.cs" />
     <Compile Include="LengthUnits.cs" />
