@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace MathematicsTypesetting
 {
@@ -14,17 +9,21 @@ namespace MathematicsTypesetting
 
         public TextMeasurer()
         {
-            _bitmap = new Bitmap(100, 100);
+            _bitmap = new Bitmap(1, 1);
             _graphics = Graphics.FromImage(_bitmap);
         }
 
         public Size MeasureTextSize(string text, FontStyle fontStyle)
         {
-            var sizeF = _graphics.MeasureString(text, new Font("Book Antiqua", 20));
+            var fontFamily = fontStyle.FontName;
+            var emSize = fontStyle.FontHeight.ConvertToUnits(LengthUnits.Points).Quantity;
+            var font = new Font(fontFamily, (float)emSize);
+
+            var sizeF = _graphics.MeasureString(text, font);
             var size = new Size();
 
-            size.Width = sizeF.Width;
-            size.Height = sizeF.Height;
+            size.Width = new Length(sizeF.Width, LengthUnits.Points);
+            size.Height = new Length(sizeF.Height, LengthUnits.Points);
 
             return size;
         }
