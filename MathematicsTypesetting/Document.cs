@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace MathematicsTypesetting
 {
-   public  class Document
+    public class Document
     {
+        public Size Size { get; set; }
+        public double Resolution { get; set; }
+        public Element MainElement { get; set; }
+
+        public Document()
+        {
+            Size = 0;
+            Resolution = 0;
+        }
     }
 }

@@ -15,13 +15,42 @@ namespace MathematicsTypesetting
             _textMeasurer = textMeasurer;
         }
 
+        public void TypesetDocument(Document document)
+        {
+            SetElementSize(document.MainElement);
+            SetElementPosition(new Position(), document.MainElement);
+        }
+
+        public void SetElementPosition(Position containerOrigin, Element element)
+        {
+            if (element is Number) { SetNumberPosition(containerOrigin, element as Number); }
+            if (element is MathematicsLine) { SetMathematicsLinePosition(containerOrigin, element as MathematicsLine); }
+        }
+
         public void SetMathematicsLinePosition(Position containerOrigin, MathematicsLine mathematicsLine)
         {
             mathematicsLine.Position = containerOrigin;
 
-            foreach (var element in mathematicsLine.Elements)
-            {
+            var elements = mathematicsLine.Elements.ToArray();
 
+            for (var m = 0; m < elements.Length; m++)
+            {
+                var elementM = elements[m];
+
+                SetElementPosition(containerOrigin, elementM);
+
+                if (m < elements.Length - 1)
+                {
+                    var elementN = elements[m + 1];
+
+                    var separation = ChooseGreaterLength(elementM.OuterMargin.Right, elementN.OuterMargin.Left);
+
+                    containerOrigin.X += elementM.SizeIncludingOuterMargin.Width - elementM.OuterMargin.Right + separation - elementN.OuterMargin.Left;
+                }
+                else
+                {
+                    containerOrigin.X += elementM.SizeIncludingOuterMargin.Width;
+                }
             }
         }
 
@@ -32,10 +61,8 @@ namespace MathematicsTypesetting
 
         public void SetElementSize(Element element)
         {
-            if (element is Number)
-            {
-                SetNumberSize(element as Number);
-            }
+            if (element is Number) { SetNumberSize(element as Number); }
+            if (element is MathematicsLine) { SetMathematicsLineSize(element as MathematicsLine); }
         }
 
         /// <summary>
