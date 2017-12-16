@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MathematicsTypesetting
+﻿namespace MathematicsTypesetting
 {
     public class Element
     {
@@ -14,6 +8,8 @@ namespace MathematicsTypesetting
         public Size SizeIncludingInnerMargin { get; set; }
         public Size SizeIncludingBorder { get; set; }
         public Size SizeIncludingOuterMargin { get; set; }
+
+        public Position CentreAlignmentPoint { get; set; }
 
         public Margin OuterMargin { get; set; }
         public Border Border { get; set; }
@@ -29,6 +25,8 @@ namespace MathematicsTypesetting
             SizeIncludingInnerMargin = 0;
             SizeIncludingBorder = 0;
             SizeIncludingOuterMargin = 0;
+
+            CentreAlignmentPoint = new Position();
 
             OuterMargin = new Margin();
             Border = new Border();

@@ -44,7 +44,15 @@ namespace MathematicsTypesetting
             {
                 var elementM = elements[m];
 
+                containerOrigin.Y = mathematicsLine.Position.Y + mathematicsLine.OuterMargin.Top + mathematicsLine.Border.Width + mathematicsLine.InnerMargin.Top + mathematicsLine.SizeOfContent.Height / 2;
+
+                var elementYOffset = elementM.CentreAlignmentPoint.Y;
+
+                containerOrigin.Y -= elementYOffset;
+
                 SetElementPosition(containerOrigin, elementM);
+
+                containerOrigin.Y += elementYOffset;
 
                 if (m < elements.Length - 1)
                 {
@@ -145,6 +153,13 @@ namespace MathematicsTypesetting
             mathematicsLine.SizeIncludingInnerMargin = AddMarginToSize(mathematicsLine.SizeOfContent, mathematicsLine.InnerMargin);
             mathematicsLine.SizeIncludingBorder = AddBorderToSize(mathematicsLine.SizeIncludingInnerMargin, mathematicsLine.Border);
             mathematicsLine.SizeIncludingOuterMargin = AddMarginToSize(mathematicsLine.SizeIncludingBorder, mathematicsLine.OuterMargin);
+
+            var centreAlignmentPoint = new Position();
+
+            centreAlignmentPoint.X = mathematicsLine.SizeIncludingOuterMargin.Width / 2;
+            centreAlignmentPoint.Y = mathematicsLine.SizeIncludingOuterMargin.Height / 2;
+
+            mathematicsLine.CentreAlignmentPoint = centreAlignmentPoint;
         }
 
         /// <summary>
@@ -182,6 +197,13 @@ namespace MathematicsTypesetting
             fraction.SizeIncludingInnerMargin = AddMarginToSize(fraction.SizeOfContent, fraction.InnerMargin);
             fraction.SizeIncludingBorder = AddBorderToSize(fraction.SizeIncludingInnerMargin, fraction.Border);
             fraction.SizeIncludingOuterMargin = AddMarginToSize(fraction.SizeIncludingBorder, fraction.OuterMargin);
+
+            var centreAlignmentPoint = new Position();
+
+            centreAlignmentPoint.X = fraction.SizeIncludingOuterMargin.Width / 2;
+            centreAlignmentPoint.Y = fraction.SizeIncludingOuterMargin.Height / 2;
+
+            fraction.CentreAlignmentPoint = centreAlignmentPoint;
         }
 
         /// <summary>
@@ -194,6 +216,13 @@ namespace MathematicsTypesetting
             number.SizeIncludingInnerMargin = AddMarginToSize(number.SizeOfContent, number.InnerMargin);
             number.SizeIncludingBorder = AddBorderToSize(number.SizeIncludingInnerMargin, number.Border);
             number.SizeIncludingOuterMargin = AddMarginToSize(number.SizeIncludingBorder, number.OuterMargin);
+
+            var centreAlignmentPoint = new Position();
+
+            centreAlignmentPoint.X = number.SizeIncludingOuterMargin.Width / 2;
+            centreAlignmentPoint.Y = number.SizeIncludingOuterMargin.Height / 2;
+
+            number.CentreAlignmentPoint = centreAlignmentPoint;
         }
 
         protected Size AddMarginToSize(Size size, Margin margin)
