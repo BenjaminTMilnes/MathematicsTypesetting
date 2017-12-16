@@ -16,6 +16,11 @@ namespace MathematicsTypesetting
             {
                 using (var graphics = Graphics.FromImage(bitmap))
                 {
+                    graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                    graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+
+                    graphics.Clear(Color.White);
+
                     ExportElement(graphics, document.MainElement);
                 }
 
@@ -40,6 +45,11 @@ namespace MathematicsTypesetting
         protected void ExportNumber(Graphics graphics, Number number)
         {
             graphics.DrawString(number.Content, new Font("Book Antiqua", 20), Brushes.Black, new PointF((float)number.Position.X.Quantity, (float)number.Position.Y.Quantity));
+
+            if (number.DrawConstructionLines == true)
+            {
+                graphics.DrawRectangle(Pens.Black, new Rectangle( (int) number.Position.X.Quantity, (int)number.Position.Y.Quantity, (int)number.SizeIncludingOuterMargin.Width.Quantity, (int)number.SizeIncludingOuterMargin.Height.Quantity));
+            }
         }
     }
 }
