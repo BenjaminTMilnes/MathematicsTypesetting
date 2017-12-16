@@ -113,6 +113,11 @@ namespace MathematicsTypesetting
         /// <returns></returns>
         public Length ConvertToUnits(LengthUnits units)
         {
+            if (Quantity == 0)
+            {
+                return new Length(0, units);
+            }
+
             if ((Units == LengthUnits.Arbitrary && units != LengthUnits.Arbitrary) || (Units != LengthUnits.Arbitrary && units == LengthUnits.Arbitrary))
             {
                 throw new UnableToConvertArbitraryLengthUnitsException();

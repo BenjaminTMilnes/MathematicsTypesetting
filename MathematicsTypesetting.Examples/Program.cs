@@ -22,6 +22,7 @@ namespace MathematicsTypesetting.Examples
             number2.Content = "23";
             number3.Content = "456";
 
+            mathematicsLine.InnerMargin = 5;
             mathematicsLine.Elements.Add(number1);
             mathematicsLine.Elements.Add(number2);
             mathematicsLine.Elements.Add(number3);

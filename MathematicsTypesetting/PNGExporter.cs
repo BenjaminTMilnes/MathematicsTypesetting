@@ -12,7 +12,7 @@ namespace MathematicsTypesetting
     {
         public void ExportMathematics(Document document, string fileLocation)
         {
-            using (var bitmap = new Bitmap(100, 100))
+            using (var bitmap = new Bitmap(200, 100))
             {
                 using (var graphics = Graphics.FromImage(bitmap))
                 {
@@ -40,16 +40,50 @@ namespace MathematicsTypesetting
             {
                 ExportElement(graphics, element);
             }
+
+            if (mathematicsLine.DrawConstructionLines == true)
+            {
+                DrawConstructionLines(graphics, mathematicsLine.Position, mathematicsLine.SizeIncludingOuterMargin);
+            }
         }
 
         protected void ExportNumber(Graphics graphics, Number number)
         {
-            graphics.DrawString(number.Content, new Font("Book Antiqua", 20), Brushes.Black, new PointF((float)number.Position.X.Quantity, (float)number.Position.Y.Quantity));
+            var text = number.Content;
+
+            var fontFamily = number.FontStyle.FontName;
+            var emSize = (float)number.FontStyle.FontHeight.ConvertToUnits(LengthUnits.Points).Quantity;
+            var font = new Font(fontFamily, emSize);
+
+            var brush = Brushes.Black;
+
+            var x = (float)number.Position.X.Quantity;
+            var y = (float)number.Position.Y.Quantity;
+            var point = new PointF(x, y);
+
+            graphics.DrawString(text, font, brush, point);
 
             if (number.DrawConstructionLines == true)
             {
-                graphics.DrawRectangle(Pens.Black, new Rectangle( (int) number.Position.X.Quantity, (int)number.Position.Y.Quantity, (int)number.SizeIncludingOuterMargin.Width.Quantity, (int)number.SizeIncludingOuterMargin.Height.Quantity));
+                DrawConstructionLines(graphics, number.Position, number.SizeIncludingOuterMargin);
             }
+        }
+
+        protected void DrawConstructionLines(Graphics graphics, Position position, Size size)
+        {
+            var x = (int)position.X.Quantity;
+            var y = (int)position.Y.Quantity;
+            var w = (int)size.Width.Quantity;
+            var h = (int)size.Height.Quantity;
+
+            var rectangle = new Rectangle(x, y, w, h);
+
+            var pen = new Pen(Color.Black, 0.75f);
+
+            pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+            pen.DashPattern = new float[] { 1.0f, 2.0f };
+
+            graphics.DrawRectangle(pen, rectangle);
         }
     }
 }

@@ -20,5 +20,18 @@ namespace MathematicsTypesetting
             Bottom = 0;
             Left = 0;
         }
+
+        public Margin(double topRightBottomLeft)
+        {
+            Top = topRightBottomLeft;
+            Right = topRightBottomLeft;
+            Bottom = topRightBottomLeft;
+            Left = topRightBottomLeft;
+        }
+
+        public static implicit operator Margin(double topRightBottomLeft)
+        {
+            return new Margin(topRightBottomLeft);
+        }
     }
 }

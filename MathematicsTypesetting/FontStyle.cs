@@ -15,7 +15,7 @@ namespace MathematicsTypesetting
         public FontStyle()
         {
             FontName = "Book Antiqua";
-            FontHeight = new Length(10, LengthUnits.Points);
+            FontHeight = new Length(20, LengthUnits.Points);
             FontColour = new Colour();
         }
     }

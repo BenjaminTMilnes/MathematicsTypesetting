@@ -31,6 +31,9 @@ namespace MathematicsTypesetting
         {
             mathematicsLine.Position = containerOrigin;
 
+            containerOrigin.X += mathematicsLine.OuterMargin.Left + mathematicsLine.Border.Width + mathematicsLine.InnerMargin.Left;
+            containerOrigin.Y += mathematicsLine.OuterMargin.Top + mathematicsLine.Border.Width + mathematicsLine.InnerMargin.Top;
+
             var elements = mathematicsLine.Elements.ToArray();
 
             for (var m = 0; m < elements.Length; m++)

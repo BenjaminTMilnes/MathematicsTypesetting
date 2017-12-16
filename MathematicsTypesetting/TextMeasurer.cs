@@ -22,8 +22,8 @@ namespace MathematicsTypesetting
             var sizeF = _graphics.MeasureString(text, font);
             var size = new Size();
 
-            size.Width = new Length(sizeF.Width, LengthUnits.Points);
-            size.Height = new Length(sizeF.Height, LengthUnits.Points);
+            size.Width = new Length(sizeF.Width, LengthUnits.Arbitrary);
+            size.Height = new Length(sizeF.Height, LengthUnits.Arbitrary);
 
             return size;
         }
