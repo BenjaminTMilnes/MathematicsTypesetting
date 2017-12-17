@@ -34,6 +34,7 @@ namespace MathematicsTypesetting
         protected void ExportElement(Graphics graphics, Element element)
         {
             if (element is Number) { ExportNumber(graphics, element as Number); }
+            if (element is Identifier) { ExportIdentifier(graphics, element as Identifier); }
             if (element is MathematicsLine) { ExportMathematicsLine(graphics, element as MathematicsLine); }
             if (element is Fraction) { ExportFraction(graphics, element as Fraction); }
         }
@@ -70,26 +71,41 @@ namespace MathematicsTypesetting
             }
         }
 
-        protected void ExportNumber(Graphics graphics, Number number)
+        protected void ExportTextElement(Graphics graphics, TextElement textElement)
         {
-            var text = number.Content;
+            var text = textElement.Content;
 
-            var fontFamily = number.FontStyle.FontName;
-            var emSize = (float)number.FontStyle.FontHeight.ConvertToUnits(LengthUnits.Points).Quantity;
+            var fontFamily = textElement.FontStyle.FontName;
+            var emSize = (float)textElement.FontStyle.FontHeight.ConvertToUnits(LengthUnits.Points).Quantity;
             var font = new Font(fontFamily, emSize);
+
+            if (textElement is Identifier)
+            {
+                font = new Font(fontFamily, emSize, System.Drawing.FontStyle.Italic);
+            }
 
             var brush = Brushes.Black;
 
-            var x = (float)number.Position.X.Quantity;
-            var y = (float)number.Position.Y.Quantity;
+            var x = (float)textElement.Position.X.Quantity;
+            var y = (float)textElement.Position.Y.Quantity;
             var point = new PointF(x, y);
 
             graphics.DrawString(text, font, brush, point);
 
-            if (number.DrawConstructionLines == true)
+            if (textElement.DrawConstructionLines == true)
             {
-                DrawConstructionLines(graphics, number.Position, number.SizeIncludingOuterMargin);
+                DrawConstructionLines(graphics, textElement.Position, textElement.SizeIncludingOuterMargin);
             }
+        }
+
+        protected void ExportNumber(Graphics graphics, Number number)
+        {
+            ExportTextElement(graphics, number);
+        }
+
+        protected void ExportIdentifier(Graphics graphics, Identifier identifier)
+        {
+            ExportTextElement(graphics, identifier);
         }
 
         protected void DrawConstructionLines(Graphics graphics, Position position, Size size)

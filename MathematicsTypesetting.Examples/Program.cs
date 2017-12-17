@@ -74,6 +74,10 @@ namespace MathematicsTypesetting.Examples
             var number2 = new Number();
             var number3 = new Number();
             var number4 = new Number();
+            var identifier1 = new Identifier();
+            var identifier2 = new Identifier();
+            var identifier3 = new Identifier();
+            var identifier4 = new Identifier();
             var fraction = new Fraction();
 
             number1.Content = "1";
@@ -81,11 +85,16 @@ namespace MathematicsTypesetting.Examples
             number3.Content = "456";
             number4.Content = "7890";
 
-            fraction.Numerator = number2;
-            fraction.Denominator = number3;
+            identifier1.Content = "a";
+            identifier2.Content = "b";
+            identifier3.Content = "x";
+            identifier4.Content = "y";
+
+            fraction.Numerator = identifier3;
+            fraction.Denominator = identifier4;
 
             mathematicsLine.InnerMargin = 5;
-            mathematicsLine.Elements.Add(number1);
+            mathematicsLine.Elements.Add(number3);
             mathematicsLine.Elements.Add(fraction);
             mathematicsLine.Elements.Add(number4);
 

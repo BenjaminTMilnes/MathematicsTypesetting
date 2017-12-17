@@ -27,6 +27,7 @@ namespace MathematicsTypesetting
         public void SetElementPosition(Position containerOrigin, Element element)
         {
             if (element is Number) { SetNumberPosition(containerOrigin, element as Number); }
+            if (element is Identifier) { SetIdentifierPosition(containerOrigin, element as Identifier); }
             if (element is MathematicsLine) { SetMathematicsLinePosition(containerOrigin, element as MathematicsLine); }
             if (element is Fraction) { SetFractionPosition(containerOrigin, element as Fraction); }
         }
@@ -87,14 +88,25 @@ namespace MathematicsTypesetting
             SetElementPosition(containerOrigin, fraction.Denominator);
         }
 
+        public void SetTextElementPosition(Position containerOrigin, TextElement textElement)
+        {
+            textElement.Position = containerOrigin;
+        }
+
         public void SetNumberPosition(Position containerOrigin, Number number)
         {
-            number.Position = containerOrigin;
+            SetTextElementPosition(containerOrigin, number);
+        }
+
+        public void SetIdentifierPosition(Position containerOrigin, Identifier identifier)
+        {
+            SetTextElementPosition(containerOrigin, identifier);
         }
 
         public void SetElementSize(Element element)
         {
             if (element is Number) { SetNumberSize(element as Number); }
+            if (element is Identifier) { SetIdentifierSize(element as Identifier); }
             if (element is MathematicsLine) { SetMathematicsLineSize(element as MathematicsLine); }
             if (element is Fraction) { SetFractionSize(element as Fraction); }
         }
@@ -206,23 +218,33 @@ namespace MathematicsTypesetting
             fraction.CentreAlignmentPoint = centreAlignmentPoint;
         }
 
+        public void SetTextElementSize(TextElement textElement)
+        {
+            textElement.SizeOfContent = _textMeasurer.MeasureTextSize(textElement.Content, textElement.FontStyle);
+            textElement.SizeIncludingInnerMargin = AddMarginToSize(textElement.SizeOfContent, textElement.InnerMargin);
+            textElement.SizeIncludingBorder = AddBorderToSize(textElement.SizeIncludingInnerMargin, textElement.Border);
+            textElement.SizeIncludingOuterMargin = AddMarginToSize(textElement.SizeIncludingBorder, textElement.OuterMargin);
+
+            var centreAlignmentPoint = new Position();
+
+            centreAlignmentPoint.X = textElement.SizeIncludingOuterMargin.Width / 2;
+            centreAlignmentPoint.Y = textElement.SizeIncludingOuterMargin.Height / 2;
+
+            textElement.CentreAlignmentPoint = centreAlignmentPoint;
+        }
+
         /// <summary>
         /// Sets the size properties of a Number element.
         /// </summary>
         /// <param name="number"></param>
         public void SetNumberSize(Number number)
         {
-            number.SizeOfContent = _textMeasurer.MeasureTextSize(number.Content, number.FontStyle);
-            number.SizeIncludingInnerMargin = AddMarginToSize(number.SizeOfContent, number.InnerMargin);
-            number.SizeIncludingBorder = AddBorderToSize(number.SizeIncludingInnerMargin, number.Border);
-            number.SizeIncludingOuterMargin = AddMarginToSize(number.SizeIncludingBorder, number.OuterMargin);
+            SetTextElementSize(number);
+        }
 
-            var centreAlignmentPoint = new Position();
-
-            centreAlignmentPoint.X = number.SizeIncludingOuterMargin.Width / 2;
-            centreAlignmentPoint.Y = number.SizeIncludingOuterMargin.Height / 2;
-
-            number.CentreAlignmentPoint = centreAlignmentPoint;
+        public void SetIdentifierSize(Identifier identifier)
+        {
+            SetTextElementSize(identifier);
         }
 
         protected Size AddMarginToSize(Size size, Margin margin)
