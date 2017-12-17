@@ -61,7 +61,7 @@ namespace MathematicsTypesetting.Examples
 
             _typesetter.TypesetDocument(document);
 
-            var fileLocation = Path.Combine(Directory.GetCurrentDirectory(), "example1.png");
+            var fileLocation = Path.Combine(Directory.GetCurrentDirectory(), "../../example1.png");
 
             _exporter.ExportMathematics(document, fileLocation);
         }
@@ -102,7 +102,7 @@ namespace MathematicsTypesetting.Examples
 
             _typesetter.TypesetDocument(document);
 
-            var fileLocation = Path.Combine(Directory.GetCurrentDirectory(), "example2.png");
+            var fileLocation = Path.Combine(Directory.GetCurrentDirectory(), "../../example2.png");
 
             _exporter.ExportMathematics(document, fileLocation);
         }
