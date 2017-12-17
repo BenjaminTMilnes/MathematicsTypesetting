@@ -28,6 +28,7 @@ namespace MathematicsTypesetting
         {
             if (element is Number) { SetNumberPosition(containerOrigin, element as Number); }
             if (element is Identifier) { SetIdentifierPosition(containerOrigin, element as Identifier); }
+            if (element is BinomialOperator) { SetBinomialOperatorPosition(containerOrigin, element as BinomialOperator); }
             if (element is MathematicsLine) { SetMathematicsLinePosition(containerOrigin, element as MathematicsLine); }
             if (element is Fraction) { SetFractionPosition(containerOrigin, element as Fraction); }
         }
@@ -103,10 +104,16 @@ namespace MathematicsTypesetting
             SetTextElementPosition(containerOrigin, identifier);
         }
 
+        public void SetBinomialOperatorPosition(Position containerOrigin, BinomialOperator binomialOperator)
+        {
+            SetTextElementPosition(containerOrigin, binomialOperator);
+        }
+
         public void SetElementSize(Element element)
         {
             if (element is Number) { SetNumberSize(element as Number); }
             if (element is Identifier) { SetIdentifierSize(element as Identifier); }
+            if (element is BinomialOperator) { SetBinomialOperatorSize(element as BinomialOperator); }
             if (element is MathematicsLine) { SetMathematicsLineSize(element as MathematicsLine); }
             if (element is Fraction) { SetFractionSize(element as Fraction); }
         }
@@ -245,6 +252,11 @@ namespace MathematicsTypesetting
         public void SetIdentifierSize(Identifier identifier)
         {
             SetTextElementSize(identifier);
+        }
+
+        public void SetBinomialOperatorSize(BinomialOperator binomialOperator)
+        {
+            SetTextElementSize(binomialOperator);
         }
 
         protected Size AddMarginToSize(Size size, Margin margin)

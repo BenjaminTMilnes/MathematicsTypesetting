@@ -78,6 +78,8 @@ namespace MathematicsTypesetting.Examples
             var identifier2 = new Identifier();
             var identifier3 = new Identifier();
             var identifier4 = new Identifier();
+            var operator1 = new BinomialOperator();
+            var operator2 = new BinomialOperator();
             var fraction = new Fraction();
 
             number1.Content = "1";
@@ -90,12 +92,17 @@ namespace MathematicsTypesetting.Examples
             identifier3.Content = "x";
             identifier4.Content = "y";
 
+            operator1.Content = "+";
+            operator2.Content = "=";
+
             fraction.Numerator = identifier3;
             fraction.Denominator = identifier4;
 
             mathematicsLine.InnerMargin = 5;
             mathematicsLine.Elements.Add(number3);
+            mathematicsLine.Elements.Add(operator1);
             mathematicsLine.Elements.Add(fraction);
+            mathematicsLine.Elements.Add(operator2);
             mathematicsLine.Elements.Add(number4);
 
             document.MainElement = mathematicsLine;

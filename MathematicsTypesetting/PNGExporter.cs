@@ -35,6 +35,7 @@ namespace MathematicsTypesetting
         {
             if (element is Number) { ExportNumber(graphics, element as Number); }
             if (element is Identifier) { ExportIdentifier(graphics, element as Identifier); }
+            if (element is BinomialOperator) { ExportBinomialOperator(graphics, element as BinomialOperator); }
             if (element is MathematicsLine) { ExportMathematicsLine(graphics, element as MathematicsLine); }
             if (element is Fraction) { ExportFraction(graphics, element as Fraction); }
         }
@@ -86,8 +87,8 @@ namespace MathematicsTypesetting
 
             var brush = Brushes.Black;
 
-            var x = (float)textElement.Position.X.Quantity;
-            var y = (float)textElement.Position.Y.Quantity;
+            var x = (float)(textElement.Position.X + textElement.OuterMargin.Left + textElement.Border.Width + textElement.InnerMargin.Left).Quantity;
+            var y = (float)(textElement.Position.Y + textElement.OuterMargin.Top + textElement.Border.Width + textElement.InnerMargin.Top).Quantity;
             var point = new PointF(x, y);
 
             graphics.DrawString(text, font, brush, point);
@@ -106,6 +107,11 @@ namespace MathematicsTypesetting
         protected void ExportIdentifier(Graphics graphics, Identifier identifier)
         {
             ExportTextElement(graphics, identifier);
+        }
+
+        protected void ExportBinomialOperator(Graphics graphics, BinomialOperator binomialOperator)
+        {
+            ExportTextElement(graphics, binomialOperator);
         }
 
         protected void DrawConstructionLines(Graphics graphics, Position position, Size size)
