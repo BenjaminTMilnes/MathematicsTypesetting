@@ -15,6 +15,8 @@
         public Border Border { get; set; }
         public Margin InnerMargin { get; set; }
 
+        public FontStyle FontStyle { get; set; }
+
         public bool DrawConstructionLines { get; set; }
 
         public Element()
@@ -31,6 +33,8 @@
             OuterMargin = new Margin();
             Border = new Border();
             InnerMargin = new Margin();
+
+            FontStyle = new FontStyle();
 
             DrawConstructionLines = true;
         }

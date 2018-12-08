@@ -6,13 +6,9 @@
 
         public Colour BackgroundColour { get; set; }
 
-        public FontStyle FontStyle { get; set; }
-
         public TextElement() : base()
         {
             BackgroundColour = new Colour();
-
-            FontStyle = new FontStyle();
         }
     }
 }

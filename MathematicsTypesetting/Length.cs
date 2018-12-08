@@ -67,6 +67,11 @@ namespace MathematicsTypesetting
             return new Length(length.Quantity * scalar, length.Units);
         }
 
+        public static Length operator *(Length length, double scalar)
+        {
+            return new Length(length.Quantity * scalar, length.Units);
+        }
+
         public static Length operator /(Length length, int scalar)
         {
             return new Length(length.Quantity / scalar, length.Units);

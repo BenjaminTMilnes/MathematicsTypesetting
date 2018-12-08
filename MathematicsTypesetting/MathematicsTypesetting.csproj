@@ -60,6 +60,8 @@
     <Compile Include="Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Size.cs" />
+    <Compile Include="Subscript.cs" />
+    <Compile Include="Superscript.cs" />
     <Compile Include="TextElement.cs" />
     <Compile Include="TextMeasurer.cs" />
     <Compile Include="Typesetter.cs" />

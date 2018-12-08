@@ -168,10 +168,8 @@ namespace MathematicsTypesetting
             {
                 mathematicsLine.SizeOfContent = 0;
             }
-
-            mathematicsLine.SizeIncludingInnerMargin = AddMarginToSize(mathematicsLine.SizeOfContent, mathematicsLine.InnerMargin);
-            mathematicsLine.SizeIncludingBorder = AddBorderToSize(mathematicsLine.SizeIncludingInnerMargin, mathematicsLine.Border);
-            mathematicsLine.SizeIncludingOuterMargin = AddMarginToSize(mathematicsLine.SizeIncludingBorder, mathematicsLine.OuterMargin);
+            
+            SetSizesOfElement(mathematicsLine);
 
             var centreAlignmentPoint = new Position();
 
@@ -189,12 +187,12 @@ namespace MathematicsTypesetting
         /// <returns></returns>
         protected Length ChooseGreaterLength(Length length1, Length length2)
         {
-            if (length1 > length2)
-            {
-                return length1;
-            }
+            return (length1 > length2) ? length1 : length2;
+        }
 
-            return length2;
+        protected Length ChooseLesserLength(Length length1, Length length2)
+        {
+            return (length1 < length2) ? length1 : length2;
         }
 
         public void SetFractionSize(Fraction fraction)
@@ -212,10 +210,8 @@ namespace MathematicsTypesetting
             }
 
             fraction.SizeOfContent.Height = fraction.Numerator.SizeIncludingOuterMargin.Height + fraction.Denominator.SizeIncludingOuterMargin.Height;
-
-            fraction.SizeIncludingInnerMargin = AddMarginToSize(fraction.SizeOfContent, fraction.InnerMargin);
-            fraction.SizeIncludingBorder = AddBorderToSize(fraction.SizeIncludingInnerMargin, fraction.Border);
-            fraction.SizeIncludingOuterMargin = AddMarginToSize(fraction.SizeIncludingBorder, fraction.OuterMargin);
+            
+            SetSizesOfElement(fraction);
 
             var centreAlignmentPoint = new Position();
 
@@ -225,12 +221,64 @@ namespace MathematicsTypesetting
             fraction.CentreAlignmentPoint = centreAlignmentPoint;
         }
 
+        public void SetSubscriptSize(Subscript subscript)
+        {
+            subscript.Element1.FontStyle.FontHeight = subscript.FontStyle.FontHeight;
+            subscript.Element2.FontStyle.FontHeight = subscript.FontStyle.FontHeight * subscript.SubscriptScale;
+
+            SetElementSize(subscript.Element1);
+            SetElementSize(subscript.Element2);
+
+            var marginAdjustment = ChooseLesserLength(subscript.Element1.OuterMargin.Right, subscript.Element2.OuterMargin.Left);
+
+            subscript.SizeOfContent.Width = subscript.Element1.SizeIncludingOuterMargin.Width + subscript.Element2.SizeIncludingOuterMargin.Width - marginAdjustment;
+            subscript.SizeOfContent.Height = ChooseGreaterLength(subscript.Element1.SizeIncludingOuterMargin.Height, subscript.Element2.SizeIncludingOuterMargin.Height + subscript.SubscriptOffset);
+
+            SetSizesOfElement(subscript);
+
+            var centreAlignmentPoint = new Position();
+
+            centreAlignmentPoint.X = subscript.SizeIncludingOuterMargin.Width / 2;
+            centreAlignmentPoint.Y = subscript.Element1.SizeIncludingOuterMargin.Height / 2;
+
+            subscript.CentreAlignmentPoint = centreAlignmentPoint;
+        }
+
+        public void SetSuperscriptSize( Superscript superscript)
+        {
+            superscript.Element1.FontStyle.FontHeight = superscript.FontStyle.FontHeight;
+            superscript.Element2.FontStyle.FontHeight = superscript.FontStyle.FontHeight * superscript.SuperscriptScale;
+
+            SetElementSize(superscript.Element1);
+            SetElementSize(superscript.Element2);
+
+            var marginAdjustment = ChooseLesserLength(superscript.Element1.OuterMargin.Right, superscript.Element2.OuterMargin.Left);
+
+            superscript.SizeOfContent.Width = superscript.Element1.SizeIncludingOuterMargin.Width + superscript.Element2.SizeIncludingOuterMargin.Width - marginAdjustment;
+            superscript.SizeOfContent.Height = ChooseGreaterLength(superscript.Element1.SizeIncludingOuterMargin.Height, superscript.Element2.SizeIncludingOuterMargin.Height + superscript.SuperscriptOffset);
+
+            SetSizesOfElement(superscript);
+
+            var centreAlignmentPoint = new Position();
+
+            centreAlignmentPoint.X = superscript.SizeIncludingOuterMargin.Width / 2;
+            centreAlignmentPoint.Y = superscript.Element1.SizeIncludingOuterMargin.Height / 2;
+
+            superscript.CentreAlignmentPoint = centreAlignmentPoint;
+        }
+
+         protected void SetSizesOfElement(Element element)
+        {
+            element.SizeIncludingInnerMargin = AddMarginToSize(element.SizeOfContent, element.InnerMargin);
+            element.SizeIncludingBorder = AddBorderToSize(element.SizeIncludingInnerMargin, element.Border);
+            element.SizeIncludingOuterMargin = AddMarginToSize(element.SizeIncludingBorder, element.OuterMargin);
+        }
+
         public void SetTextElementSize(TextElement textElement)
         {
             textElement.SizeOfContent = _textMeasurer.MeasureTextSize(textElement.Content, textElement.FontStyle);
-            textElement.SizeIncludingInnerMargin = AddMarginToSize(textElement.SizeOfContent, textElement.InnerMargin);
-            textElement.SizeIncludingBorder = AddBorderToSize(textElement.SizeIncludingInnerMargin, textElement.Border);
-            textElement.SizeIncludingOuterMargin = AddMarginToSize(textElement.SizeIncludingBorder, textElement.OuterMargin);
+
+            SetSizesOfElement(textElement);
 
             var centreAlignmentPoint = new Position();
 
