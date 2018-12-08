@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathematicsTypesetting.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathematicsTypesetting.Examples", "..\MathematicsTypesetting.Examples\MathematicsTypesetting.Examples.csproj", "{7C0C5FE8-9EF5-4F95-9749-EE6055592748}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathematicsTypesetting.LaTeX", "..\MathematicsTypesetting.LaTeX\MathematicsTypesetting.LaTeX.csproj", "{7CA6D2C5-768E-4307-AD1F-5407CE3432A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{7C0C5FE8-9EF5-4F95-9749-EE6055592748}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C0C5FE8-9EF5-4F95-9749-EE6055592748}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C0C5FE8-9EF5-4F95-9749-EE6055592748}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CA6D2C5-768E-4307-AD1F-5407CE3432A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CA6D2C5-768E-4307-AD1F-5407CE3432A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CA6D2C5-768E-4307-AD1F-5407CE3432A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CA6D2C5-768E-4307-AD1F-5407CE3432A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
