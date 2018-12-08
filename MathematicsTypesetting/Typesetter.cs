@@ -31,6 +31,8 @@ namespace MathematicsTypesetting
             if (element is BinomialOperator) { SetBinomialOperatorPosition(containerOrigin, element as BinomialOperator); }
             if (element is MathematicsLine) { SetMathematicsLinePosition(containerOrigin, element as MathematicsLine); }
             if (element is Fraction) { SetFractionPosition(containerOrigin, element as Fraction); }
+            if (element is Subscript) { SetSubscriptPosition(containerOrigin, element as Subscript); }
+            if (element is Superscript) { SetSuperscriptPosition(containerOrigin, element as Superscript); }
         }
 
         public void SetMathematicsLinePosition(Position containerOrigin, MathematicsLine mathematicsLine)
@@ -78,8 +80,8 @@ namespace MathematicsTypesetting
             var numeratorOffset = (fraction.SizeOfContent.Width - fraction.Numerator.SizeIncludingOuterMargin.Width) / 2;
             var denominatorOffset = (fraction.SizeOfContent.Width - fraction.Denominator.SizeIncludingOuterMargin.Width) / 2;
 
-            containerOrigin.X += fraction.OuterMargin.Left + fraction.Border.Width + fraction.InnerMargin.Left + numeratorOffset;
-            containerOrigin.Y += fraction.OuterMargin.Top + fraction.Border.Width + fraction.InnerMargin.Top;
+            containerOrigin.X += fraction.LeftWidth + numeratorOffset;
+            containerOrigin.Y += fraction.TopWidth;
 
             SetElementPosition(containerOrigin, fraction.Numerator);
 
@@ -87,6 +89,44 @@ namespace MathematicsTypesetting
             containerOrigin.Y += fraction.Numerator.SizeIncludingOuterMargin.Height;
 
             SetElementPosition(containerOrigin, fraction.Denominator);
+        }
+
+        public void SetSubscriptPosition(Position containerOrigin, Subscript subscript)
+        {
+            subscript.Position = containerOrigin;
+
+            containerOrigin.X += subscript.LeftWidth;
+            containerOrigin.Y += subscript.TopWidth;
+
+            SetElementPosition(containerOrigin, subscript.Element1);
+
+            var marginAdjustment = ChooseLesserLength(subscript.Element1.OuterMargin.Right, subscript.Element2.OuterMargin.Left);
+
+            containerOrigin.X += subscript.Element1.ContentWidth + marginAdjustment;
+            containerOrigin.Y += -subscript.TopWidth + subscript.SubscriptOffset;
+
+            SetElementPosition(containerOrigin, subscript.Element2);
+
+            containerOrigin.Y += -subscript.SubscriptOffset;
+        }
+
+        public void SetSuperscriptPosition(Position containerOrigin, Superscript superscript)
+        {
+            superscript.Position = containerOrigin;
+
+            containerOrigin.X += superscript.LeftWidth;
+            containerOrigin.Y += superscript.TopWidth;
+
+            SetElementPosition(containerOrigin, superscript.Element1);
+
+            var marginAdjustment = ChooseLesserLength(superscript.Element1.OuterMargin.Right, superscript.Element2.OuterMargin.Left);
+
+            containerOrigin.X += superscript.Element1.ContentWidth + marginAdjustment;
+            containerOrigin.Y += -superscript.TopWidth + superscript.OuterHeight - superscript.SuperscriptOffset - superscript.Element2.OuterHeight;
+
+            SetElementPosition(containerOrigin, superscript.Element2);
+
+            containerOrigin.Y += -superscript.OuterHeight + superscript.SuperscriptOffset + superscript.Element2.OuterHeight;
         }
 
         public void SetTextElementPosition(Position containerOrigin, TextElement textElement)
@@ -116,6 +156,8 @@ namespace MathematicsTypesetting
             if (element is BinomialOperator) { SetBinomialOperatorSize(element as BinomialOperator); }
             if (element is MathematicsLine) { SetMathematicsLineSize(element as MathematicsLine); }
             if (element is Fraction) { SetFractionSize(element as Fraction); }
+            if (element is Subscript) { SetSubscriptSize(element as Subscript); }
+            if (element is Superscript) { SetSuperscriptSize(element as Superscript); }
         }
 
         /// <summary>
@@ -168,7 +210,7 @@ namespace MathematicsTypesetting
             {
                 mathematicsLine.SizeOfContent = 0;
             }
-            
+
             SetSizesOfElement(mathematicsLine);
 
             var centreAlignmentPoint = new Position();
@@ -210,7 +252,7 @@ namespace MathematicsTypesetting
             }
 
             fraction.SizeOfContent.Height = fraction.Numerator.SizeIncludingOuterMargin.Height + fraction.Denominator.SizeIncludingOuterMargin.Height;
-            
+
             SetSizesOfElement(fraction);
 
             var centreAlignmentPoint = new Position();
@@ -244,7 +286,7 @@ namespace MathematicsTypesetting
             subscript.CentreAlignmentPoint = centreAlignmentPoint;
         }
 
-        public void SetSuperscriptSize( Superscript superscript)
+        public void SetSuperscriptSize(Superscript superscript)
         {
             superscript.Element1.FontStyle.FontHeight = superscript.FontStyle.FontHeight;
             superscript.Element2.FontStyle.FontHeight = superscript.FontStyle.FontHeight * superscript.SuperscriptScale;
@@ -267,11 +309,11 @@ namespace MathematicsTypesetting
             superscript.CentreAlignmentPoint = centreAlignmentPoint;
         }
 
-         protected void SetSizesOfElement(Element element)
+        protected void SetSizesOfElement(Element element)
         {
-            element.SizeIncludingInnerMargin = AddMarginToSize(element.SizeOfContent, element.InnerMargin);
-            element.SizeIncludingBorder = AddBorderToSize(element.SizeIncludingInnerMargin, element.Border);
-            element.SizeIncludingOuterMargin = AddMarginToSize(element.SizeIncludingBorder, element.OuterMargin);
+            element.SizeIncludingInnerMargin = element.SizeOfContent + element.InnerMargin;
+            element.SizeIncludingBorder = element.SizeIncludingInnerMargin + element.Border;
+            element.SizeIncludingOuterMargin = element.SizeIncludingBorder + element.OuterMargin;
         }
 
         public void SetTextElementSize(TextElement textElement)
@@ -305,26 +347,6 @@ namespace MathematicsTypesetting
         public void SetBinomialOperatorSize(BinomialOperator binomialOperator)
         {
             SetTextElementSize(binomialOperator);
-        }
-
-        protected Size AddMarginToSize(Size size, Margin margin)
-        {
-            var newSize = new Size();
-
-            newSize.Width = size.Width + margin.Left + margin.Right;
-            newSize.Height = size.Height + margin.Top + margin.Bottom;
-
-            return newSize;
-        }
-
-        protected Size AddBorderToSize(Size size, Border border)
-        {
-            var newSize = new Size();
-
-            newSize.Width = size.Width + border.Width + border.Width;
-            newSize.Height = size.Height + border.Width + border.Width;
-
-            return newSize;
         }
     }
 }

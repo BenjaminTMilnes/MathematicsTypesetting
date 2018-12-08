@@ -4,6 +4,8 @@
     {
         public Identifier() : base()
         {
+            InnerMargin.Left = 0;
+            InnerMargin.Right = 0;
         }
     }
 }

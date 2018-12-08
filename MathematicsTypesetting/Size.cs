@@ -41,5 +41,35 @@ namespace MathematicsTypesetting
 
             throw new UnableToConvertToSizeException(i);
         }
+
+        public static Size operator +(Size size, Margin margin)
+        {
+            var newSize = new Size();
+
+            newSize.Width = size.Width + margin.Left + margin.Right;
+            newSize.Height = size.Height + margin.Top + margin.Bottom;
+
+            return newSize;
+        }
+
+        public static Size operator +(Margin margin, Size size)
+        {
+            return size + margin;
+        }
+
+        public static Size operator +(Size size, Border border)
+        {
+            var newSize = new Size();
+
+            newSize.Width = size.Width + border.Width + border.Width;
+            newSize.Height = size.Height + border.Width + border.Width;
+
+            return newSize;
+        }
+
+        public static Size operator +(Border border, Size size)
+        {
+            return size + border;
+        }
     }
 }

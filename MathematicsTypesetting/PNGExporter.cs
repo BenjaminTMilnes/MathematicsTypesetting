@@ -38,6 +38,8 @@ namespace MathematicsTypesetting
             if (element is BinomialOperator) { ExportBinomialOperator(graphics, element as BinomialOperator); }
             if (element is MathematicsLine) { ExportMathematicsLine(graphics, element as MathematicsLine); }
             if (element is Fraction) { ExportFraction(graphics, element as Fraction); }
+            if (element is Subscript) { ExportSubscript(graphics, element as Subscript); }
+            if (element is Superscript) { ExportSuperscript(graphics, element as Superscript); }
         }
 
         protected void ExportMathematicsLine(Graphics graphics, MathematicsLine mathematicsLine)
@@ -69,6 +71,28 @@ namespace MathematicsTypesetting
             if (fraction.DrawConstructionLines == true)
             {
                 DrawConstructionLines(graphics, fraction.Position, fraction.SizeIncludingOuterMargin);
+            }
+        }
+
+        protected void ExportSubscript(Graphics graphics, Subscript subscript)
+        {
+            ExportElement(graphics, subscript.Element1);
+            ExportElement(graphics, subscript.Element2);
+
+            if (subscript.DrawConstructionLines == true)
+            {
+                DrawConstructionLines(graphics, subscript.Position, subscript.SizeIncludingOuterMargin);
+            }
+        }
+
+        protected void ExportSuperscript(Graphics graphics, Superscript superscript)
+        {
+            ExportElement(graphics, superscript.Element1);
+            ExportElement(graphics, superscript.Element2);
+
+            if (superscript.DrawConstructionLines == true)
+            {
+                DrawConstructionLines(graphics, superscript.Position, superscript.SizeIncludingOuterMargin);
             }
         }
 

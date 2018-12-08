@@ -16,7 +16,7 @@ namespace MathematicsTypesetting
 
         public Superscript()
         {
-            SuperscriptOffset = new Length(12, LengthUnits.Points);
+            SuperscriptOffset = new Length(12, LengthUnits.Arbitrary);
             SuperscriptScale = 0.7;
         }
     }
