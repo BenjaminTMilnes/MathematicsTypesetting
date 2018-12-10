@@ -50,6 +50,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MathematicsTypesetting.LaTeX\MathematicsTypesetting.LaTeX.csproj">
+      <Project>{7ca6d2c5-768e-4307-ad1f-5407ce3432a4}</Project>
+      <Name>MathematicsTypesetting.LaTeX</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MathematicsTypesetting\MathematicsTypesetting.csproj">
       <Project>{21f8e20b-a881-4913-bee3-eb626188eb86}</Project>
       <Name>MathematicsTypesetting</Name>

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using MathematicsTypesetting;
+using MathematicsTypesetting.LaTeX;
 
 namespace MathematicsTypesetting.Examples
 {
@@ -35,6 +36,7 @@ namespace MathematicsTypesetting.Examples
         {
             MakeExample1();
             MakeExample2();
+            MakeExample3();
         }
 
         private void MakeExample1()
@@ -126,6 +128,25 @@ namespace MathematicsTypesetting.Examples
             var fileLocation = Path.Combine(Directory.GetCurrentDirectory(), "../../example2.png");
 
             _exporter.ExportMathematics(document, fileLocation);
+        }
+
+        private void MakeExample3()
+        {
+            var formulae = new string[] { "E = hf", "E = 1/2 m v^{2}" };
+
+            for (var i = 0; i < formulae.Length; i++)
+            {
+                var document = new Document();
+                var parser = new LaTeXParser();
+
+                document.MainElement = parser.ParseLaTeX(formulae[i]);
+
+                _typesetter.TypesetDocument(document);
+
+                var fileLocation = Path.Combine(Directory.GetCurrentDirectory(), "../../example" + (i + 3).ToString() + ".png");
+
+                _exporter.ExportMathematics(document, fileLocation);
+            }
         }
     }
 }
