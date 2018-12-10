@@ -70,16 +70,18 @@ namespace MathematicsTypesetting.LaTeX
                     var line = new MathematicsLine();
 
                     subscript.Element1 = container.Last();
-                    line.Elements = subsection;
+                    line.Elements = subsection.Item2;
                     subscript.Element2 = line;
 
                     container.Remove(container.Last());
                     container.Add(subscript);
+
+                    marker.Position += subsection.Item1;
                 }
             }
         }
 
-        public IList<Element> GetSubsection(string latex, IList<Element> container, Marker marker)
+        public Tuple<int, IList<Element>> GetSubsection(string latex, IList<Element> container, Marker marker)
         {
             if (marker.Position >= latex.Length)
             {
@@ -112,7 +114,7 @@ namespace MathematicsTypesetting.LaTeX
 
                 var t = latex.Substring(marker.Position + 1, i - 1);
 
-                return ParseSubsection(t);
+                return new Tuple<int, IList<Element>>(i, ParseSubsection(t));
             }
 
             return null;

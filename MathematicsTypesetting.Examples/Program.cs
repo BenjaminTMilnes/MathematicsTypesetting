@@ -132,7 +132,7 @@ namespace MathematicsTypesetting.Examples
 
         private void MakeExample3()
         {
-            var formulae = new string[] { "E = hf", "E = 1/2 m v^{2}" };
+            var formulae = new string[] { "E = hf", "E = 1/2 m v^{2}", "v_{c} = v_{a} + v_{b}" };
 
             for (var i = 0; i < formulae.Length; i++)
             {
