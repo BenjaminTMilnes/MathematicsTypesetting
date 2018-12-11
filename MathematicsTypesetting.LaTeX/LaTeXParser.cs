@@ -41,6 +41,7 @@ namespace MathematicsTypesetting.LaTeX
                 GetOperator(subsection, elements, marker);
                 GetSubscript(subsection, elements, marker);
                 GetSuperscript(subsection, elements, marker);
+                GetFraction(subsection, elements, marker);
                 GetWhitespace(subsection, elements, marker);
 
                 if (marker.Position == n)
@@ -124,6 +125,66 @@ namespace MathematicsTypesetting.LaTeX
                     container.Add(superscript);
 
                     marker.Position += subsection.Item1;
+                }
+            }
+        }
+
+        public void GetFraction(string latex, IList<Element> container, Marker marker)
+        {
+            if (marker.Position >= latex.Length || latex.Length - marker.Position < 5)
+            {
+                return;
+            }
+
+            if (latex.Substring(marker.Position, 5) == "\\frac")
+            {
+                marker.Position += 5;
+
+                var fraction = new Fraction();
+
+                var subsection1 = GetSubsection(latex, container, marker);
+
+                if (subsection1 != null)
+                {
+                    var line1 = new MathematicsLine();
+
+                    if (subsection1.Item2.Count() == 1)
+                    {
+                        fraction.Numerator = subsection1.Item2.First();
+                    }
+                    else
+                    {
+                        line1.Elements = subsection1.Item2;
+
+                        fraction.Numerator = line1;
+                    }
+
+                    marker.Position += subsection1.Item1;
+                }
+
+                var subsection2 = GetSubsection(latex, container, marker);
+
+                if (subsection2 != null)
+                {
+                    var line2 = new MathematicsLine();
+
+                    if (subsection2.Item2.Count() == 1)
+                    {
+                        fraction.Denominator = subsection2.Item2.First();
+                    }
+                    else
+                    {
+                        line2.Elements = subsection2.Item2;
+
+                        fraction.Denominator = line2;
+                    }
+
+                    marker.Position += subsection2.Item1;
+                }
+
+                if (fraction.Numerator != null && fraction.Denominator != null)
+                {
+                    container.Add(fraction);
                 }
             }
         }
