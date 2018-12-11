@@ -126,6 +126,26 @@ namespace MathematicsTypesetting.LaTeX
 
                     marker.Position += subsection.Item1;
                 }
+                else
+                {
+                    var elements = new List<Element>();
+
+                    GetGreekLetter(latex, elements, marker);
+                    GetIdentifier(latex, elements, marker);
+                    GetNumber(latex, elements, marker);
+                    GetOperator(latex, elements, marker);
+
+                    if (elements.Any())
+                    {
+                        var superscript = new Superscript();
+
+                        superscript.Element1 = container.Last();
+                        superscript.Element2 = elements.First();
+                        
+                        container.Remove(container.Last());
+                        container.Add(superscript);                        
+                    }
+                }
             }
         }
 
@@ -259,19 +279,19 @@ namespace MathematicsTypesetting.LaTeX
                 }
                 else
                 {
-                    if (n != "")
-                    {
-                        var number = new Number();
-
-                        number.Content = n;
-
-                        container.Add(number);
-
-                        marker.Position += n.Length;
-                    }
-
                     break;
                 }
+            }
+
+            if (n != "")
+            {
+                var number = new Number();
+
+                number.Content = n;
+
+                container.Add(number);
+
+                marker.Position += n.Length;
             }
         }
 
@@ -309,16 +329,16 @@ namespace MathematicsTypesetting.LaTeX
 
         public void GetGreekLetter(string latex, IList<Element> container, Marker marker)
         {
-            var greekLetterCommands = new string[] { "alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "iota", "kappa", "lambda", "mu", "nu", "xi", "omicron", "pi", "rho", "sigma", "tau", "upsilon", "phi", "chi", "psi", "omega", "Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta", "Theta", "Iota", "Kappa", "Lambda", "Mu", "Nu", "Xi", "Omicron", "Pi", "Rho", "Sigma", "Tau", "Upsilon", "Phi", "Chi", "Psi", "Omega" };
+            var greekLetterCommands = new string[] { "alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "iota", "kappa", "lambda", "mu", "nu", "xi", "omicron", "pi", "rho", "sigma", "tau", "upsilon", "phi", "chi", "psi", "omega", "Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta", "Theta", "Iota", "Kappa", "Lambda", "Mu", "Nu", "Xi", "Omicron", "Pi", "Rho", "Sigma", "Tau", "Upsilon", "Phi", "Chi", "Psi", "Omega", "prime", "hbar" };
 
-            var greekLetters = new string[] { "α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι", "κ", "λ", "μ", "ν", "ξ", "ο", "π", "ρ", "σ", "τ", "υ", "φ", "χ", "ψ", "ω", "Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο", "Π", "Ρ", "Σ", "Τ", "Υ", "Φ", "Χ", "Ψ", "Ω" };
+            var greekLetters = new string[] { "α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι", "κ", "λ", "μ", "ν", "ξ", "ο", "π", "ρ", "σ", "τ", "υ", "φ", "χ", "ψ", "ω", "Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο", "Π", "Ρ", "Σ", "Τ", "Υ", "Φ", "Χ", "Ψ", "Ω", "′", "ħ" };
 
             for (var j = 0; j < greekLetterCommands.Length; j++)
             {
                 var command = "\\" + greekLetterCommands[j];
                 var letter = greekLetters[j];
 
-                if (marker.Position < latex.Length - command.Length)
+                if (marker.Position <= latex.Length - command.Length)
                 {
                     if (latex.Substring(marker.Position, command.Length) == command)
                     {

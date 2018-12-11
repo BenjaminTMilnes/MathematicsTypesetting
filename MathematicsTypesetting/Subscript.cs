@@ -16,7 +16,7 @@ namespace MathematicsTypesetting
 
         public Subscript()
         {
-            SubscriptOffset = new Length(12, LengthUnits.Arbitrary);
+            SubscriptOffset = new Length(30, LengthUnits.Arbitrary);
             SubscriptScale = 0.7;
         }
     }

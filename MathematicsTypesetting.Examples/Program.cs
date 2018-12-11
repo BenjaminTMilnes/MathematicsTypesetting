@@ -132,20 +132,46 @@ namespace MathematicsTypesetting.Examples
 
         private void MakeExample3()
         {
-            var formulae = new string[] { "E = hf", "E = 1/2 m v^{2}", "v_{c} = v_{a} + v_{b}", "E = \\frac{hc}{\\lambda}" };
+            var formulae = new string[] {
+                "E = hf",
+                "E = 1/2 m v^{2}",
+                "v_{c} = v_{a} + v_{b}",
+                "E = \\frac{hc}{\\lambda}",
+                "F = \\frac{mv^2}{r}",
+                "\\lambda^{\\prime} - \\lambda = \frac{2 \\pi \\hbar}{mc} \\left( 1 - \\cos \\theta \\right)",
+                "F = k_{e} \\frac{q_1 q_2}{r^2}",
+                "\\alpha = \\frac{\\mathrm{d} \\omega}{\\mathrm{d} t}",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""};
 
             for (var i = 0; i < formulae.Length; i++)
             {
-                var document = new Document();
-                var parser = new LaTeXParser();
+                if (formulae[i] != "")
+                {
+                    var document = new Document();
+                    var parser = new LaTeXParser();
 
-                document.MainElement = parser.ParseLaTeX(formulae[i]);
+                    document.MainElement = parser.ParseLaTeX(formulae[i]);
 
-                _typesetter.TypesetDocument(document);
+                    _typesetter.TypesetDocument(document);
 
-                var fileLocation = Path.Combine(Directory.GetCurrentDirectory(), "../../example" + (i + 3).ToString() + ".png");
+                    var fileLocation = Path.Combine(Directory.GetCurrentDirectory(), "../../example" + (i + 3).ToString() + ".png");
 
-                _exporter.ExportMathematics(document, fileLocation);
+                    _exporter.ExportMathematics(document, fileLocation);
+                }
             }
         }
     }
