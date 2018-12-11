@@ -55,6 +55,7 @@
     <Compile Include="LengthUnits.cs" />
     <Compile Include="Margin.cs" />
     <Compile Include="MathematicsLine.cs" />
+    <Compile Include="NamedFunction.cs" />
     <Compile Include="Number.cs" />
     <Compile Include="PNGExporter.cs" />
     <Compile Include="Position.cs" />

@@ -138,7 +138,7 @@ namespace MathematicsTypesetting.Examples
                 "v_{c} = v_{a} + v_{b}",
                 "E = \\frac{hc}{\\lambda}",
                 "F = \\frac{mv^2}{r}",
-                "\\lambda^{\\prime} - \\lambda = \frac{2 \\pi \\hbar}{mc} \\left( 1 - \\cos \\theta \\right)",
+                "\\lambda^{\\prime} - \\lambda = \\frac{2 \\pi \\hbar}{mc} \\left( 1 - \\cos \\theta \\right)",
                 "F = k_{e} \\frac{q_1 q_2}{r^2}",
                 "\\alpha = \\frac{\\mathrm{d} \\omega}{\\mathrm{d} t}",
                 "",

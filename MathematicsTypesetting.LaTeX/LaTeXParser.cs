@@ -36,6 +36,7 @@ namespace MathematicsTypesetting.LaTeX
                 var n = marker.Position;
 
                 GetGreekLetter(subsection, elements, marker);
+                GetNamedFunction(subsection, elements, marker);
                 GetIdentifier(subsection, elements, marker);
                 GetNumber(subsection, elements, marker);
                 GetOperator(subsection, elements, marker);
@@ -87,6 +88,26 @@ namespace MathematicsTypesetting.LaTeX
                     container.Add(subscript);
 
                     marker.Position += subsection.Item1;
+                }
+                else
+                {
+                    var elements = new List<Element>();
+
+                    GetGreekLetter(latex, elements, marker);
+                    GetIdentifier(latex, elements, marker);
+                    GetNumber(latex, elements, marker);
+                    GetOperator(latex, elements, marker);
+
+                    if (elements.Any())
+                    {
+                        var subscript = new Subscript();
+
+                        subscript.Element1 = container.Last();
+                        subscript.Element2 = elements.First();
+
+                        container.Remove(container.Last());
+                        container.Add(subscript);
+                    }
                 }
             }
         }
@@ -141,9 +162,9 @@ namespace MathematicsTypesetting.LaTeX
 
                         superscript.Element1 = container.Last();
                         superscript.Element2 = elements.First();
-                        
+
                         container.Remove(container.Last());
-                        container.Add(superscript);                        
+                        container.Add(superscript);
                     }
                 }
             }
@@ -308,6 +329,11 @@ namespace MathematicsTypesetting.LaTeX
 
                 o.Content = latex.Substring(marker.Position, 1);
 
+                if (o.Content == "-")
+                {
+                    o.Content = "−";
+                }
+
                 container.Add(o);
 
                 marker.Position += 1;
@@ -356,5 +382,31 @@ namespace MathematicsTypesetting.LaTeX
             }
         }
 
+        public void GetNamedFunction(string latex, IList<Element> container, Marker marker)
+        {
+            var functionNames = new string[] { "sin", "cos", "tan" };
+
+            for (var j = 0; j < functionNames.Length; j++)
+            {
+                var command = "\\" + functionNames[j];
+                var name = functionNames[j];
+
+                if (marker.Position <= latex.Length - command.Length)
+                {
+                    if (latex.Substring(marker.Position, command.Length) == command)
+                    {
+                        var f = new NamedFunction();
+
+                        f.Content = name;
+
+                        container.Add(f);
+
+                        marker.Position += command.Length;
+
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

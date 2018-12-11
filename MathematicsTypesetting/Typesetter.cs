@@ -29,6 +29,7 @@ namespace MathematicsTypesetting
             if (element is Number) { SetNumberPosition(containerOrigin, element as Number); }
             if (element is Identifier) { SetIdentifierPosition(containerOrigin, element as Identifier); }
             if (element is BinomialOperator) { SetBinomialOperatorPosition(containerOrigin, element as BinomialOperator); }
+            if (element is NamedFunction) { SetNamedFunctionPosition(containerOrigin, element as NamedFunction); }
             if (element is MathematicsLine) { SetMathematicsLinePosition(containerOrigin, element as MathematicsLine); }
             if (element is Fraction) { SetFractionPosition(containerOrigin, element as Fraction); }
             if (element is Subscript) { SetSubscriptPosition(containerOrigin, element as Subscript); }
@@ -149,11 +150,17 @@ namespace MathematicsTypesetting
             SetTextElementPosition(containerOrigin, binomialOperator);
         }
 
+        public void SetNamedFunctionPosition(Position containerOrigin, NamedFunction namedFunction)
+        {
+            SetTextElementPosition(containerOrigin, namedFunction);
+        }
+
         public void SetElementSize(Element element)
         {
             if (element is Number) { SetNumberSize(element as Number); }
             if (element is Identifier) { SetIdentifierSize(element as Identifier); }
             if (element is BinomialOperator) { SetBinomialOperatorSize(element as BinomialOperator); }
+            if (element is NamedFunction) { SetNamedFunctionSize(element as NamedFunction); }
             if (element is MathematicsLine) { SetMathematicsLineSize(element as MathematicsLine); }
             if (element is Fraction) { SetFractionSize(element as Fraction); }
             if (element is Subscript) { SetSubscriptSize(element as Subscript); }
@@ -347,6 +354,11 @@ namespace MathematicsTypesetting
         public void SetBinomialOperatorSize(BinomialOperator binomialOperator)
         {
             SetTextElementSize(binomialOperator);
+        }
+
+        public void SetNamedFunctionSize(NamedFunction namedFunction)
+        {
+            SetTextElementSize(namedFunction);
         }
     }
 }

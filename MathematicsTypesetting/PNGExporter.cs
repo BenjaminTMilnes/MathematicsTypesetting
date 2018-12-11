@@ -36,6 +36,7 @@ namespace MathematicsTypesetting
             if (element is Number) { ExportNumber(graphics, element as Number); }
             if (element is Identifier) { ExportIdentifier(graphics, element as Identifier); }
             if (element is BinomialOperator) { ExportBinomialOperator(graphics, element as BinomialOperator); }
+            if (element is NamedFunction) { ExportNamedFunction(graphics, element as NamedFunction); }
             if (element is MathematicsLine) { ExportMathematicsLine(graphics, element as MathematicsLine); }
             if (element is Fraction) { ExportFraction(graphics, element as Fraction); }
             if (element is Subscript) { ExportSubscript(graphics, element as Subscript); }
@@ -136,6 +137,11 @@ namespace MathematicsTypesetting
         protected void ExportBinomialOperator(Graphics graphics, BinomialOperator binomialOperator)
         {
             ExportTextElement(graphics, binomialOperator);
+        }
+
+        protected void ExportNamedFunction(Graphics graphics, NamedFunction namedFunction)
+        {
+            ExportTextElement(graphics, namedFunction);
         }
 
         protected void DrawConstructionLines(Graphics graphics, Position position, Size size)
