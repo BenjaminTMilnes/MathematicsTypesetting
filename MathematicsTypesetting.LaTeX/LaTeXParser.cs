@@ -40,6 +40,7 @@ namespace MathematicsTypesetting.LaTeX
                 GetNumber(subsection, elements, marker);
                 GetOperator(subsection, elements, marker);
                 GetSubscript(subsection, elements, marker);
+                GetSuperscript(subsection, elements, marker);
                 GetWhitespace(subsection, elements, marker);
 
                 if (marker.Position == n)
@@ -70,11 +71,57 @@ namespace MathematicsTypesetting.LaTeX
                     var line = new MathematicsLine();
 
                     subscript.Element1 = container.Last();
-                    line.Elements = subsection.Item2;
-                    subscript.Element2 = line;
+
+                    if (subsection.Item2.Count() == 1)
+                    {
+                        subscript.Element2 = subsection.Item2.First();
+                    }
+                    else
+                    {
+                        line.Elements = subsection.Item2;
+                        subscript.Element2 = line;
+                    }
 
                     container.Remove(container.Last());
                     container.Add(subscript);
+
+                    marker.Position += subsection.Item1;
+                }
+            }
+        }
+
+        public void GetSuperscript(string latex, IList<Element> container, Marker marker)
+        {
+            if (marker.Position >= latex.Length)
+            {
+                return;
+            }
+
+            if (latex.Substring(marker.Position, 1) == "^")
+            {
+                marker.Position += 1;
+
+                var subsection = GetSubsection(latex, container, marker);
+
+                if (subsection != null)
+                {
+                    var superscript = new Superscript();
+                    var line = new MathematicsLine();
+
+                    superscript.Element1 = container.Last();
+
+                    if (subsection.Item2.Count() == 1)
+                    {
+                        superscript.Element2 = subsection.Item2.First();
+                    }
+                    else
+                    {
+                        line.Elements = subsection.Item2;
+                        superscript.Element2 = line;
+                    }
+
+                    container.Remove(container.Last());
+                    container.Add(superscript);
 
                     marker.Position += subsection.Item1;
                 }
@@ -93,7 +140,7 @@ namespace MathematicsTypesetting.LaTeX
                 var n = 1;
                 var i = 0;
 
-                for (var j = marker.Position; j < latex.Length; j++)
+                for (var j = marker.Position + 1; j < latex.Length; j++)
                 {
                     if (latex.Substring(j, 1) == "{")
                     {
@@ -114,7 +161,7 @@ namespace MathematicsTypesetting.LaTeX
 
                 var t = latex.Substring(marker.Position + 1, i - 1);
 
-                return new Tuple<int, IList<Element>>(i, ParseSubsection(t));
+                return new Tuple<int, IList<Element>>(i + 1, ParseSubsection(t));
             }
 
             return null;
