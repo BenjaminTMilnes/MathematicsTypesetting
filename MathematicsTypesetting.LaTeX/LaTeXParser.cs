@@ -43,6 +43,7 @@ namespace MathematicsTypesetting.LaTeX
                 GetSubscript(subsection, elements, marker);
                 GetSuperscript(subsection, elements, marker);
                 GetFraction(subsection, elements, marker);
+                GetMathRoman(subsection, elements, marker);
                 GetWhitespace(subsection, elements, marker);
 
                 if (marker.Position == n)
@@ -97,6 +98,7 @@ namespace MathematicsTypesetting.LaTeX
                     GetIdentifier(latex, elements, marker);
                     GetNumber(latex, elements, marker);
                     GetOperator(latex, elements, marker);
+                    GetMathRoman(latex, elements, marker);
 
                     if (elements.Any())
                     {
@@ -155,6 +157,7 @@ namespace MathematicsTypesetting.LaTeX
                     GetIdentifier(latex, elements, marker);
                     GetNumber(latex, elements, marker);
                     GetOperator(latex, elements, marker);
+                    GetMathRoman(latex, elements, marker);
 
                     if (elements.Any())
                     {
@@ -404,6 +407,30 @@ namespace MathematicsTypesetting.LaTeX
                         marker.Position += command.Length;
 
                         break;
+                    }
+                }
+            }
+        }
+
+        public void GetMathRoman(string latex, IList<Element> container, Marker marker)
+        {
+            if (marker.Position <= latex.Length - 7)
+            {
+                if (latex.Substring(marker.Position, 7) == "\\mathrm")
+                {
+                    marker.Position += 7;
+
+                    var line = new MathematicsLine();
+
+                    var subsection = GetSubsection(latex, container, marker);
+
+                    if (subsection != null)
+                    {
+                        line.Elements = subsection.Item2;
+
+                        marker.Position += subsection.Item1;
+
+                        container.Add(line);
                     }
                 }
             }

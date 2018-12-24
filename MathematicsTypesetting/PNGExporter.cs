@@ -105,7 +105,7 @@ namespace MathematicsTypesetting
             var emSize = (float)textElement.FontStyle.FontHeight.ConvertToUnits(LengthUnits.Points).Quantity;
             var font = new Font(fontFamily, emSize);
 
-            if (textElement is Identifier)
+            if (textElement.FontStyle.FontEmphasis == FontEmphasis.Italic)
             {
                 font = new Font(fontFamily, emSize, System.Drawing.FontStyle.Italic);
             }

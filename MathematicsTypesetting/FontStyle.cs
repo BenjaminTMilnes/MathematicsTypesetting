@@ -11,12 +11,14 @@ namespace MathematicsTypesetting
         public string FontName { get; set; }
         public Length FontHeight { get; set; }
         public Colour FontColour { get; set; }
+        public FontEmphasis FontEmphasis { get; set; }
 
         public FontStyle()
         {
             FontName = "Book Antiqua";
             FontHeight = new Length(50, LengthUnits.Points);
             FontColour = new Colour();
+            FontEmphasis = FontEmphasis.None;
         }
     }
 }
