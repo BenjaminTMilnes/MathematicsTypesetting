@@ -59,6 +59,7 @@
     <Compile Include="MathematicsLine.cs" />
     <Compile Include="NamedFunction.cs" />
     <Compile Include="Number.cs" />
+    <Compile Include="Paths.cs" />
     <Compile Include="PNGExporter.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

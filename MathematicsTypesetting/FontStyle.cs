@@ -15,7 +15,7 @@ namespace MathematicsTypesetting
 
         public FontStyle()
         {
-            FontName = "Book Antiqua";
+            FontName = "Times New Roman";
             FontHeight = new Length(50, LengthUnits.Points);
             FontColour = new Colour();
             FontEmphasis = FontEmphasis.None;

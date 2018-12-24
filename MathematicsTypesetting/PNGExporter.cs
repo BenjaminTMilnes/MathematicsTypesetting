@@ -79,6 +79,10 @@ namespace MathematicsTypesetting
         protected void ExportBracketExpression(Graphics graphics, BracketExpression bracketExpression)
         {
             ExportElement(graphics, bracketExpression.InnerExpression);
+
+            var p1 = Paths.GetBracketPath(new PointF( (float) bracketExpression.Position.X.Quantity, (float)  bracketExpression.Position.Y.Quantity));
+            
+            graphics.DrawPath(Pens.Black, p1);
         }
 
         protected void ExportSubscript(Graphics graphics, Subscript subscript)
