@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="BinomialOperator.cs" />
     <Compile Include="Border.cs" />
+    <Compile Include="BracketExpression.cs" />
     <Compile Include="Colour.cs" />
     <Compile Include="Document.cs" />
     <Compile Include="Element.cs" />

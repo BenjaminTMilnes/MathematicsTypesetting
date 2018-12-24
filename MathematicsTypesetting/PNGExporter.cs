@@ -41,6 +41,7 @@ namespace MathematicsTypesetting
             if (element is Fraction) { ExportFraction(graphics, element as Fraction); }
             if (element is Subscript) { ExportSubscript(graphics, element as Subscript); }
             if (element is Superscript) { ExportSuperscript(graphics, element as Superscript); }
+            if (element is BracketExpression) { ExportBracketExpression(graphics, element as BracketExpression); }
         }
 
         protected void ExportMathematicsLine(Graphics graphics, MathematicsLine mathematicsLine)
@@ -73,6 +74,11 @@ namespace MathematicsTypesetting
             {
                 DrawConstructionLines(graphics, fraction.Position, fraction.SizeIncludingOuterMargin);
             }
+        }
+
+        protected void ExportBracketExpression(Graphics graphics, BracketExpression bracketExpression)
+        {
+            ExportElement(graphics, bracketExpression.InnerExpression);
         }
 
         protected void ExportSubscript(Graphics graphics, Subscript subscript)

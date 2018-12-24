@@ -34,6 +34,7 @@ namespace MathematicsTypesetting
             if (element is Fraction) { SetFractionPosition(containerOrigin, element as Fraction); }
             if (element is Subscript) { SetSubscriptPosition(containerOrigin, element as Subscript); }
             if (element is Superscript) { SetSuperscriptPosition(containerOrigin, element as Superscript); }
+            if (element is BracketExpression) { SetBracketExpressionPosition(containerOrigin, element as BracketExpression); }
         }
 
         public void SetMathematicsLinePosition(Position containerOrigin, MathematicsLine mathematicsLine)
@@ -72,6 +73,13 @@ namespace MathematicsTypesetting
                     containerOrigin.X += elementM.SizeIncludingOuterMargin.Width;
                 }
             }
+        }
+
+        public void SetBracketExpressionPosition(Position containerOrigin, BracketExpression bracketExpression)
+        {
+            bracketExpression.Position = containerOrigin;
+
+            SetElementPosition(containerOrigin, bracketExpression.InnerExpression);
         }
 
         public void SetFractionPosition(Position containerOrigin, Fraction fraction)
@@ -165,6 +173,7 @@ namespace MathematicsTypesetting
             if (element is Fraction) { SetFractionSize(element as Fraction); }
             if (element is Subscript) { SetSubscriptSize(element as Subscript); }
             if (element is Superscript) { SetSuperscriptSize(element as Superscript); }
+            if (element is BracketExpression) { SetBracketExpressionSize(element as BracketExpression); }
         }
 
         /// <summary>
@@ -242,6 +251,24 @@ namespace MathematicsTypesetting
         protected Length ChooseLesserLength(Length length1, Length length2)
         {
             return (length1 < length2) ? length1 : length2;
+        }
+
+        public void SetBracketExpressionSize(BracketExpression bracketExpression)
+        {
+            SetElementSize(bracketExpression.InnerExpression);
+
+            bracketExpression.SizeOfContent.Width = bracketExpression.InnerExpression.SizeIncludingOuterMargin.Width;
+
+            bracketExpression.SizeOfContent.Height = bracketExpression.InnerExpression.SizeIncludingOuterMargin.Height;
+
+            SetSizesOfElement(bracketExpression);
+
+            var centreAlignmentPoint = new Position();
+
+            centreAlignmentPoint.X = bracketExpression.SizeIncludingOuterMargin.Width / 2;
+            centreAlignmentPoint.Y = bracketExpression.SizeIncludingOuterMargin.Height / 2;
+
+            bracketExpression.CentreAlignmentPoint = centreAlignmentPoint;
         }
 
         public void SetFractionSize(Fraction fraction)

@@ -44,6 +44,7 @@ namespace MathematicsTypesetting.LaTeX
                 GetSuperscript(subsection, elements, marker);
                 GetFraction(subsection, elements, marker);
                 GetMathRoman(subsection, elements, marker);
+                GetBracketExpression(subsection, elements, marker);
                 GetWhitespace(subsection, elements, marker);
 
                 if (marker.Position == n)
@@ -229,6 +230,57 @@ namespace MathematicsTypesetting.LaTeX
                 if (fraction.Numerator != null && fraction.Denominator != null)
                 {
                     container.Add(fraction);
+                }
+            }
+        }
+
+        public void GetBracketExpression(string latex, IList<Element> container, Marker marker)
+        {
+            if (marker.Position < latex.Length - 13)
+            {
+                if (latex.Substring(marker.Position, 6) == "\\left(")
+                {
+                    var n = 1;
+                    var i = 0;
+                    var j = marker.Position + 6;
+
+                    while (j < latex.Length)
+                    {
+                        if (latex.Substring(j, 6) == "\\left(")
+                        {
+                            n += 1;
+                            i += 6;
+                            j += 6;
+                        }
+                        if (latex.Substring(j, 7) == "\\right)")
+                        {
+                            n -= 1;
+                            i += 7;
+                            j += 7;
+                        }
+                        else
+                        {
+                            i += 1;
+                            j += 1;
+                        }
+
+                        if (n == 0)
+                        {
+                            break;
+                        }
+                    }
+
+                    var t = latex.Substring(marker.Position + 6, i - 7);
+
+                    var bracketExpression = new BracketExpression();
+                    var mathematicsLine = new MathematicsLine();
+
+                    mathematicsLine.Elements = ParseSubsection(t);
+                    bracketExpression.InnerExpression = mathematicsLine;
+
+                    container.Add(bracketExpression);
+
+                    marker.Position += 6 + i;
                 }
             }
         }
