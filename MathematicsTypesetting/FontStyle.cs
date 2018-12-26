@@ -17,7 +17,7 @@ namespace MathematicsTypesetting
         public FontStyle()
         {
             FontName = "Times New Roman";
-            FontHeight = new Length(50, LengthUnits.Points);
+            FontHeight = new Length(100, LengthUnits.Points);
             FontWeight = FontWeight.Normal;
             FontColour = new Colour();
             FontEmphasis = FontEmphasis.None;

@@ -64,7 +64,7 @@ namespace MathematicsTypesetting
             ExportElement(graphics, fraction.Numerator);
             ExportElement(graphics, fraction.Denominator);
 
-            var pen = new Pen(Color.Black, 3);
+            var pen = new Pen(Color.Black, 5);
             var x1 = fraction.Position.X.Quantity + fraction.LeftWidth.Quantity;
             var y1 = fraction.Position.Y.Quantity + fraction.Numerator.SizeIncludingOuterMargin.Height.Quantity;
             var x2 = x1 + fraction.SizeOfContent.Width.Quantity;
