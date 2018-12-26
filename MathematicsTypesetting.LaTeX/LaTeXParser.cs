@@ -44,7 +44,10 @@ namespace MathematicsTypesetting.LaTeX
                 GetSuperscript(subsection, elements, marker);
                 GetFraction(subsection, elements, marker);
                 GetMathRoman(subsection, elements, marker);
+                GetTextBold(subsection, elements, marker);
                 GetBracketExpression(subsection, elements, marker);
+                GetBracket(subsection, elements, marker);
+                GetPunctuationMark(subsection, elements, marker);
                 GetWhitespace(subsection, elements, marker);
 
                 if (marker.Position == n)
@@ -100,6 +103,7 @@ namespace MathematicsTypesetting.LaTeX
                     GetNumber(latex, elements, marker);
                     GetOperator(latex, elements, marker);
                     GetMathRoman(latex, elements, marker);
+                    GetPunctuationMark(latex, elements, marker);
 
                     if (elements.Any())
                     {
@@ -159,6 +163,7 @@ namespace MathematicsTypesetting.LaTeX
                     GetNumber(latex, elements, marker);
                     GetOperator(latex, elements, marker);
                     GetMathRoman(latex, elements, marker);
+                    GetPunctuationMark(latex, elements, marker);
 
                     if (elements.Any())
                     {
@@ -408,11 +413,39 @@ namespace MathematicsTypesetting.LaTeX
             }
         }
 
+        public void GetBracket(string latex, IList<Element> container, Marker marker)
+        {
+            if (marker.Position >= latex.Length)
+            {
+                return;
+            }
+
+            var brackets = new string[] { "(", ")", "{", "}", "[", "]" };
+
+            foreach (var bracket in brackets)
+            {
+                if (latex.Substring(marker.Position, 1) == bracket)
+                {
+                    var b = new Bracket();
+
+                    b.Content = bracket;
+
+                    container.Add(b);
+
+                    marker.Position += 1;
+
+                    break;
+                }
+            }
+        }
+
         public void GetGreekLetter(string latex, IList<Element> container, Marker marker)
         {
-            var greekLetterCommands = new string[] { "alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "iota", "kappa", "lambda", "mu", "nu", "xi", "omicron", "pi", "rho", "sigma", "tau", "upsilon", "phi", "chi", "psi", "omega", "Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta", "Theta", "Iota", "Kappa", "Lambda", "Mu", "Nu", "Xi", "Omicron", "Pi", "Rho", "Sigma", "Tau", "Upsilon", "Phi", "Chi", "Psi", "Omega", "prime", "hbar" };
+            var greekLetterCommands = new string[] { "alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "iota", "kappa", "lambda", "mu", "nu", "xi", "omicron", "pi", "rho", "sigma", "tau", "upsilon", "phi", "chi", "psi", "omega", "Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta", "Theta", "Iota", "Kappa", "Lambda", "Mu", "Nu", "Xi", "Omicron", "Pi", "Rho", "Sigma", "Tau", "Upsilon", "Phi", "Chi", "Psi", "Omega", "prime", "hbar", "partial", "nabla" };
 
-            var greekLetters = new string[] { "α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι", "κ", "λ", "μ", "ν", "ξ", "ο", "π", "ρ", "σ", "τ", "υ", "φ", "χ", "ψ", "ω", "Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο", "Π", "Ρ", "Σ", "Τ", "Υ", "Φ", "Χ", "Ψ", "Ω", "′", "ħ" };
+            var greekLetters = new string[] { "α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι", "κ", "λ", "μ", "ν", "ξ", "ο", "π", "ρ", "σ", "τ", "υ", "φ", "χ", "ψ", "ω", "Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο", "Π", "Ρ", "Σ", "Τ", "Υ", "Φ", "Χ", "Ψ", "Ω", "′", "ħ", "∂", "∇" };
+
+            var uppercaseGreekLetters = new string[] { "Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο", "Π", "Ρ", "Σ", "Τ", "Υ", "Φ", "Χ", "Ψ", "Ω", "∇" };
 
             for (var j = 0; j < greekLetterCommands.Length; j++)
             {
@@ -426,6 +459,11 @@ namespace MathematicsTypesetting.LaTeX
                         var i = new Identifier();
 
                         i.Content = letter;
+
+                        if (uppercaseGreekLetters.Any(l => l == letter))
+                        {
+                            i.FontStyle.FontEmphasis = FontEmphasis.None;
+                        }
 
                         container.Add(i);
 
@@ -464,6 +502,27 @@ namespace MathematicsTypesetting.LaTeX
             }
         }
 
+        public void GetPunctuationMark(string latex, IList<Element> container, Marker marker)
+        {
+            var punctuationMarks = ",.?!~:;%";
+
+            if (marker.Position >= latex.Length)
+            {
+                return;
+            }
+
+            if (punctuationMarks.Any(l => l.ToString() == latex.Substring(marker.Position, 1)))
+            {
+                var t = new Text();
+
+                t.Content = latex.Substring(marker.Position, 1);
+
+                container.Add(t);
+
+                marker.Position += 1;
+            }
+        }
+
         public void GetMathRoman(string latex, IList<Element> container, Marker marker)
         {
             if (marker.Position <= latex.Length - 7)
@@ -481,6 +540,34 @@ namespace MathematicsTypesetting.LaTeX
                         line.Elements = subsection.Item2;
 
                         marker.Position += subsection.Item1;
+
+                        line.CascadeStyle("FontEmphasis", "None");
+
+                        container.Add(line);
+                    }
+                }
+            }
+        }
+
+        public void GetTextBold(string latex, IList<Element> container, Marker marker)
+        {
+            if (marker.Position <= latex.Length - 7)
+            {
+                if (latex.Substring(marker.Position, 7) == "\\textbf")
+                {
+                    marker.Position += 7;
+
+                    var line = new MathematicsLine();
+
+                    var subsection = GetSubsection(latex, container, marker);
+
+                    if (subsection != null)
+                    {
+                        line.Elements = subsection.Item2;
+
+                        marker.Position += subsection.Item1;
+
+                        line.CascadeStyle("FontWeight", "Bold");
 
                         container.Add(line);
                     }

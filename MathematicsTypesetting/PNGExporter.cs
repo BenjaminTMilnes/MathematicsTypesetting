@@ -36,12 +36,14 @@ namespace MathematicsTypesetting
             if (element is Number) { ExportNumber(graphics, element as Number); }
             if (element is Identifier) { ExportIdentifier(graphics, element as Identifier); }
             if (element is BinomialOperator) { ExportBinomialOperator(graphics, element as BinomialOperator); }
+            if (element is Bracket) { ExportBracket(graphics, element as Bracket); }
             if (element is NamedFunction) { ExportNamedFunction(graphics, element as NamedFunction); }
             if (element is MathematicsLine) { ExportMathematicsLine(graphics, element as MathematicsLine); }
             if (element is Fraction) { ExportFraction(graphics, element as Fraction); }
             if (element is Subscript) { ExportSubscript(graphics, element as Subscript); }
             if (element is Superscript) { ExportSuperscript(graphics, element as Superscript); }
             if (element is BracketExpression) { ExportBracketExpression(graphics, element as BracketExpression); }
+            if (element is Text) { ExportTextElement(graphics, element as Text); }
         }
 
         protected void ExportMathematicsLine(Graphics graphics, MathematicsLine mathematicsLine)
@@ -62,10 +64,10 @@ namespace MathematicsTypesetting
             ExportElement(graphics, fraction.Numerator);
             ExportElement(graphics, fraction.Denominator);
 
-            var pen = new Pen(Color.Black, 1);
-            var x1 = fraction.Position.X.Quantity;
+            var pen = new Pen(Color.Black, 3);
+            var x1 = fraction.Position.X.Quantity + fraction.LeftWidth.Quantity;
             var y1 = fraction.Position.Y.Quantity + fraction.Numerator.SizeIncludingOuterMargin.Height.Quantity;
-            var x2 = x1 + fraction.SizeIncludingOuterMargin.Width.Quantity;
+            var x2 = x1 + fraction.SizeOfContent.Width.Quantity;
             var y2 = y1;
 
             graphics.DrawLine(pen, new PointF((float)x1, (float)y1), new PointF((float)x2, (float)y2));
@@ -80,9 +82,20 @@ namespace MathematicsTypesetting
         {
             ExportElement(graphics, bracketExpression.InnerExpression);
 
-            var p1 = Paths.GetBracketPath(new PointF( (float) bracketExpression.Position.X.Quantity, (float)  bracketExpression.Position.Y.Quantity));
-            
-            graphics.DrawPath(Pens.Black, p1);
+            var w = Paths.GetBracketLength().Quantity;
+            var h = bracketExpression.InnerExpression.OuterHeight;
+
+            var p1 = Paths.GetBracketPath(new PointF((float)(bracketExpression.Position.X.Quantity + w * 0.25), (float)bracketExpression.Position.Y.Quantity), (float)h.Quantity);
+
+            var p2 = Paths.GetBracketPath(new PointF((float)(bracketExpression.Position.X.Quantity + w * 1.75 + bracketExpression.InnerExpression.OuterWidth.Quantity), (float)bracketExpression.Position.Y.Quantity), (float)h.Quantity, ")");
+
+            graphics.FillPath(Brushes.Black, p1);
+            graphics.FillPath(Brushes.Black, p2);
+
+            if (bracketExpression.DrawConstructionLines == true)
+            {
+                DrawConstructionLines(graphics, bracketExpression.Position, bracketExpression.SizeIncludingOuterMargin);
+            }
         }
 
         protected void ExportSubscript(Graphics graphics, Subscript subscript)
@@ -120,10 +133,15 @@ namespace MathematicsTypesetting
                 font = new Font(fontFamily, emSize, System.Drawing.FontStyle.Italic);
             }
 
+            if (textElement.FontStyle.FontWeight == FontWeight.Bold)
+            {
+                font = new Font(fontFamily, emSize, System.Drawing.FontStyle.Bold);
+            }
+
             var brush = Brushes.Black;
 
-            var x = (float)(textElement.Position.X + textElement.OuterMargin.Left + textElement.Border.Width + textElement.InnerMargin.Left).Quantity;
-            var y = (float)(textElement.Position.Y + textElement.OuterMargin.Top + textElement.Border.Width + textElement.InnerMargin.Top).Quantity;
+            var x = (float)(textElement.Position.X + textElement.LeftWidth - textElement.Offset).Quantity;
+            var y = (float)(textElement.Position.Y + textElement.TopWidth).Quantity;
             var point = new PointF(x, y);
 
             graphics.DrawString(text, font, brush, point);
@@ -147,6 +165,16 @@ namespace MathematicsTypesetting
         protected void ExportBinomialOperator(Graphics graphics, BinomialOperator binomialOperator)
         {
             ExportTextElement(graphics, binomialOperator);
+        }
+
+        protected void ExportBracket(Graphics graphics, Bracket bracket)
+        {
+            ExportTextElement(graphics, bracket);
+        }
+
+        protected void ExportText(Graphics graphics, Text text)
+        {
+            ExportTextElement(graphics, text);
         }
 
         protected void ExportNamedFunction(Graphics graphics, NamedFunction namedFunction)

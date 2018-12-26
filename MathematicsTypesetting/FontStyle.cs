@@ -10,6 +10,7 @@ namespace MathematicsTypesetting
     {
         public string FontName { get; set; }
         public Length FontHeight { get; set; }
+        public FontWeight FontWeight { get; set; }
         public Colour FontColour { get; set; }
         public FontEmphasis FontEmphasis { get; set; }
 
@@ -17,6 +18,7 @@ namespace MathematicsTypesetting
         {
             FontName = "Times New Roman";
             FontHeight = new Length(50, LengthUnits.Points);
+            FontWeight = FontWeight.Normal;
             FontColour = new Colour();
             FontEmphasis = FontEmphasis.None;
         }

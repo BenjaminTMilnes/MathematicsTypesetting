@@ -19,7 +19,18 @@ namespace MathematicsTypesetting
         {
             FractionBarWidth = 1;
 
+            OuterMargin.Left = 10;
+            OuterMargin.Right = 10;
+
             BackgroundColour = new Colour();
+        }
+
+        public override void CascadeStyle(string name, string value)
+        {
+            base.CascadeStyle(name, value);
+
+            Numerator.CascadeStyle(name, value);
+            Denominator.CascadeStyle(name, value);
         }
     }
 }

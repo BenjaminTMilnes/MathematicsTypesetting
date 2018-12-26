@@ -19,5 +19,13 @@ namespace MathematicsTypesetting
             SubscriptOffset = new Length(30, LengthUnits.Arbitrary);
             SubscriptScale = 0.7;
         }
+
+        public override void CascadeStyle(string name, string value)
+        {
+            base.CascadeStyle(name, value);
+
+            Element1.CascadeStyle(name, value);
+            Element2.CascadeStyle(name, value);
+        }
     }
 }

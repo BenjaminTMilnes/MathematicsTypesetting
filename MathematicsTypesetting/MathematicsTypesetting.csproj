@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="BinomialOperator.cs" />
     <Compile Include="Border.cs" />
+    <Compile Include="Bracket.cs" />
     <Compile Include="BracketExpression.cs" />
     <Compile Include="Colour.cs" />
     <Compile Include="Document.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="Exporter.cs" />
     <Compile Include="FontEmphasis.cs" />
     <Compile Include="FontStyle.cs" />
+    <Compile Include="FontWeight.cs" />
     <Compile Include="Fraction.cs" />
     <Compile Include="Identifier.cs" />
     <Compile Include="ITextMeasurer.cs" />
@@ -66,6 +68,7 @@
     <Compile Include="Size.cs" />
     <Compile Include="Subscript.cs" />
     <Compile Include="Superscript.cs" />
+    <Compile Include="Text.cs" />
     <Compile Include="TextElement.cs" />
     <Compile Include="TextMeasurer.cs" />
     <Compile Include="Typesetter.cs" />

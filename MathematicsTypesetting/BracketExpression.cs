@@ -24,5 +24,12 @@ namespace MathematicsTypesetting
             Type = BracketType.Curve;
             InnerExpression = new MathematicsLine();
         }
+
+        public override void CascadeStyle(string name, string value)
+        {
+            base.CascadeStyle(name, value);
+
+            InnerExpression.CascadeStyle(name, value);
+        }
     }
 }

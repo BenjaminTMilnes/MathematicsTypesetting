@@ -134,15 +134,15 @@ namespace MathematicsTypesetting.Examples
         {
             var formulae = new string[] {
                 "E = hf",
-                "E = 1/2 m v^{2}",
+                "E = \\frac{1}{2} m v^{2}",
                 "v_{c} = v_{a} + v_{b}",
                 "E = \\frac{hc}{\\lambda}",
                 "F = \\frac{mv^2}{r}",
                 "\\lambda^{\\prime} - \\lambda = \\frac{2 \\pi \\hbar}{mc} \\left( 1 - \\cos \\theta \\right)",
                 "F = k_{e} \\frac{q_1 q_2}{r^2}",
                 "\\alpha = \\frac{\\mathrm{d} \\omega}{\\mathrm{d} t}",
-                "",
-                "",
+                "E = \\gamma m_0 c^2",
+                "i \\hbar \\frac{\\partial}{\\partial t} \\Psi (\\textbf{r}, t) = \\left( \\frac{\\hbar^{2}}{2 \\mu} \\nabla^{2} + V (\\textbf{r}, t) \\right) \\Psi (\\textbf{r}, t)",
                 "",
                 "",
                 "",

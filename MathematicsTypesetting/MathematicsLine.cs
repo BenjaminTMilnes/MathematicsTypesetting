@@ -17,5 +17,15 @@ namespace MathematicsTypesetting
         {
             Elements = new List<Element>();            
         }
+
+        public override void CascadeStyle(string name, string value)
+        {
+            base.CascadeStyle(name, value);
+
+             foreach (var element in Elements)
+            {
+                element.CascadeStyle(name, value);
+            }
+        }
     }
 }

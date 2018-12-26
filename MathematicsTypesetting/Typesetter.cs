@@ -16,7 +16,7 @@ namespace MathematicsTypesetting
         }
 
         public void TypesetDocument(Document document)
-        {
+        {         
             SetElementSize(document.MainElement);
             SetElementPosition(new Position(), document.MainElement);
 
@@ -29,12 +29,14 @@ namespace MathematicsTypesetting
             if (element is Number) { SetNumberPosition(containerOrigin, element as Number); }
             if (element is Identifier) { SetIdentifierPosition(containerOrigin, element as Identifier); }
             if (element is BinomialOperator) { SetBinomialOperatorPosition(containerOrigin, element as BinomialOperator); }
+            if (element is Bracket) { SetBracketPosition(containerOrigin, element as Bracket); }
             if (element is NamedFunction) { SetNamedFunctionPosition(containerOrigin, element as NamedFunction); }
             if (element is MathematicsLine) { SetMathematicsLinePosition(containerOrigin, element as MathematicsLine); }
             if (element is Fraction) { SetFractionPosition(containerOrigin, element as Fraction); }
             if (element is Subscript) { SetSubscriptPosition(containerOrigin, element as Subscript); }
             if (element is Superscript) { SetSuperscriptPosition(containerOrigin, element as Superscript); }
             if (element is BracketExpression) { SetBracketExpressionPosition(containerOrigin, element as BracketExpression); }
+            if (element is Text) { SetTextPosition(containerOrigin, element as Text); }
         }
 
         public void SetMathematicsLinePosition(Position containerOrigin, MathematicsLine mathematicsLine)
@@ -79,7 +81,11 @@ namespace MathematicsTypesetting
         {
             bracketExpression.Position = containerOrigin;
 
+            containerOrigin.X += Paths.GetBracketLength();
+
             SetElementPosition(containerOrigin, bracketExpression.InnerExpression);
+
+            containerOrigin.X += Paths.GetBracketLength();
         }
 
         public void SetFractionPosition(Position containerOrigin, Fraction fraction)
@@ -121,7 +127,11 @@ namespace MathematicsTypesetting
 
         public void SetSuperscriptPosition(Position containerOrigin, Superscript superscript)
         {
-            superscript.Position = containerOrigin;
+            var position = containerOrigin;
+
+            position.Y -= superscript.TopExcess;
+
+            superscript.Position = position;
 
             containerOrigin.X += superscript.LeftWidth;
             containerOrigin.Y += superscript.TopWidth;
@@ -131,11 +141,11 @@ namespace MathematicsTypesetting
             var marginAdjustment = ChooseLesserLength(superscript.Element1.OuterMargin.Right, superscript.Element2.OuterMargin.Left);
 
             containerOrigin.X += superscript.Element1.ContentWidth + marginAdjustment;
-            containerOrigin.Y += -superscript.TopWidth + superscript.OuterHeight - superscript.SuperscriptOffset - superscript.Element2.OuterHeight;
+            containerOrigin.Y += -superscript.TopExcess;
 
             SetElementPosition(containerOrigin, superscript.Element2);
 
-            containerOrigin.Y += -superscript.OuterHeight + superscript.SuperscriptOffset + superscript.Element2.OuterHeight;
+            containerOrigin.Y += superscript.TopExcess - superscript.TopWidth;
         }
 
         public void SetTextElementPosition(Position containerOrigin, TextElement textElement)
@@ -158,6 +168,16 @@ namespace MathematicsTypesetting
             SetTextElementPosition(containerOrigin, binomialOperator);
         }
 
+         public void SetBracketPosition(Position containerOrigin, Bracket bracket)
+        {
+            SetTextElementPosition(containerOrigin, bracket);
+        }
+
+         public void SetTextPosition(Position containerOrigin, Text text)
+        {
+            SetTextElementPosition(containerOrigin, text);
+        }
+
         public void SetNamedFunctionPosition(Position containerOrigin, NamedFunction namedFunction)
         {
             SetTextElementPosition(containerOrigin, namedFunction);
@@ -168,12 +188,14 @@ namespace MathematicsTypesetting
             if (element is Number) { SetNumberSize(element as Number); }
             if (element is Identifier) { SetIdentifierSize(element as Identifier); }
             if (element is BinomialOperator) { SetBinomialOperatorSize(element as BinomialOperator); }
+            if (element is Bracket) { SetBracketSize(element as Bracket); }
             if (element is NamedFunction) { SetNamedFunctionSize(element as NamedFunction); }
             if (element is MathematicsLine) { SetMathematicsLineSize(element as MathematicsLine); }
             if (element is Fraction) { SetFractionSize(element as Fraction); }
             if (element is Subscript) { SetSubscriptSize(element as Subscript); }
             if (element is Superscript) { SetSuperscriptSize(element as Superscript); }
             if (element is BracketExpression) { SetBracketExpressionSize(element as BracketExpression); }
+            if (element is Text) { SetTextSize(element as Text); }
         }
 
         /// <summary>
@@ -257,7 +279,7 @@ namespace MathematicsTypesetting
         {
             SetElementSize(bracketExpression.InnerExpression);
 
-            bracketExpression.SizeOfContent.Width = bracketExpression.InnerExpression.SizeIncludingOuterMargin.Width;
+            bracketExpression.SizeOfContent.Width = bracketExpression.InnerExpression.SizeIncludingOuterMargin.Width + Paths.GetBracketLength() + Paths.GetBracketLength();
 
             bracketExpression.SizeOfContent.Height = bracketExpression.InnerExpression.SizeIncludingOuterMargin.Height;
 
@@ -352,7 +374,9 @@ namespace MathematicsTypesetting
 
         public void SetTextElementSize(TextElement textElement)
         {
-            textElement.SizeOfContent = _textMeasurer.MeasureTextSize(textElement.Content, textElement.FontStyle);
+            textElement.SizeOfContent = _textMeasurer.MeasureTextSize(textElement.Content, textElement.FontStyle).ScaleX(0.7);
+
+             textElement.Offset = _textMeasurer.MeasureTextSize(textElement.Content, textElement.FontStyle).Width * 0.05 + 0.1;             
 
             SetSizesOfElement(textElement);
 
@@ -383,9 +407,19 @@ namespace MathematicsTypesetting
             SetTextElementSize(binomialOperator);
         }
 
+         public void SetBracketSize(Bracket bracket)
+        {
+            SetTextElementSize(bracket);
+        }
+
+         public void SetTextSize(Text text)
+        {
+            SetTextElementSize(text);
+        }
+
         public void SetNamedFunctionSize(NamedFunction namedFunction)
         {
             SetTextElementSize(namedFunction);
         }
-    }
+            }
 }

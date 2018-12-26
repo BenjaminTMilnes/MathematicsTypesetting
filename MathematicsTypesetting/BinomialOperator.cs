@@ -4,8 +4,8 @@
     {
         public BinomialOperator() : base()
         {
-            InnerMargin.Left = 5;
-            InnerMargin.Right = 5;
+            InnerMargin.Left = 15;
+            InnerMargin.Right = 15;
         }
     }
 }

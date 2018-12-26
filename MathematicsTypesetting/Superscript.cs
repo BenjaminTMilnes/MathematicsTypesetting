@@ -14,10 +14,20 @@ namespace MathematicsTypesetting
         public Length SuperscriptOffset { get; set; }
         public double SuperscriptScale { get; set; }
 
+        public Length TopExcess { get { return Element2.OuterHeight + SuperscriptOffset - Element1.OuterHeight; } }
+
         public Superscript()
         {
             SuperscriptOffset = new Length(30, LengthUnits.Arbitrary);
             SuperscriptScale = 0.7;
+        }
+
+        public override void CascadeStyle(string name, string value)
+        {
+            base.CascadeStyle(name, value);
+
+            Element1.CascadeStyle(name, value);
+            Element2.CascadeStyle(name, value);
         }
     }
 }

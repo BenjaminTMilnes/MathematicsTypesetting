@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace MathematicsTypesetting
 {
-    public class Exporter
+ public enum  FontWeight
     {
+         Normal = 0,
+          Bold = 1
     }
 }

@@ -36,7 +36,7 @@
 
             FontStyle = new FontStyle();
 
-            DrawConstructionLines = true;
+            DrawConstructionLines = false;
         }
 
         public Length TopWidth { get { return OuterMargin.Top + Border.Width + InnerMargin.Top; } }
@@ -48,5 +48,18 @@
         public Length ContentHeight { get { return SizeOfContent.Height; } }
         public Length OuterWidth { get { return SizeIncludingOuterMargin.Width; } }
         public Length OuterHeight { get { return SizeIncludingOuterMargin.Height; } }
+
+        public virtual void CascadeStyle(string name, string value)
+        {
+            if (name == "FontEmphasis" && value == "None")
+            {
+                FontStyle.FontEmphasis = FontEmphasis.None;
+            }
+            if (name == "FontWeight" && value == "Bold")
+            {
+                FontStyle.FontEmphasis = FontEmphasis.None;
+                FontStyle.FontWeight = FontWeight.Bold;
+            }
+        }
     }
 }

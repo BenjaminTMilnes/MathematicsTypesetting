@@ -71,5 +71,55 @@ namespace MathematicsTypesetting
         {
             return size + border;
         }
+
+        public static Size operator *(Size size, int scalar)
+        {
+            var newSize = new Size();
+
+            newSize.Width = size.Width * scalar;
+            newSize.Height = size.Height * scalar;
+
+            return newSize;
+        }
+
+        public static Size operator *(int scalar, Size size)
+        {
+            return size * scalar;
+        }
+
+        public static Size operator *(Size size, double scalar)
+        {
+            var newSize = new Size();
+
+            newSize.Width = size.Width * scalar;
+            newSize.Height = size.Height * scalar;
+
+            return newSize;
+        }
+
+        public static Size operator *(double scalar, Size size)
+        {
+            return size * scalar;
+        }
+
+        public Size ScaleX(double scalar)
+        {
+            var newSize = new Size();
+
+            newSize.Width = Width * scalar;
+            newSize.Height = Height;
+
+            return newSize;
+        }
+
+        public Size ScaleY(double scalar)
+        {
+            var newSize = new Size();
+
+            newSize.Width = Width;
+            newSize.Height = Height * scalar;
+
+            return newSize;
+        }
     }
 }
