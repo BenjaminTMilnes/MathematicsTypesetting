@@ -16,27 +16,27 @@ namespace MathematicsTypesetting
         }
 
         public void TypesetDocument(Document document)
-        {         
+        {
             SetElementSize(document.MainElement);
             SetElementPosition(new Position(), document.MainElement);
 
-            document.Size.Width = document.MainElement.SizeIncludingOuterMargin.Width;
-            document.Size.Height = document.MainElement.SizeIncludingOuterMargin.Height;
+            document.Size.Width = document.MainElement.OuterWidth;
+            document.Size.Height = document.MainElement.OuterHeight;
         }
 
         public void SetElementPosition(Position containerOrigin, Element element)
         {
-            if (element is Number) { SetNumberPosition(containerOrigin, element as Number); }
-            if (element is Identifier) { SetIdentifierPosition(containerOrigin, element as Identifier); }
-            if (element is BinomialOperator) { SetBinomialOperatorPosition(containerOrigin, element as BinomialOperator); }
-            if (element is Bracket) { SetBracketPosition(containerOrigin, element as Bracket); }
-            if (element is NamedFunction) { SetNamedFunctionPosition(containerOrigin, element as NamedFunction); }
+            if (element is Number) { SetTextElementPosition(containerOrigin, element as Number); }
+            if (element is Identifier) { SetTextElementPosition(containerOrigin, element as Identifier); }
+            if (element is BinomialOperator) { SetTextElementPosition(containerOrigin, element as BinomialOperator); }
+            if (element is Bracket) { SetTextElementPosition(containerOrigin, element as Bracket); }
+            if (element is NamedFunction) { SetTextElementPosition(containerOrigin, element as NamedFunction); }
             if (element is MathematicsLine) { SetMathematicsLinePosition(containerOrigin, element as MathematicsLine); }
             if (element is Fraction) { SetFractionPosition(containerOrigin, element as Fraction); }
             if (element is Subscript) { SetSubscriptPosition(containerOrigin, element as Subscript); }
             if (element is Superscript) { SetSuperscriptPosition(containerOrigin, element as Superscript); }
             if (element is BracketExpression) { SetBracketExpressionPosition(containerOrigin, element as BracketExpression); }
-            if (element is Text) { SetTextPosition(containerOrigin, element as Text); }
+            if (element is Text) { SetTextElementPosition(containerOrigin, element as Text); }
         }
 
         public void SetMathematicsLinePosition(Position containerOrigin, MathematicsLine mathematicsLine)
@@ -68,11 +68,11 @@ namespace MathematicsTypesetting
 
                     var separation = ChooseGreaterLength(elementM.OuterMargin.Right, elementN.OuterMargin.Left);
 
-                    containerOrigin.X += elementM.SizeIncludingOuterMargin.Width - elementM.OuterMargin.Right + separation - elementN.OuterMargin.Left;
+                    containerOrigin.X += elementM.OuterWidth - elementM.OuterMargin.Right + separation - elementN.OuterMargin.Left;
                 }
                 else
                 {
-                    containerOrigin.X += elementM.SizeIncludingOuterMargin.Width;
+                    containerOrigin.X += elementM.OuterWidth;
                 }
             }
         }
@@ -92,8 +92,8 @@ namespace MathematicsTypesetting
         {
             fraction.Position = containerOrigin;
 
-            var numeratorOffset = (fraction.SizeOfContent.Width - fraction.Numerator.SizeIncludingOuterMargin.Width) / 2;
-            var denominatorOffset = (fraction.SizeOfContent.Width - fraction.Denominator.SizeIncludingOuterMargin.Width) / 2;
+            var numeratorOffset = (fraction.SizeOfContent.Width - fraction.Numerator.OuterWidth) / 2;
+            var denominatorOffset = (fraction.SizeOfContent.Width - fraction.Denominator.OuterWidth) / 2;
 
             containerOrigin.X += fraction.LeftWidth + numeratorOffset;
             containerOrigin.Y += fraction.TopWidth;
@@ -101,7 +101,7 @@ namespace MathematicsTypesetting
             SetElementPosition(containerOrigin, fraction.Numerator);
 
             containerOrigin.X += -numeratorOffset + denominatorOffset;
-            containerOrigin.Y += fraction.Numerator.SizeIncludingOuterMargin.Height;
+            containerOrigin.Y += fraction.Numerator.OuterHeight;
 
             SetElementPosition(containerOrigin, fraction.Denominator);
         }
@@ -153,49 +153,19 @@ namespace MathematicsTypesetting
             textElement.Position = containerOrigin;
         }
 
-        public void SetNumberPosition(Position containerOrigin, Number number)
-        {
-            SetTextElementPosition(containerOrigin, number);
-        }
-
-        public void SetIdentifierPosition(Position containerOrigin, Identifier identifier)
-        {
-            SetTextElementPosition(containerOrigin, identifier);
-        }
-
-        public void SetBinomialOperatorPosition(Position containerOrigin, BinomialOperator binomialOperator)
-        {
-            SetTextElementPosition(containerOrigin, binomialOperator);
-        }
-
-         public void SetBracketPosition(Position containerOrigin, Bracket bracket)
-        {
-            SetTextElementPosition(containerOrigin, bracket);
-        }
-
-         public void SetTextPosition(Position containerOrigin, Text text)
-        {
-            SetTextElementPosition(containerOrigin, text);
-        }
-
-        public void SetNamedFunctionPosition(Position containerOrigin, NamedFunction namedFunction)
-        {
-            SetTextElementPosition(containerOrigin, namedFunction);
-        }
-
         public void SetElementSize(Element element)
         {
-            if (element is Number) { SetNumberSize(element as Number); }
-            if (element is Identifier) { SetIdentifierSize(element as Identifier); }
-            if (element is BinomialOperator) { SetBinomialOperatorSize(element as BinomialOperator); }
-            if (element is Bracket) { SetBracketSize(element as Bracket); }
-            if (element is NamedFunction) { SetNamedFunctionSize(element as NamedFunction); }
+            if (element is Number) { SetTextElementSize(element as Number); }
+            if (element is Identifier) { SetTextElementSize(element as Identifier); }
+            if (element is BinomialOperator) { SetTextElementSize(element as BinomialOperator); }
+            if (element is Bracket) { SetTextElementSize(element as Bracket); }
+            if (element is NamedFunction) { SetTextElementSize(element as NamedFunction); }
             if (element is MathematicsLine) { SetMathematicsLineSize(element as MathematicsLine); }
             if (element is Fraction) { SetFractionSize(element as Fraction); }
             if (element is Subscript) { SetSubscriptSize(element as Subscript); }
             if (element is Superscript) { SetSuperscriptSize(element as Superscript); }
             if (element is BracketExpression) { SetBracketExpressionSize(element as BracketExpression); }
-            if (element is Text) { SetTextSize(element as Text); }
+            if (element is Text) { SetTextElementSize(element as Text); }
         }
 
         /// <summary>
@@ -233,9 +203,9 @@ namespace MathematicsTypesetting
                     }
 
                     // If this element is taller, update the maximum content height.
-                    if (elementN.SizeIncludingOuterMargin.Height > maximumContentHeight)
+                    if (elementN.OuterHeight > maximumContentHeight)
                     {
-                        maximumContentHeight = elementN.SizeIncludingOuterMargin.Height;
+                        maximumContentHeight = elementN.OuterHeight;
                     }
                 }
 
@@ -253,8 +223,8 @@ namespace MathematicsTypesetting
 
             var centreAlignmentPoint = new Position();
 
-            centreAlignmentPoint.X = mathematicsLine.SizeIncludingOuterMargin.Width / 2;
-            centreAlignmentPoint.Y = mathematicsLine.SizeIncludingOuterMargin.Height / 2;
+            centreAlignmentPoint.X = mathematicsLine.OuterWidth / 2;
+            centreAlignmentPoint.Y = mathematicsLine.OuterHeight / 2;
 
             mathematicsLine.CentreAlignmentPoint = centreAlignmentPoint;
         }
@@ -270,25 +240,42 @@ namespace MathematicsTypesetting
             return (length1 > length2) ? length1 : length2;
         }
 
+        /// <summary>
+        /// Returns the lesser of two lengths.
+        /// </summary>
+        /// <param name="length1"></param>
+        /// <param name="length2"></param>
+        /// <returns></returns>
         protected Length ChooseLesserLength(Length length1, Length length2)
         {
             return (length1 < length2) ? length1 : length2;
+        }
+
+        /// <summary>
+        /// For two elements that are next to each other, their outer margins overlap. This function returns the outer margin between the two elements that is larger, which is ultimately the size of the gap between the (borders of the) elements.
+        /// </summary>
+        /// <param name="element1"></param>
+        /// <param name="element2"></param>
+        /// <returns></returns>
+        protected Length GetMarginAdjustment(Element element1, Element element2)
+        {
+            return ChooseLesserLength(element1.OuterMargin.Right, element2.OuterMargin.Left);
         }
 
         public void SetBracketExpressionSize(BracketExpression bracketExpression)
         {
             SetElementSize(bracketExpression.InnerExpression);
 
-            bracketExpression.SizeOfContent.Width = bracketExpression.InnerExpression.SizeIncludingOuterMargin.Width + Paths.GetBracketLength() + Paths.GetBracketLength();
+            bracketExpression.SizeOfContent.Width = bracketExpression.InnerExpression.OuterWidth + 2 * Paths.GetBracketLength();
 
-            bracketExpression.SizeOfContent.Height = bracketExpression.InnerExpression.SizeIncludingOuterMargin.Height;
+            bracketExpression.SizeOfContent.Height = bracketExpression.InnerExpression.OuterHeight;
 
             SetSizesOfElement(bracketExpression);
 
             var centreAlignmentPoint = new Position();
 
-            centreAlignmentPoint.X = bracketExpression.SizeIncludingOuterMargin.Width / 2;
-            centreAlignmentPoint.Y = bracketExpression.SizeIncludingOuterMargin.Height / 2;
+            centreAlignmentPoint.X = bracketExpression.OuterWidth / 2;
+            centreAlignmentPoint.Y = bracketExpression.OuterHeight / 2;
 
             bracketExpression.CentreAlignmentPoint = centreAlignmentPoint;
         }
@@ -298,23 +285,16 @@ namespace MathematicsTypesetting
             SetElementSize(fraction.Numerator);
             SetElementSize(fraction.Denominator);
 
-            if (fraction.Numerator.SizeIncludingOuterMargin.Width > fraction.Denominator.SizeIncludingOuterMargin.Width)
-            {
-                fraction.SizeOfContent.Width = fraction.Numerator.SizeIncludingOuterMargin.Width;
-            }
-            else
-            {
-                fraction.SizeOfContent.Width = fraction.Denominator.SizeIncludingOuterMargin.Width;
-            }
+            fraction.SizeOfContent.Width = ChooseGreaterLength(fraction.Numerator.OuterWidth, fraction.Denominator.OuterWidth);
 
-            fraction.SizeOfContent.Height = fraction.Numerator.SizeIncludingOuterMargin.Height + fraction.Denominator.SizeIncludingOuterMargin.Height;
+            fraction.SizeOfContent.Height = fraction.Numerator.OuterHeight + fraction.Denominator.OuterHeight;
 
             SetSizesOfElement(fraction);
 
             var centreAlignmentPoint = new Position();
 
-            centreAlignmentPoint.X = fraction.SizeIncludingOuterMargin.Width / 2;
-            centreAlignmentPoint.Y = fraction.SizeIncludingOuterMargin.Height / 2;
+            centreAlignmentPoint.X = fraction.OuterWidth / 2;
+            centreAlignmentPoint.Y = fraction.OuterHeight / 2;
 
             fraction.CentreAlignmentPoint = centreAlignmentPoint;
         }
@@ -327,17 +307,17 @@ namespace MathematicsTypesetting
             SetElementSize(subscript.Element1);
             SetElementSize(subscript.Element2);
 
-            var marginAdjustment = ChooseLesserLength(subscript.Element1.OuterMargin.Right, subscript.Element2.OuterMargin.Left);
+            var marginAdjustment = GetMarginAdjustment(subscript.Element1, subscript.Element2);
 
-            subscript.SizeOfContent.Width = subscript.Element1.SizeIncludingOuterMargin.Width + subscript.Element2.SizeIncludingOuterMargin.Width - marginAdjustment;
-            subscript.SizeOfContent.Height = ChooseGreaterLength(subscript.Element1.SizeIncludingOuterMargin.Height, subscript.Element2.SizeIncludingOuterMargin.Height + subscript.SubscriptOffset);
+            subscript.SizeOfContent.Width = subscript.Element1.OuterWidth + subscript.Element2.OuterWidth - marginAdjustment;
+            subscript.SizeOfContent.Height = ChooseGreaterLength(subscript.Element1.OuterHeight, subscript.Element2.OuterHeight + subscript.SubscriptOffset);
 
             SetSizesOfElement(subscript);
 
             var centreAlignmentPoint = new Position();
 
-            centreAlignmentPoint.X = subscript.SizeIncludingOuterMargin.Width / 2;
-            centreAlignmentPoint.Y = subscript.Element1.SizeIncludingOuterMargin.Height / 2;
+            centreAlignmentPoint.X = subscript.OuterWidth / 2;
+            centreAlignmentPoint.Y = subscript.Element1.OuterHeight / 2;
 
             subscript.CentreAlignmentPoint = centreAlignmentPoint;
         }
@@ -350,17 +330,17 @@ namespace MathematicsTypesetting
             SetElementSize(superscript.Element1);
             SetElementSize(superscript.Element2);
 
-            var marginAdjustment = ChooseLesserLength(superscript.Element1.OuterMargin.Right, superscript.Element2.OuterMargin.Left);
+            var marginAdjustment = GetMarginAdjustment(superscript.Element1, superscript.Element2);
 
-            superscript.SizeOfContent.Width = superscript.Element1.SizeIncludingOuterMargin.Width + superscript.Element2.SizeIncludingOuterMargin.Width - marginAdjustment;
-            superscript.SizeOfContent.Height = ChooseGreaterLength(superscript.Element1.SizeIncludingOuterMargin.Height, superscript.Element2.SizeIncludingOuterMargin.Height + superscript.SuperscriptOffset);
+            superscript.SizeOfContent.Width = superscript.Element1.OuterWidth + superscript.Element2.OuterWidth - marginAdjustment;
+            superscript.SizeOfContent.Height = ChooseGreaterLength(superscript.Element1.OuterHeight, superscript.Element2.OuterHeight + superscript.SuperscriptOffset);
 
             SetSizesOfElement(superscript);
 
             var centreAlignmentPoint = new Position();
 
-            centreAlignmentPoint.X = superscript.SizeIncludingOuterMargin.Width / 2;
-            centreAlignmentPoint.Y = superscript.Element1.SizeIncludingOuterMargin.Height / 2;
+            centreAlignmentPoint.X = superscript.OuterWidth / 2;
+            centreAlignmentPoint.Y = superscript.Element1.OuterHeight / 2;
 
             superscript.CentreAlignmentPoint = centreAlignmentPoint;
         }
@@ -374,52 +354,18 @@ namespace MathematicsTypesetting
 
         public void SetTextElementSize(TextElement textElement)
         {
-            textElement.SizeOfContent = _textMeasurer.MeasureTextSize(textElement.Content, textElement.FontStyle).ScaleX(0.7);
+            textElement.SizeOfContent = _textMeasurer.MeasureTextSize(textElement.Content, textElement.FontStyle).ScaleX(0.85);
 
-             textElement.Offset = _textMeasurer.MeasureTextSize(textElement.Content, textElement.FontStyle).Width * 0.05 + 0.1;             
+            textElement.Offset = _textMeasurer.MeasureTextSize(textElement.Content, textElement.FontStyle).Width * 0.025 + 0.05;
 
             SetSizesOfElement(textElement);
 
             var centreAlignmentPoint = new Position();
 
-            centreAlignmentPoint.X = textElement.SizeIncludingOuterMargin.Width / 2;
-            centreAlignmentPoint.Y = textElement.SizeIncludingOuterMargin.Height / 2;
+            centreAlignmentPoint.X = textElement.OuterWidth / 2;
+            centreAlignmentPoint.Y = textElement.OuterHeight / 2;
 
             textElement.CentreAlignmentPoint = centreAlignmentPoint;
         }
-
-        /// <summary>
-        /// Sets the size properties of a Number element.
-        /// </summary>
-        /// <param name="number"></param>
-        public void SetNumberSize(Number number)
-        {
-            SetTextElementSize(number);
-        }
-
-        public void SetIdentifierSize(Identifier identifier)
-        {
-            SetTextElementSize(identifier);
-        }
-
-        public void SetBinomialOperatorSize(BinomialOperator binomialOperator)
-        {
-            SetTextElementSize(binomialOperator);
-        }
-
-         public void SetBracketSize(Bracket bracket)
-        {
-            SetTextElementSize(bracket);
-        }
-
-         public void SetTextSize(Text text)
-        {
-            SetTextElementSize(text);
-        }
-
-        public void SetNamedFunctionSize(NamedFunction namedFunction)
-        {
-            SetTextElementSize(namedFunction);
-        }
-            }
+    }
 }
