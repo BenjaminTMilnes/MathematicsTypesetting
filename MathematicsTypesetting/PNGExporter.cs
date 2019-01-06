@@ -13,7 +13,7 @@ namespace MathematicsTypesetting
     {
         protected FontLoader _fontLoader;
 
-         public PNGExporter() : base()
+        public PNGExporter() : base()
         {
             _fontLoader = new FontLoader();
 
@@ -154,15 +154,24 @@ namespace MathematicsTypesetting
             var y = (float)(textElement.Position.Y + textElement.TopWidth).Quantity;
             var point = new PointF(x, y);
 
-            graphics.DrawString(text, font, brush, point);
+          //  graphics.DrawString(text, font, brush, point);
 
-                foreach(var c in text)
+            foreach (var c in text)
             {
                 var g = _fontLoader.GetGlyph("normal", c.ToString());
-                var p = _fontLoader.GetPathForGlyph(g);
 
-                graphics.FillPath(brush, p);
+                if (g != null)
+                {
+                    var p = _fontLoader.GetPathForGlyph(g);
 
+                    var m = new System.Drawing.Drawing2D.Matrix();
+
+                    m.Translate(x, y);
+
+                    p.Transform(m);
+
+                    graphics.FillPath(brush, p);
+                }
             }
 
             if (textElement.DrawConstructionLines == true)

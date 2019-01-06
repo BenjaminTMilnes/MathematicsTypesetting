@@ -10,7 +10,10 @@ namespace MathematicsTypesetting.Fonts
     {
         MoveTo = 1,
         BezierCurveTo = 2,
-        ClosePath = 3
+        ClosePath = 3,
+        LineTo = 4,
+        HorizontalLineTo = 5,
+        BezierSplineTo = 6
     }
 
     public class PathCommand

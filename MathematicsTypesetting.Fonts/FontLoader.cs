@@ -48,7 +48,12 @@ namespace MathematicsTypesetting.Fonts
 
         public Glyph GetGlyph(string styleWeight, string character)
         {
-            return Styles.First(s => s.Weight == styleWeight).Glyphs.First(g => g.Character == character);
+             if (Styles.Any(s => s.Weight == styleWeight))
+            {
+                return Styles.First(s => s.Weight == styleWeight).Glyphs.FirstOrDefault(g => g.Character == character);
+            }
+
+            return null;                    
         }
 
         public System.Drawing.Drawing2D.GraphicsPath GetPathForGlyph(Glyph glyph)
@@ -68,6 +73,8 @@ namespace MathematicsTypesetting.Fonts
                     pathCommand.Arguments = new List<float>() { float.Parse(a[n + 1]), float.Parse(a[n + 2]) };
 
                     n += 3;
+
+                    pathCommands.Add(pathCommand);
                 }
                 else if (a[n] == "C")
                 {
@@ -77,6 +84,41 @@ namespace MathematicsTypesetting.Fonts
                     pathCommand.Arguments = new List<float>() { float.Parse(a[n + 1]), float.Parse(a[n + 2]), float.Parse(a[n + 3]), float.Parse(a[n + 4]), float.Parse(a[n + 5]), float.Parse(a[n + 6]) };
 
                     n += 7;
+
+                    pathCommands.Add(pathCommand);
+                }
+                else if (a[n] == "S")
+                {
+                    var pathCommand = new PathCommand();
+
+                    pathCommand.Type = PathCommandType.BezierSplineTo;
+                    pathCommand.Arguments = new List<float>() { float.Parse(a[n + 1]), float.Parse(a[n + 2]), float.Parse(a[n + 3]), float.Parse(a[n + 4]) };
+
+                    n += 5;
+
+                    pathCommands.Add(pathCommand);
+                }
+                else if (a[n] == "L")
+                {
+                    var pathCommand = new PathCommand();
+
+                    pathCommand.Type = PathCommandType.LineTo;
+                    pathCommand.Arguments = new List<float>() { float.Parse(a[n + 1]), float.Parse(a[n + 2]) };
+
+                    n += 3;
+
+                    pathCommands.Add(pathCommand);
+                }
+                else if (a[n] == "H")
+                {
+                    var pathCommand = new PathCommand();
+
+                    pathCommand.Type = PathCommandType.HorizontalLineTo;
+                    pathCommand.Arguments = new List<float>() { float.Parse(a[n + 1]) };
+
+                    n += 2;
+
+                    pathCommands.Add(pathCommand);
                 }
                 else if (a[n] == "Z")
                 {
@@ -86,12 +128,16 @@ namespace MathematicsTypesetting.Fonts
                     pathCommand.Arguments = new List<float>() { };
 
                     n += 1;
+
+                    pathCommands.Add(pathCommand);
                 }
             }
 
             var path = new System.Drawing.Drawing2D.GraphicsPath();
             var cursorX = 0.0f;
             var cursorY = 0.0f;
+            var lastAnchorPointX = 0.0f;
+            var lastAnchorPointY = 0.0f;
 
             foreach (var c in pathCommands)
             {
@@ -106,6 +152,35 @@ namespace MathematicsTypesetting.Fonts
 
                     cursorX = c.Arguments[4];
                     cursorY = c.Arguments[5];
+
+                    lastAnchorPointX = c.Arguments[2];
+                    lastAnchorPointY = c.Arguments[3];
+                }
+                if (c.Type == PathCommandType.BezierSplineTo)
+                {
+                    var x1 = (cursorX - lastAnchorPointX) + cursorX;
+                    var y1 = (cursorY - lastAnchorPointY) + cursorY;
+
+                    path.AddBezier(new PointF(cursorX, cursorY), new PointF(x1, y1), new PointF(c.Arguments[0], c.Arguments[1]), new PointF(c.Arguments[2], c.Arguments[3]));
+
+                    cursorX = c.Arguments[2];
+                    cursorY = c.Arguments[3];
+
+                    lastAnchorPointX = c.Arguments[0];
+                    lastAnchorPointY = c.Arguments[1];
+                }
+                if (c.Type == PathCommandType.LineTo)
+                {
+                    path.AddLine(new PointF(cursorX, cursorY), new PointF(c.Arguments[0], c.Arguments[1]));
+                    
+                    cursorX = c.Arguments[0];
+                    cursorY = c.Arguments[1];
+                }
+                if (c.Type == PathCommandType.HorizontalLineTo)
+                {
+                    path.AddLine(new PointF(cursorX, cursorY), new PointF(c.Arguments[0], cursorY));
+
+                    cursorX = c.Arguments[0];
                 }
                 if (c.Type == PathCommandType.ClosePath)
                 {
