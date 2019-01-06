@@ -121,6 +121,17 @@ namespace MathematicsTypesetting.Fonts
 
                     pathCommands.Add(pathCommand);
                 }
+                else if (a[n] == "V")
+                {
+                    var pathCommand = new PathCommand();
+
+                    pathCommand.Type = PathCommandType.VerticalLineTo;
+                    pathCommand.Arguments = new List<float>() { float.Parse(a[n + 1]) };
+
+                    n += 2;
+
+                    pathCommands.Add(pathCommand);
+                }
                 else if (a[n] == "Z")
                 {
                     var pathCommand = new PathCommand();
@@ -182,6 +193,12 @@ namespace MathematicsTypesetting.Fonts
                     path.AddLine(new PointF(cursorX, cursorY), new PointF(c.Arguments[0], cursorY));
 
                     cursorX = c.Arguments[0];
+                }
+                if (c.Type == PathCommandType.VerticalLineTo)
+                {
+                    path.AddLine(new PointF(cursorX, cursorY), new PointF(cursorX, c.Arguments[0]));
+
+                    cursorY = c.Arguments[0];
                 }
                 if (c.Type == PathCommandType.ClosePath)
                 {

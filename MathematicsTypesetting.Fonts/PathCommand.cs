@@ -13,7 +13,8 @@ namespace MathematicsTypesetting.Fonts
         ClosePath = 3,
         LineTo = 4,
         HorizontalLineTo = 5,
-        BezierSplineTo = 6
+        BezierSplineTo = 6,
+        VerticalLineTo = 7
     }
 
     public class PathCommand
