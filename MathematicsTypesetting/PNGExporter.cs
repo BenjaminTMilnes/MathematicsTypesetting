@@ -5,11 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Imaging;
+using MathematicsTypesetting.Fonts;
 
 namespace MathematicsTypesetting
 {
     public class PNGExporter : Exporter
     {
+        protected FontLoader _fontLoader;
+
+         public PNGExporter() : base()
+        {
+            _fontLoader = new FontLoader();
+
+            _fontLoader.LoadFont();
+        }
+
         public void ExportMathematics(Document document, string fileLocation)
         {
             var w = (int)document.Size.Width.Quantity + 1;
@@ -145,6 +155,15 @@ namespace MathematicsTypesetting
             var point = new PointF(x, y);
 
             graphics.DrawString(text, font, brush, point);
+
+                foreach(var c in text)
+            {
+                var g = _fontLoader.GetGlyph("normal", c.ToString());
+                var p = _fontLoader.GetPathForGlyph(g);
+
+                graphics.FillPath(brush, p);
+
+            }
 
             if (textElement.DrawConstructionLines == true)
             {

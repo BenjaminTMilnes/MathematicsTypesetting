@@ -73,6 +73,12 @@
     <Compile Include="TextMeasurer.cs" />
     <Compile Include="Typesetter.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MathematicsTypesetting.Fonts\MathematicsTypesetting.Fonts.csproj">
+      <Project>{263d9ae9-4831-4b0b-b48b-e4efb2b2a9e1}</Project>
+      <Name>MathematicsTypesetting.Fonts</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
