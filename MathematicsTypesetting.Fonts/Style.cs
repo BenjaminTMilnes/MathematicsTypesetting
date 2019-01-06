@@ -9,6 +9,7 @@ namespace MathematicsTypesetting.Fonts
     public class Style
     {
         public string Weight { get; set; }
+        public string Emphasis { get; set; }
         public IList<Glyph> Glyphs { get; set; }
 
         public Style()

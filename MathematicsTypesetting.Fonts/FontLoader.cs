@@ -31,6 +31,7 @@ namespace MathematicsTypesetting.Fonts
                 var style = new Style();
 
                 style.Weight = s.Attribute(XName.Get("weight", "")).Value;
+                style.Emphasis = s.Attribute(XName.Get("emphasis", "")).Value;
 
                 foreach (var g in s.Elements())
                 {
@@ -46,14 +47,14 @@ namespace MathematicsTypesetting.Fonts
             }
         }
 
-        public Glyph GetGlyph(string styleWeight, string character)
+        public Glyph GetGlyph(string styleWeight, string styleEmphasis, string character)
         {
-             if (Styles.Any(s => s.Weight == styleWeight))
+            if (Styles.Any(s => s.Weight == styleWeight && s.Emphasis == styleEmphasis))
             {
-                return Styles.First(s => s.Weight == styleWeight).Glyphs.FirstOrDefault(g => g.Character == character);
+                return Styles.First(s => s.Weight == styleWeight && s.Emphasis == styleEmphasis).Glyphs.FirstOrDefault(g => g.Character == character);
             }
 
-            return null;                    
+            return null;
         }
 
         public System.Drawing.Drawing2D.GraphicsPath GetPathForGlyph(Glyph glyph)
@@ -172,7 +173,7 @@ namespace MathematicsTypesetting.Fonts
                 if (c.Type == PathCommandType.LineTo)
                 {
                     path.AddLine(new PointF(cursorX, cursorY), new PointF(c.Arguments[0], c.Arguments[1]));
-                    
+
                     cursorX = c.Arguments[0];
                     cursorY = c.Arguments[1];
                 }

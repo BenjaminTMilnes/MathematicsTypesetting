@@ -158,7 +158,13 @@ namespace MathematicsTypesetting
 
             foreach (var c in text)
             {
-                var g = _fontLoader.GetGlyph("normal", c.ToString());
+                var emphasis = "none";
+                if (textElement.FontStyle.FontEmphasis == FontEmphasis.Italic)
+                {
+                    emphasis = "italic";
+                }
+
+                var g = _fontLoader.GetGlyph("normal", emphasis, c.ToString());
 
                 if (g != null)
                 {
@@ -166,7 +172,10 @@ namespace MathematicsTypesetting
 
                     var m = new System.Drawing.Drawing2D.Matrix();
 
-                    m.Translate(x, y);
+                    var sf = emSize * 5f / 100;
+
+                    m.Scale(sf, sf);
+                m.Translate(x / sf, y / sf + 25f);
 
                     p.Transform(m);
 
