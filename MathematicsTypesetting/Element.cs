@@ -36,7 +36,7 @@
 
             FontStyle = new FontStyle();
 
-            DrawConstructionLines = true;
+            DrawConstructionLines = false;
         }
 
         public Length TopWidth { get { return OuterMargin.Top + Border.Width + InnerMargin.Top; } }
