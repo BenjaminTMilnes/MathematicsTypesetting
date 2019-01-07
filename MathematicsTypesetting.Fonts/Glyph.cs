@@ -10,5 +10,11 @@ namespace MathematicsTypesetting.Fonts
     {
         public string Character { get; set; }
         public string Path { get; set; }
+        public IList<PathCommand> PathCommands { get; set; }
+
+        public Glyph()
+        {
+            PathCommands = new List<PathCommand>();
+        }
     }
 }

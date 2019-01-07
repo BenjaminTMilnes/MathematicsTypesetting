@@ -40,6 +40,8 @@ namespace MathematicsTypesetting.Fonts
                     glyph.Character = g.Attribute(XName.Get("character", "")).Value;
                     glyph.Path = g.Attribute(XName.Get("path", "")).Value;
 
+                    ParsePathCommands(glyph);
+
                     style.Glyphs.Add(glyph);
                 }
 
@@ -57,12 +59,12 @@ namespace MathematicsTypesetting.Fonts
             return null;
         }
 
-        public System.Drawing.Drawing2D.GraphicsPath GetPathForGlyph(Glyph glyph)
+          public void ParsePathCommands(Glyph glyph)
         {
-            var pathCommands = new List<PathCommand>();
-
             var a = glyph.Path.Split(' ');
             var n = 0;
+
+            glyph.PathCommands.Clear();
 
             while (n < a.Length)
             {
@@ -75,7 +77,7 @@ namespace MathematicsTypesetting.Fonts
 
                     n += 3;
 
-                    pathCommands.Add(pathCommand);
+                    glyph.PathCommands.Add(pathCommand);
                 }
                 else if (a[n] == "C")
                 {
@@ -86,7 +88,7 @@ namespace MathematicsTypesetting.Fonts
 
                     n += 7;
 
-                    pathCommands.Add(pathCommand);
+                    glyph.PathCommands.Add(pathCommand);
                 }
                 else if (a[n] == "S")
                 {
@@ -97,7 +99,7 @@ namespace MathematicsTypesetting.Fonts
 
                     n += 5;
 
-                    pathCommands.Add(pathCommand);
+                    glyph.PathCommands.Add(pathCommand);
                 }
                 else if (a[n] == "L")
                 {
@@ -108,7 +110,7 @@ namespace MathematicsTypesetting.Fonts
 
                     n += 3;
 
-                    pathCommands.Add(pathCommand);
+                    glyph.PathCommands.Add(pathCommand);
                 }
                 else if (a[n] == "H")
                 {
@@ -119,7 +121,7 @@ namespace MathematicsTypesetting.Fonts
 
                     n += 2;
 
-                    pathCommands.Add(pathCommand);
+                    glyph.PathCommands.Add(pathCommand);
                 }
                 else if (a[n] == "V")
                 {
@@ -130,7 +132,7 @@ namespace MathematicsTypesetting.Fonts
 
                     n += 2;
 
-                    pathCommands.Add(pathCommand);
+                    glyph.PathCommands.Add(pathCommand);
                 }
                 else if (a[n] == "Z")
                 {
@@ -141,9 +143,13 @@ namespace MathematicsTypesetting.Fonts
 
                     n += 1;
 
-                    pathCommands.Add(pathCommand);
+                    glyph.PathCommands.Add(pathCommand);
                 }
             }
+        }
+
+        public System.Drawing.Drawing2D.GraphicsPath GetPathForGlyph(Glyph glyph)
+        {      
 
             var path = new System.Drawing.Drawing2D.GraphicsPath();
             var cursorX = 0.0f;
@@ -151,7 +157,7 @@ namespace MathematicsTypesetting.Fonts
             var lastAnchorPointX = 0.0f;
             var lastAnchorPointY = 0.0f;
 
-            foreach (var c in pathCommands)
+            foreach (var c in glyph.PathCommands)
             {
                 if (c.Type == PathCommandType.MoveTo)
                 {
