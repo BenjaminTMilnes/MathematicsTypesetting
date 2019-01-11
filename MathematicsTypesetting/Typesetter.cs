@@ -17,7 +17,10 @@ namespace MathematicsTypesetting
 
         public void TypesetDocument(Document document)
         {
-            document.MainElement.OuterMargin = 20;
+            document.MainElement.OuterMargin.Top = 20;
+            document.MainElement.OuterMargin.Bottom = 20;
+            document.MainElement.OuterMargin.Left = 50;
+            document.MainElement.OuterMargin.Right = 50;
 
             SetElementSize(document.MainElement);
             SetElementPosition(new Position(), document.MainElement);

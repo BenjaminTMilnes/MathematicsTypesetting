@@ -92,12 +92,35 @@ namespace MathematicsTypesetting
         {
             ExportElement(graphics, bracketExpression.InnerExpression);
 
-            var w = Paths.GetBracketLength().Quantity;
+            var g1 = _fontLoader.GetGlyph("normal", "none", "(");
+            var g2 = _fontLoader.GetGlyph("normal", "none", ")");
+
+            var w = g1.Width;
             var h = bracketExpression.InnerExpression.OuterHeight;
 
-            var p1 = Paths.GetBracketPath(new PointF((float)(bracketExpression.Position.X.Quantity + w * 0.25), (float)bracketExpression.Position.Y.Quantity), (float)h.Quantity);
+            var x1 = (float)(bracketExpression.Position.X.Quantity );
+            var y1 = (float)bracketExpression.Position.Y.Quantity;
 
-            var p2 = Paths.GetBracketPath(new PointF((float)(bracketExpression.Position.X.Quantity + w * 1.75 + bracketExpression.InnerExpression.OuterWidth.Quantity), (float)bracketExpression.Position.Y.Quantity), (float)h.Quantity, ")");
+            var x2 = (float)(bracketExpression.Position.X.Quantity  + bracketExpression.InnerExpression.OuterWidth.Quantity);
+            var y2 = (float)bracketExpression.Position.Y.Quantity;
+
+            var p1 = _fontLoader.GetPathForGlyph(g1); // Paths.GetBracketPath(new PointF(, , (float)h.Quantity);
+
+            var p2 = _fontLoader.GetPathForGlyph(g2); // Paths.GetBracketPath(new PointF(, ), (float)h.Quantity, ")");
+            
+            var m1 = new System.Drawing.Drawing2D.Matrix();
+            var m2 = new System.Drawing.Drawing2D.Matrix();
+
+            var sf = (float)h.Quantity /(1.7f * 20.0f);
+
+            m1.Scale(sf, sf);
+            m1.Translate(x1 / sf, y1 / sf + 25f);
+
+            m2.Scale(sf, sf);
+            m2.Translate(x2 / sf, y2 / sf + 25f);
+
+            p1.Transform(m1);
+            p2.Transform(m2);
 
             graphics.FillPath(Brushes.Black, p1);
             graphics.FillPath(Brushes.Black, p2);

@@ -106,7 +106,7 @@ namespace MathematicsTypesetting.Fonts
                 }
             }
 
-            return new SizeF(w, fontSize * 1.7f);
+            return new SizeF(w, fontSize * 1.65f);
         }
 
         public void SetGlyphWidth(Glyph glyph)
