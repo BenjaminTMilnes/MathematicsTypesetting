@@ -41,6 +41,7 @@ namespace MathematicsTypesetting.Fonts
                     glyph.Path = g.Attribute(XName.Get("path", "")).Value;
 
                     ParsePathCommands(glyph);
+                    SetGlyphWidth(glyph);
 
                     style.Glyphs.Add(glyph);
                 }
@@ -59,7 +60,122 @@ namespace MathematicsTypesetting.Fonts
             return null;
         }
 
-          public void ParsePathCommands(Glyph glyph)
+        public void DrawString(Graphics graphics, string text, float fontSize, string fontEmphasis, string fontWeight, Brush brush, PointF point)
+        {
+            var x = point.X;
+            var y = point.Y;
+            var letterSpacing = 0.01f;
+
+            foreach (var c in text)
+            {
+                var g = GetGlyph("normal", fontEmphasis, c.ToString());
+
+                if (g != null)
+                {
+                    var p = GetPathForGlyph(g);
+
+                    var m = new System.Drawing.Drawing2D.Matrix();
+
+                    var sf = fontSize / 20.0f;
+
+                    m.Scale(sf, sf);
+                    m.Translate(x / sf, y / sf + 25f);
+
+                    p.Transform(m);
+
+                    graphics.FillPath(brush, p);
+
+                    x += g.Width * sf + letterSpacing * fontSize * sf;
+                }
+            }
+        }
+
+        public SizeF MeasureString(string text, float fontSize, string fontEmphasis, string fontWeight)
+        {
+            var w = 0.0f;
+            var letterSpacing = 0.01f;
+            var sf = fontSize / 20.0f;
+
+            foreach (var c in text)
+            {
+                var g = GetGlyph("normal", fontEmphasis, c.ToString());
+
+                if (g != null)
+                {
+                    w += g.Width * sf + letterSpacing * fontSize * sf;
+                }
+            }
+
+            return new SizeF(w, fontSize * 1.7f);
+        }
+
+        public void SetGlyphWidth(Glyph glyph)
+        {
+            var x1 = glyph.PathCommands.First().Arguments[0];
+            var x2 = glyph.PathCommands.First().Arguments[0];
+            var y1 = glyph.PathCommands.First().Arguments[1];
+            var y2 = glyph.PathCommands.First().Arguments[1];
+
+            foreach (var c in glyph.PathCommands)
+            {
+                var x = 0.0f;
+                var y = 0.0f;
+
+                if (c.Type == PathCommandType.MoveTo)
+                {
+                    x = c.Arguments[0];
+                    y = c.Arguments[1];
+                }
+                if (c.Type == PathCommandType.LineTo)
+                {
+                    x = c.Arguments[0];
+                    y = c.Arguments[1];
+                }
+                if (c.Type == PathCommandType.HorizontalLineTo)
+                {
+                    x = c.Arguments[0];
+                }
+                if (c.Type == PathCommandType.VerticalLineTo)
+                {
+                    y = c.Arguments[0];
+                }
+                if (c.Type == PathCommandType.BezierCurveTo)
+                {
+                    x = c.Arguments[4];
+                    y = c.Arguments[5];
+                }
+                if (c.Type == PathCommandType.BezierSplineTo)
+                {
+                    x = c.Arguments[2];
+                    y = c.Arguments[3];
+                }
+
+                if (x < x1)
+                {
+                    x1 = x;
+                }
+
+                if (x > x2)
+                {
+                    x2 = x;
+                }
+
+                if (y < y1)
+                {
+                    y1 = y;
+                }
+
+                if (y > y2)
+                {
+                    y2 = y;
+                }
+            }
+
+            glyph.Width = x2 - x1;
+            glyph.Height = y2 - y1;
+        }
+
+        public void ParsePathCommands(Glyph glyph)
         {
             var a = glyph.Path.Split(' ');
             var n = 0;
@@ -68,80 +184,46 @@ namespace MathematicsTypesetting.Fonts
 
             while (n < a.Length)
             {
-                if (a[n] == "M")
+                if ("MCSLHVZ".Any(c => c.ToString() == a[n]))
                 {
                     var pathCommand = new PathCommand();
 
-                    pathCommand.Type = PathCommandType.MoveTo;
-                    pathCommand.Arguments = new List<float>() { float.Parse(a[n + 1]), float.Parse(a[n + 2]) };
+                    if (a[n] == "M")
+                    {
+                        pathCommand.Type = PathCommandType.MoveTo;
+                        pathCommand.Arguments = new List<float>() { float.Parse(a[n + 1]), float.Parse(a[n + 2]) };
+                    }
+                    else if (a[n] == "C")
+                    {
+                        pathCommand.Type = PathCommandType.BezierCurveTo;
+                        pathCommand.Arguments = new List<float>() { float.Parse(a[n + 1]), float.Parse(a[n + 2]), float.Parse(a[n + 3]), float.Parse(a[n + 4]), float.Parse(a[n + 5]), float.Parse(a[n + 6]) };
+                    }
+                    else if (a[n] == "S")
+                    {
+                        pathCommand.Type = PathCommandType.BezierSplineTo;
+                        pathCommand.Arguments = new List<float>() { float.Parse(a[n + 1]), float.Parse(a[n + 2]), float.Parse(a[n + 3]), float.Parse(a[n + 4]) };
+                    }
+                    else if (a[n] == "L")
+                    {
+                        pathCommand.Type = PathCommandType.LineTo;
+                        pathCommand.Arguments = new List<float>() { float.Parse(a[n + 1]), float.Parse(a[n + 2]) };
+                    }
+                    else if (a[n] == "H")
+                    {
+                        pathCommand.Type = PathCommandType.HorizontalLineTo;
+                        pathCommand.Arguments = new List<float>() { float.Parse(a[n + 1]) };
+                    }
+                    else if (a[n] == "V")
+                    {
+                        pathCommand.Type = PathCommandType.VerticalLineTo;
+                        pathCommand.Arguments = new List<float>() { float.Parse(a[n + 1]) };
+                    }
+                    else if (a[n] == "Z")
+                    {
+                        pathCommand.Type = PathCommandType.ClosePath;
+                    }
 
-                    n += 3;
-
-                    glyph.PathCommands.Add(pathCommand);
-                }
-                else if (a[n] == "C")
-                {
-                    var pathCommand = new PathCommand();
-
-                    pathCommand.Type = PathCommandType.BezierCurveTo;
-                    pathCommand.Arguments = new List<float>() { float.Parse(a[n + 1]), float.Parse(a[n + 2]), float.Parse(a[n + 3]), float.Parse(a[n + 4]), float.Parse(a[n + 5]), float.Parse(a[n + 6]) };
-
-                    n += 7;
-
-                    glyph.PathCommands.Add(pathCommand);
-                }
-                else if (a[n] == "S")
-                {
-                    var pathCommand = new PathCommand();
-
-                    pathCommand.Type = PathCommandType.BezierSplineTo;
-                    pathCommand.Arguments = new List<float>() { float.Parse(a[n + 1]), float.Parse(a[n + 2]), float.Parse(a[n + 3]), float.Parse(a[n + 4]) };
-
-                    n += 5;
-
-                    glyph.PathCommands.Add(pathCommand);
-                }
-                else if (a[n] == "L")
-                {
-                    var pathCommand = new PathCommand();
-
-                    pathCommand.Type = PathCommandType.LineTo;
-                    pathCommand.Arguments = new List<float>() { float.Parse(a[n + 1]), float.Parse(a[n + 2]) };
-
-                    n += 3;
-
-                    glyph.PathCommands.Add(pathCommand);
-                }
-                else if (a[n] == "H")
-                {
-                    var pathCommand = new PathCommand();
-
-                    pathCommand.Type = PathCommandType.HorizontalLineTo;
-                    pathCommand.Arguments = new List<float>() { float.Parse(a[n + 1]) };
-
-                    n += 2;
-
-                    glyph.PathCommands.Add(pathCommand);
-                }
-                else if (a[n] == "V")
-                {
-                    var pathCommand = new PathCommand();
-
-                    pathCommand.Type = PathCommandType.VerticalLineTo;
-                    pathCommand.Arguments = new List<float>() { float.Parse(a[n + 1]) };
-
-                    n += 2;
-
-                    glyph.PathCommands.Add(pathCommand);
-                }
-                else if (a[n] == "Z")
-                {
-                    var pathCommand = new PathCommand();
-
-                    pathCommand.Type = PathCommandType.ClosePath;
-                    pathCommand.Arguments = new List<float>() { };
-
-                    n += 1;
+                    n += pathCommand.Arguments.Count() + 1;
 
                     glyph.PathCommands.Add(pathCommand);
                 }
@@ -149,8 +231,7 @@ namespace MathematicsTypesetting.Fonts
         }
 
         public System.Drawing.Drawing2D.GraphicsPath GetPathForGlyph(Glyph glyph)
-        {      
-
+        {
             var path = new System.Drawing.Drawing2D.GraphicsPath();
             var cursorX = 0.0f;
             var cursorY = 0.0f;

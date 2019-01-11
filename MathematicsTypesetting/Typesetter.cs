@@ -17,6 +17,8 @@ namespace MathematicsTypesetting
 
         public void TypesetDocument(Document document)
         {
+            document.MainElement.OuterMargin = 20;
+
             SetElementSize(document.MainElement);
             SetElementPosition(new Position(), document.MainElement);
 
@@ -354,9 +356,9 @@ namespace MathematicsTypesetting
 
         public void SetTextElementSize(TextElement textElement)
         {
-            textElement.SizeOfContent = _textMeasurer.MeasureTextSize(textElement.Content, textElement.FontStyle).ScaleX(0.85);
+            textElement.SizeOfContent = _textMeasurer.MeasureTextSize(textElement.Content, textElement.FontStyle);
 
-            textElement.Offset = _textMeasurer.MeasureTextSize(textElement.Content, textElement.FontStyle).Width * 0.025 + 0.05;
+          //  textElement.Offset = _textMeasurer.MeasureTextSize(textElement.Content, textElement.FontStyle).Width * 0.025 + 0.05;
 
             SetSizesOfElement(textElement);
 

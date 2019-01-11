@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using MathematicsTypesetting;
 using MathematicsTypesetting.LaTeX;
+using MathematicsTypesetting.Fonts;
 
 namespace MathematicsTypesetting.Examples
 {
@@ -21,15 +22,17 @@ namespace MathematicsTypesetting.Examples
 
     public class ExampleMaker
     {
-        private TextMeasurer _textMeasurer;
+        private ITextMeasurer _textMeasurer;
         private Typesetter _typesetter;
         private PNGExporter _exporter;
 
         public ExampleMaker()
         {
-            _textMeasurer = new TextMeasurer();
+            //   _textMeasurer = new TextMeasurer();
+            var fontLoader = new FontLoader();
+            _textMeasurer = new HyperfontTextMeasurer(fontLoader);
             _typesetter = new Typesetter(_textMeasurer);
-            _exporter = new PNGExporter();
+            _exporter = new PNGExporter(fontLoader);
         }
 
         public void MakeExamples()

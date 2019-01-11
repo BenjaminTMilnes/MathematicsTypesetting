@@ -13,9 +13,9 @@ namespace MathematicsTypesetting
     {
         protected FontLoader _fontLoader;
 
-        public PNGExporter() : base()
+        public PNGExporter(  FontLoader fontLoader) : base()
         {
-            _fontLoader = new FontLoader();
+            _fontLoader = fontLoader;
 
             _fontLoader.LoadFont();
         }
@@ -154,34 +154,16 @@ namespace MathematicsTypesetting
             var y = (float)(textElement.Position.Y + textElement.TopWidth).Quantity;
             var point = new PointF(x, y);
 
-          //  graphics.DrawString(text, font, brush, point);
+            //  graphics.DrawString(text, font, brush, point);
 
-            foreach (var c in text)
+            var emphasis = "none";
+
+            if (textElement.FontStyle.FontEmphasis == FontEmphasis.Italic)
             {
-                var emphasis = "none";
-                if (textElement.FontStyle.FontEmphasis == FontEmphasis.Italic)
-                {
-                    emphasis = "italic";
-                }
-
-                var g = _fontLoader.GetGlyph("normal", emphasis, c.ToString());
-
-                if (g != null)
-                {
-                    var p = _fontLoader.GetPathForGlyph(g);
-
-                    var m = new System.Drawing.Drawing2D.Matrix();
-
-                    var sf = emSize * 5f / 100;
-
-                    m.Scale(sf, sf);
-                m.Translate(x / sf, y / sf + 25f);
-
-                    p.Transform(m);
-
-                    graphics.FillPath(brush, p);
-                }
+                emphasis = "italic";
             }
+
+            _fontLoader.DrawString(graphics, text, emSize, emphasis, "", brush, point);
 
             if (textElement.DrawConstructionLines == true)
             {

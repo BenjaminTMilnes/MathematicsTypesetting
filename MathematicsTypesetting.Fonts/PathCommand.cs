@@ -1,25 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MathematicsTypesetting.Fonts
 {
     public enum PathCommandType
     {
         MoveTo = 1,
-        BezierCurveTo = 2,
-        ClosePath = 3,
-        LineTo = 4,
-        HorizontalLineTo = 5,
+        LineTo = 2,
+        HorizontalLineTo = 3,
+        VerticalLineTo = 4,
+        BezierCurveTo = 5,
         BezierSplineTo = 6,
-        VerticalLineTo = 7
+        ClosePath = 7
     }
 
     public class PathCommand
     {
         public PathCommandType Type { get; set; }
         public IList<float> Arguments { get; set; }
+
+        public PathCommand()
+        {
+            Arguments = new List<float>();
+        }
     }
 }

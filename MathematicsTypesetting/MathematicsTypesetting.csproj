@@ -53,6 +53,7 @@
     <Compile Include="FontStyle.cs" />
     <Compile Include="FontWeight.cs" />
     <Compile Include="Fraction.cs" />
+    <Compile Include="HyperfontTextMeasurer.cs" />
     <Compile Include="Identifier.cs" />
     <Compile Include="ITextMeasurer.cs" />
     <Compile Include="Length.cs" />

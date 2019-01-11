@@ -50,6 +50,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MathematicsTypesetting.Fonts\MathematicsTypesetting.Fonts.csproj">
+      <Project>{263d9ae9-4831-4b0b-b48b-e4efb2b2a9e1}</Project>
+      <Name>MathematicsTypesetting.Fonts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MathematicsTypesetting.LaTeX\MathematicsTypesetting.LaTeX.csproj">
       <Project>{7ca6d2c5-768e-4307-ad1f-5407ce3432a4}</Project>
       <Name>MathematicsTypesetting.LaTeX</Name>
