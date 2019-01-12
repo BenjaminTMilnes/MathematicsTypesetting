@@ -7,6 +7,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.IO;
 using System.Drawing;
+using System.Reflection;
 
 namespace MathematicsTypesetting.Fonts
 {
@@ -19,11 +20,13 @@ namespace MathematicsTypesetting.Fonts
             Styles = new List<Style>();
         }
 
-        public void LoadFont(string fileName = "LatinModern.font.xml")
+        public void LoadFont()
         {
             Styles.Clear();
 
-            var document = XDocument.Load("../../../MathematicsTypesetting.Fonts/" + fileName);
+            var a = Assembly.GetExecutingAssembly();
+
+            var document = XDocument.Load(a.GetManifestResourceStream("MathematicsTypesetting.Fonts.LatinModern.font.xml"));
             var root = document.Root;
 
             foreach (var s in root.Elements())
