@@ -7,6 +7,7 @@ using System.IO;
 using MathematicsTypesetting;
 using MathematicsTypesetting.LaTeX;
 using MathematicsTypesetting.Fonts;
+using MathematicsTypesetting.Rendering;
 
 namespace MathematicsTypesetting.Examples
 {

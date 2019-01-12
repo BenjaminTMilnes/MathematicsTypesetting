@@ -7,7 +7,7 @@ using MathematicsTypesetting;
 using MathematicsTypesetting.Fonts;
 using MathematicsTypesetting.LaTeX;
 
-namespace MathematicsTypesetting.Examples
+namespace MathematicsTypesetting.Rendering
 {
     public sealed class Renderer
     {
