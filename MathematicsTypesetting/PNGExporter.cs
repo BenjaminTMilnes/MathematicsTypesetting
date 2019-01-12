@@ -179,14 +179,10 @@ namespace MathematicsTypesetting
 
             //  graphics.DrawString(text, font, brush, point);
 
-            var emphasis = "none";
-
-            if (textElement.FontStyle.FontEmphasis == FontEmphasis.Italic)
-            {
-                emphasis = "italic";
-            }
-
-            _fontLoader.DrawString(graphics, text, emSize, emphasis, "", brush, point);
+            var fontEmphasis = (textElement.FontStyle.FontEmphasis == FontEmphasis.Italic) ? "italic" : "none";
+            var fontWeight = (textElement.FontStyle.FontWeight == FontWeight.Bold) ? "bold" : "normal";
+            
+            _fontLoader.DrawString(graphics, text, emSize, fontEmphasis, fontWeight, brush, point);
 
             if (textElement.DrawConstructionLines == true)
             {

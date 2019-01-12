@@ -68,7 +68,7 @@ namespace MathematicsTypesetting.Fonts
 
             foreach (var c in text)
             {
-                var g = GetGlyph("normal", fontEmphasis, c.ToString());
+                var g = GetGlyph(fontWeight, fontEmphasis, c.ToString());
 
                 if (g != null)
                 {
@@ -90,7 +90,7 @@ namespace MathematicsTypesetting.Fonts
             }
         }
 
-        public SizeF MeasureString(string text, float fontSize, string fontEmphasis, string fontWeight)
+        public SizeF MeasureString(string text, float fontSize, string fontEmphasis = "none", string fontWeight = "normal")
         {
             var w = 0.0f;
             var letterSpacing = 0.01f;
@@ -98,7 +98,7 @@ namespace MathematicsTypesetting.Fonts
 
             foreach (var c in text)
             {
-                var g = GetGlyph("normal", fontEmphasis, c.ToString());
+                var g = GetGlyph(fontWeight, fontEmphasis, c.ToString());
 
                 if (g != null)
                 {

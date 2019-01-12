@@ -21,8 +21,9 @@ namespace MathematicsTypesetting
             var emSize = fontStyle.FontHeight.ConvertToUnits(LengthUnits.Points).Quantity;
 
             var fontEmphasis = (fontStyle.FontEmphasis == FontEmphasis.Italic) ? "italic" : "none";
+            var fontWeight = (fontStyle.FontWeight == FontWeight.Bold) ? "bold" : "normal";
 
-            var sizeF = _fontLoader.MeasureString(text, (float)emSize, fontEmphasis, "normal");
+            var sizeF = _fontLoader.MeasureString(text, (float)emSize, fontEmphasis, fontWeight);
             var size = new Size();
 
             size.Width = new Length(sizeF.Width, LengthUnits.Arbitrary);
