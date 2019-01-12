@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7C0C5FE8-9EF5-4F95-9749-EE6055592748}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{30703672-F98E-4CA3-B564-0B698DF9DF59}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MathematicsTypesetting.Examples</RootNamespace>
-    <AssemblyName>MathematicsTypesetting.Examples</AssemblyName>
+    <RootNamespace>MathematicsTypesetting.Rendering</RootNamespace>
+    <AssemblyName>MathematicsTypesetting.Rendering</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -43,11 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
+    <Compile Include="Renderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MathematicsTypesetting.Fonts\MathematicsTypesetting.Fonts.csproj">
@@ -57,10 +51,6 @@
     <ProjectReference Include="..\MathematicsTypesetting.LaTeX\MathematicsTypesetting.LaTeX.csproj">
       <Project>{7ca6d2c5-768e-4307-ad1f-5407ce3432a4}</Project>
       <Name>MathematicsTypesetting.LaTeX</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MathematicsTypesetting.Rendering\MathematicsTypesetting.Rendering.csproj">
-      <Project>{30703672-f98e-4ca3-b564-0b698df9df59}</Project>
-      <Name>MathematicsTypesetting.Rendering</Name>
     </ProjectReference>
     <ProjectReference Include="..\MathematicsTypesetting\MathematicsTypesetting.csproj">
       <Project>{21f8e20b-a881-4913-bee3-eb626188eb86}</Project>

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathematicsTypesetting.LaTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathematicsTypesetting.Fonts", "..\MathematicsTypesetting.Fonts\MathematicsTypesetting.Fonts.csproj", "{263D9AE9-4831-4B0B-B48B-E4EFB2B2A9E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathematicsTypesetting.Rendering", "..\MathematicsTypesetting.Rendering\MathematicsTypesetting.Rendering.csproj", "{30703672-F98E-4CA3-B564-0B698DF9DF59}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{263D9AE9-4831-4B0B-B48B-E4EFB2B2A9E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{263D9AE9-4831-4B0B-B48B-E4EFB2B2A9E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{263D9AE9-4831-4B0B-B48B-E4EFB2B2A9E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30703672-F98E-4CA3-B564-0B698DF9DF59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30703672-F98E-4CA3-B564-0B698DF9DF59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30703672-F98E-4CA3-B564-0B698DF9DF59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30703672-F98E-4CA3-B564-0B698DF9DF59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
