@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="FontLoader.cs" />
     <Compile Include="Glyph.cs" />
-    <Compile Include="PathCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Style.cs" />
   </ItemGroup>
@@ -51,6 +50,12 @@
     <EmbeddedResource Include="LatinModern.font.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MathematicsTypesetting.SVG\MathematicsTypesetting.SVG.csproj">
+      <Project>{5522909a-f31d-486b-b5bf-fb249252ed1f}</Project>
+      <Name>MathematicsTypesetting.SVG</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

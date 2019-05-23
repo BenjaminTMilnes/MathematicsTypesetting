@@ -41,6 +41,7 @@ namespace MathematicsTypesetting
             if (element is Subscript) { SetSubscriptPosition(containerOrigin, element as Subscript); }
             if (element is Superscript) { SetSuperscriptPosition(containerOrigin, element as Superscript); }
             if (element is BracketExpression) { SetBracketExpressionPosition(containerOrigin, element as BracketExpression); }
+            if (element is SquareRoot) { SetSquareRootPosition(containerOrigin, element as SquareRoot); }
             if (element is Text) { SetTextElementPosition(containerOrigin, element as Text); }
         }
 
@@ -91,6 +92,18 @@ namespace MathematicsTypesetting
             SetElementPosition(containerOrigin, bracketExpression.InnerExpression);
 
             containerOrigin.X += Paths.GetBracketLength();
+        }
+
+        public void SetSquareRootPosition(Position containerOrigin, SquareRoot squareRoot)
+        {
+            squareRoot.Position = containerOrigin;
+
+           // containerOrigin.X += squareRoot.FontStyle.FontHeight;
+          //  containerOrigin.Y += squareRoot.FontStyle.FontHeight * 0.2;
+
+            SetElementPosition(containerOrigin, squareRoot.InnerExpression);
+
+           // containerOrigin.Y -= squareRoot.FontStyle.FontHeight * 0.2;
         }
 
         public void SetFractionPosition(Position containerOrigin, Fraction fraction)
@@ -170,6 +183,7 @@ namespace MathematicsTypesetting
             if (element is Subscript) { SetSubscriptSize(element as Subscript); }
             if (element is Superscript) { SetSuperscriptSize(element as Superscript); }
             if (element is BracketExpression) { SetBracketExpressionSize(element as BracketExpression); }
+            if (element is SquareRoot) { SetSquareRootSize(element as SquareRoot); }
             if (element is Text) { SetTextElementSize(element as Text); }
         }
 
@@ -285,6 +299,23 @@ namespace MathematicsTypesetting
             bracketExpression.CentreAlignmentPoint = centreAlignmentPoint;
         }
 
+        public void SetSquareRootSize(SquareRoot squareRoot)
+        {
+            SetElementSize(squareRoot.InnerExpression);
+
+            squareRoot.SizeOfContent.Width = squareRoot.InnerExpression.OuterWidth ;
+            squareRoot.SizeOfContent.Height = squareRoot.InnerExpression.OuterHeight ;
+
+            SetSizesOfElement(squareRoot);
+
+            var centreAlignmentPoint = new Position();
+
+            centreAlignmentPoint.X = squareRoot.OuterWidth / 2;
+            centreAlignmentPoint.Y = squareRoot.OuterHeight / 2;
+
+            squareRoot.CentreAlignmentPoint = centreAlignmentPoint;
+        }
+
         public void SetFractionSize(Fraction fraction)
         {
             SetElementSize(fraction.Numerator);
@@ -361,7 +392,7 @@ namespace MathematicsTypesetting
         {
             textElement.SizeOfContent = _textMeasurer.MeasureTextSize(textElement.Content, textElement.FontStyle);
 
-          //  textElement.Offset = _textMeasurer.MeasureTextSize(textElement.Content, textElement.FontStyle).Width * 0.025 + 0.05;
+            //  textElement.Offset = _textMeasurer.MeasureTextSize(textElement.Content, textElement.FontStyle).Width * 0.025 + 0.05;
 
             SetSizesOfElement(textElement);
 

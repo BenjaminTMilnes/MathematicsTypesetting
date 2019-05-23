@@ -47,6 +47,7 @@ namespace MathematicsTypesetting.LaTeX
                 GetTextBold(subsection, elements, marker);
                 GetBracketExpression(subsection, elements, marker);
                 GetBracket(subsection, elements, marker);
+                GetSquareRoot(subsection, elements, marker);
                 GetPunctuationMark(subsection, elements, marker);
                 GetWhitespace(subsection, elements, marker);
 
@@ -235,6 +236,34 @@ namespace MathematicsTypesetting.LaTeX
                 if (fraction.Numerator != null && fraction.Denominator != null)
                 {
                     container.Add(fraction);
+                }
+            }
+        }
+
+        public void GetSquareRoot(string latex, IList<Element> container, Marker marker)
+        {
+            if (marker.Position < latex.Length - 8)
+            {
+                if (latex.Substring(marker.Position, 5) == "\\sqrt")
+                {
+                    marker.Position += 5;
+
+                    var squareRoot = new SquareRoot();
+
+                    var subsection1 = GetSubsection(latex, container, marker);
+
+                    if (subsection1 != null)
+                    {
+                        var line1 = new MathematicsLine();
+
+                        line1.Elements = subsection1.Item2;
+
+                        squareRoot.InnerExpression = line1;
+
+                        marker.Position += subsection1.Item1;
+
+                        container.Add(squareRoot);
+                    }
                 }
             }
         }
@@ -503,7 +532,7 @@ namespace MathematicsTypesetting.LaTeX
 
         public void GetNamedFunction(string latex, IList<Element> container, Marker marker)
         {
-            var functionNames = new string[] { "sin", "cos", "tan" };
+            var functionNames = new string[] { "sin", "cos", "tan", "arcsin", "arccos", "arctan", "sinh", "cosh", "tanh", "csc", "sec", "cot", "coth", "det", "exp", "ln", "log" };
 
             for (var j = 0; j < functionNames.Length; j++)
             {

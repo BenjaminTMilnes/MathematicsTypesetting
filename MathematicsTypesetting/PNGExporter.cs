@@ -6,15 +6,18 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Imaging;
 using MathematicsTypesetting.Fonts;
+using MathematicsTypesetting.SVG;
 
 namespace MathematicsTypesetting
 {
     public class PNGExporter : Exporter
     {
-        protected FontLoader _fontLoader;
-
-        public PNGExporter(  FontLoader fontLoader) : base()
+        protected PathConverter _pathConverter;
+         protected FontLoader _fontLoader;
+        
+        public PNGExporter(FontLoader fontLoader) : base()
         {
+            _pathConverter = new PathConverter();
             _fontLoader = fontLoader;
 
             _fontLoader.LoadFont();
@@ -53,6 +56,7 @@ namespace MathematicsTypesetting
             if (element is Subscript) { ExportSubscript(graphics, element as Subscript); }
             if (element is Superscript) { ExportSuperscript(graphics, element as Superscript); }
             if (element is BracketExpression) { ExportBracketExpression(graphics, element as BracketExpression); }
+            if (element is SquareRoot) { ExportSquareRoot(graphics, element as SquareRoot); }
             if (element is Text) { ExportTextElement(graphics, element as Text); }
         }
 
@@ -98,20 +102,20 @@ namespace MathematicsTypesetting
             var w = g1.Width;
             var h = bracketExpression.InnerExpression.OuterHeight;
 
-            var x1 = (float)(bracketExpression.Position.X.Quantity );
+            var x1 = (float)(bracketExpression.Position.X.Quantity);
             var y1 = (float)bracketExpression.Position.Y.Quantity;
 
-            var x2 = (float)(bracketExpression.Position.X.Quantity  + bracketExpression.InnerExpression.OuterWidth.Quantity);
+            var x2 = (float)(bracketExpression.Position.X.Quantity + bracketExpression.InnerExpression.OuterWidth.Quantity);
             var y2 = (float)bracketExpression.Position.Y.Quantity;
 
-            var p1 = _fontLoader.GetPathForGlyph(g1); // Paths.GetBracketPath(new PointF(, , (float)h.Quantity);
+            var p1 = _pathConverter.ConvertPath(new Path() { Commands = g1.PathCommands }); // Paths.GetBracketPath(new PointF(, , (float)h.Quantity);
 
-            var p2 = _fontLoader.GetPathForGlyph(g2); // Paths.GetBracketPath(new PointF(, ), (float)h.Quantity, ")");
-            
+            var p2 = _pathConverter.ConvertPath(new Path() { Commands = g2.PathCommands }); // Paths.GetBracketPath(new PointF(, ), (float)h.Quantity, ")");
+
             var m1 = new System.Drawing.Drawing2D.Matrix();
             var m2 = new System.Drawing.Drawing2D.Matrix();
 
-            var sf = (float)h.Quantity /(1.7f * 20.0f);
+            var sf = (float)h.Quantity / (1.7f * 20.0f);
 
             m1.Scale(sf, sf);
             m1.Translate(x1 / sf, y1 / sf + 25f);
@@ -131,12 +135,22 @@ namespace MathematicsTypesetting
             }
         }
 
+        protected void ExportSquareRoot(Graphics graphics, SquareRoot squareRoot)
+        {
+            ExportElement(graphics, squareRoot.InnerExpression);
+
+            if (squareRoot.DrawConstructionLines)
+            {
+                DrawConstructionLines(graphics, squareRoot.Position, squareRoot.SizeIncludingOuterMargin);
+            }
+        }
+
         protected void ExportSubscript(Graphics graphics, Subscript subscript)
         {
             ExportElement(graphics, subscript.Element1);
             ExportElement(graphics, subscript.Element2);
 
-            if (subscript.DrawConstructionLines == true)
+            if (subscript.DrawConstructionLines)
             {
                 DrawConstructionLines(graphics, subscript.Position, subscript.SizeIncludingOuterMargin);
             }
@@ -147,7 +161,7 @@ namespace MathematicsTypesetting
             ExportElement(graphics, superscript.Element1);
             ExportElement(graphics, superscript.Element2);
 
-            if (superscript.DrawConstructionLines == true)
+            if (superscript.DrawConstructionLines)
             {
                 DrawConstructionLines(graphics, superscript.Position, superscript.SizeIncludingOuterMargin);
             }
@@ -181,7 +195,7 @@ namespace MathematicsTypesetting
 
             var fontEmphasis = (textElement.FontStyle.FontEmphasis == FontEmphasis.Italic) ? "italic" : "none";
             var fontWeight = (textElement.FontStyle.FontWeight == FontWeight.Bold) ? "bold" : "normal";
-            
+
             _fontLoader.DrawString(graphics, text, emSize, fontEmphasis, fontWeight, brush, point);
 
             if (textElement.DrawConstructionLines == true)

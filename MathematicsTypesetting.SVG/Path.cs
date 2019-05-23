@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MathematicsTypesetting.Fonts
+namespace MathematicsTypesetting.SVG
 {
     public enum PathCommandType
     {
@@ -21,6 +21,16 @@ namespace MathematicsTypesetting.Fonts
         public PathCommand()
         {
             Arguments = new List<float>();
+        }
+    }
+
+    public class Path
+    {
+        public IList<PathCommand> Commands { get; set; }
+
+        public Path()
+        {
+            Commands = new List<PathCommand>();
         }
     }
 }

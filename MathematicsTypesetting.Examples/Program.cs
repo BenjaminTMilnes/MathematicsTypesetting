@@ -44,7 +44,8 @@ namespace MathematicsTypesetting.Examples
                 "E = \\gamma m_0 c^2",
                 "i \\hbar \\frac{\\partial}{\\partial t} \\Psi (\\textbf{r}, t) = \\left( \\frac{\\hbar^{2}}{2 \\mu} \\nabla^{2} + V (\\textbf{r}, t) \\right) \\Psi (\\textbf{r}, t)",
                 "\\Delta x \\Delta p \\geq \\frac{\\hbar}{2}",
-                "\\nabla \\cdot B = 0"};
+                "\\nabla \\cdot B = 0",
+            "c = \\frac{1}{\\sqrt{\\epsilon_{0} \\mu_{0}}}"};
 
             for (var i = 0; i < formulae.Length; i++)
             {
