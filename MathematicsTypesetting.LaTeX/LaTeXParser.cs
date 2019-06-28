@@ -428,9 +428,9 @@ namespace MathematicsTypesetting.LaTeX
                 marker.Position += 1;
             }
 
-            var operatorCommands = new string[] { "times", "cdot", "leq", "geq", "propto" };
+            var operatorCommands = new string[] { "times", "cdot", "leq", "geq", "propto", "approx" };
 
-            var operators = new string[] { "×", "·", "≤", "≥", "∝" };
+            var operators = new string[] { "×", "·", "≤", "≥", "∝", "≈" };
 
             for (var j = 0; j < operatorCommands.Length; j++)
             {
@@ -496,9 +496,9 @@ namespace MathematicsTypesetting.LaTeX
 
         public void GetGreekLetter(string latex, IList<Element> container, Marker marker)
         {
-            var greekLetterCommands = new string[] { "alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "iota", "kappa", "lambda", "mu", "nu", "xi", "omicron", "pi", "rho", "sigma", "tau", "upsilon", "phi", "chi", "psi", "omega", "Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta", "Theta", "Iota", "Kappa", "Lambda", "Mu", "Nu", "Xi", "Omicron", "Pi", "Rho", "Sigma", "Tau", "Upsilon", "Phi", "Chi", "Psi", "Omega", "prime", "hbar", "partial", "nabla" };
+            var greekLetterCommands = new string[] { "alpha", "beta", "gamma", "delta", "epsilon", "varepsilon", "zeta", "eta", "theta", "vartheta", "iota", "kappa", "lambda", "mu", "nu", "xi", "omicron", "pi", "varpi", "rho", "varrho", "sigma", "varsigma", "tau", "upsilon", "phi", "varphi", "chi", "psi", "omega", "Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta", "Theta", "Iota", "Kappa", "Lambda", "Mu", "Nu", "Xi", "Omicron", "Pi", "Rho", "Sigma", "Tau", "Upsilon", "Phi", "Chi", "Psi", "Omega", "prime", "hbar", "partial", "nabla", "infty" };
 
-            var greekLetters = new string[] { "α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι", "κ", "λ", "μ", "ν", "ξ", "ο", "π", "ρ", "σ", "τ", "υ", "φ", "χ", "ψ", "ω", "Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο", "Π", "Ρ", "Σ", "Τ", "Υ", "Φ", "Χ", "Ψ", "Ω", "′", "ħ", "∂", "∇" };
+            var greekLetters = new string[] { "α", "β", "γ", "δ", "ϵ", "ε", "ζ", "η", "θ", "ϑ", "ι", "κ", "λ", "μ", "ν", "ξ", "ο", "π", "ϖ", "ρ", "ϱ", "σ", "ς", "τ", "υ", "φ", "φ", "χ", "ψ", "ω", "Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο", "Π", "Ρ", "Σ", "Τ", "Υ", "Φ", "Χ", "Ψ", "Ω", "′", "ħ", "∂", "∇", "∞" };
 
             var uppercaseGreekLetters = new string[] { "Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο", "Π", "Ρ", "Σ", "Τ", "Υ", "Φ", "Χ", "Ψ", "Ω", "′", "∇" };
 

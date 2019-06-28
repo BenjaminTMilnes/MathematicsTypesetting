@@ -12,12 +12,10 @@ namespace MathematicsTypesetting
 {
     public class PNGExporter : Exporter
     {
-        protected PathConverter _pathConverter;
          protected FontLoader _fontLoader;
         
         public PNGExporter(FontLoader fontLoader) : base()
         {
-            _pathConverter = new PathConverter();
             _fontLoader = fontLoader;
 
             _fontLoader.LoadFont();
@@ -108,9 +106,9 @@ namespace MathematicsTypesetting
             var x2 = (float)(bracketExpression.Position.X.Quantity + bracketExpression.InnerExpression.OuterWidth.Quantity);
             var y2 = (float)bracketExpression.Position.Y.Quantity;
 
-            var p1 = _pathConverter.ConvertPath(new Path() { Commands = g1.PathCommands }); // Paths.GetBracketPath(new PointF(, , (float)h.Quantity);
+            var p1 = PathConverter.ConvertPath(new Path() { Commands = g1.PathCommands }); // Paths.GetBracketPath(new PointF(, , (float)h.Quantity);
 
-            var p2 = _pathConverter.ConvertPath(new Path() { Commands = g2.PathCommands }); // Paths.GetBracketPath(new PointF(, ), (float)h.Quantity, ")");
+            var p2 = PathConverter.ConvertPath(new Path() { Commands = g2.PathCommands }); // Paths.GetBracketPath(new PointF(, ), (float)h.Quantity, ")");
 
             var m1 = new System.Drawing.Drawing2D.Matrix();
             var m2 = new System.Drawing.Drawing2D.Matrix();
@@ -138,6 +136,10 @@ namespace MathematicsTypesetting
         protected void ExportSquareRoot(Graphics graphics, SquareRoot squareRoot)
         {
             ExportElement(graphics, squareRoot.InnerExpression);
+
+            var p = Paths.GetSquareRootPath(squareRoot.InnerExpression.OuterWidth, squareRoot.InnerExpression.OuterHeight);
+
+            graphics.FillPath(Brushes.Black, p);
 
             if (squareRoot.DrawConstructionLines)
             {

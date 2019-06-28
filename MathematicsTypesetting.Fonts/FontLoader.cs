@@ -14,14 +14,10 @@ namespace MathematicsTypesetting.Fonts
 {
     public class FontLoader
     {
-        protected PathConverter _pathConverter;
-
-          public IList<Style> Styles { get; set; }
+        public IList<Style> Styles { get; set; }
 
         public FontLoader()
         {
-            _pathConverter = new PathConverter();
-
             Styles = new List<Style>();
         }
 
@@ -47,8 +43,8 @@ namespace MathematicsTypesetting.Fonts
 
                     glyph.Character = g.Attribute(XName.Get("character", "")).Value;
                     glyph.Path = g.Attribute(XName.Get("path", "")).Value;
-                    
-                    glyph.PathCommands = _pathConverter.ParsePath(glyph.Path).Commands;
+
+                    glyph.PathCommands = PathConverter.ParsePath(glyph.Path).Commands;
                     SetGlyphWidth(glyph);
 
                     style.Glyphs.Add(glyph);
@@ -80,7 +76,7 @@ namespace MathematicsTypesetting.Fonts
 
                 if (g != null)
                 {
-                    var p = _pathConverter.ConvertPath(new SVG.Path() { Commands = g.PathCommands });
+                    var p = PathConverter.ConvertPath(new SVG.Path() { Commands = g.PathCommands });
 
                     var m = new System.Drawing.Drawing2D.Matrix();
 

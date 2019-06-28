@@ -1,26 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
 namespace MathematicsTypesetting.SVG
 {
-     public    class PathConverter
+    public class PathConverter
     {
-
-
-        public GraphicsPath ConvertPath(    Path path)
+        public static GraphicsPath ConvertPath(Path path)
         {
-            var    graphicsPath =  new GraphicsPath();
+            var graphicsPath = new GraphicsPath();
             var cursorX = 0.0f;
             var cursorY = 0.0f;
             var lastAnchorPointX = 0.0f;
             var lastAnchorPointY = 0.0f;
 
-            foreach (var c in   path.Commands)
+            foreach (var c in path.Commands)
             {
                 if (c.Type == PathCommandType.MoveTo)
                 {
@@ -30,7 +25,7 @@ namespace MathematicsTypesetting.SVG
                 if (c.Type == PathCommandType.BezierCurveTo)
                 {
                     graphicsPath.AddBezier(new PointF(cursorX, cursorY), new PointF(c.Arguments[0], c.Arguments[1]), new PointF(c.Arguments[2], c.Arguments[3]), new PointF(c.Arguments[4], c.Arguments[5]));
-                    
+
                     lastAnchorPointX = c.Arguments[2];
                     lastAnchorPointY = c.Arguments[3];
 
@@ -43,7 +38,7 @@ namespace MathematicsTypesetting.SVG
                     var y1 = (cursorY - lastAnchorPointY) + cursorY;
 
                     graphicsPath.AddBezier(new PointF(cursorX, cursorY), new PointF(x1, y1), new PointF(c.Arguments[0], c.Arguments[1]), new PointF(c.Arguments[2], c.Arguments[3]));
-                    
+
                     lastAnchorPointX = c.Arguments[0];
                     lastAnchorPointY = c.Arguments[1];
 
@@ -78,12 +73,12 @@ namespace MathematicsTypesetting.SVG
             return graphicsPath;
         }
 
-        public Path       ParsePath(    string svgPath)
+        public static Path ParsePath(string svgPath)
         {
             var path = new Path();
 
             var a = svgPath.Split(' ');
-            var n = 0;            
+            var n = 0;
 
             while (n < a.Length)
             {
@@ -103,7 +98,7 @@ namespace MathematicsTypesetting.SVG
                         pathCommand.Type = PathCommandType.LineTo;
                         pathCommand.Arguments = new List<float>() { float.Parse(a[n + 1]), float.Parse(a[n + 2]) };
                     }
-                    else if (  c1 == "H")
+                    else if (c1 == "H")
                     {
                         pathCommand.Type = PathCommandType.HorizontalLineTo;
                         pathCommand.Arguments = new List<float>() { float.Parse(a[n + 1]) };
@@ -113,7 +108,7 @@ namespace MathematicsTypesetting.SVG
                         pathCommand.Type = PathCommandType.VerticalLineTo;
                         pathCommand.Arguments = new List<float>() { float.Parse(a[n + 1]) };
                     }
-                    else if (   c1 == "C")
+                    else if (c1 == "C")
                     {
                         pathCommand.Type = PathCommandType.BezierCurveTo;
                         pathCommand.Arguments = new List<float>() { float.Parse(a[n + 1]), float.Parse(a[n + 2]), float.Parse(a[n + 3]), float.Parse(a[n + 4]), float.Parse(a[n + 5]), float.Parse(a[n + 6]) };
@@ -123,7 +118,7 @@ namespace MathematicsTypesetting.SVG
                         pathCommand.Type = PathCommandType.BezierSplineTo;
                         pathCommand.Arguments = new List<float>() { float.Parse(a[n + 1]), float.Parse(a[n + 2]), float.Parse(a[n + 3]), float.Parse(a[n + 4]) };
                     }
-                    else if (   c1 == "Z")
+                    else if (c1 == "Z")
                     {
                         pathCommand.Type = PathCommandType.ClosePath;
                     }
